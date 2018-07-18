@@ -97,6 +97,7 @@ class OrderController extends Controller
 	
 	// https://www.upcitemdb.com/info-coach_handbags-wallets
 	// https://www.upcitemdb.com/info-coach-handbag
+	// https://www.barcodelookup.com
 	public function actionAddItems($open_order_id)
     {
         $model = OpenOrder::findOne($open_order_id);
