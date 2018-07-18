@@ -3,11 +3,17 @@
 namespace app\controllers\openorder;
 
 use Yii;
+use app\models\Brand;
 use app\models\OpenOrder;
+use app\models\OpenOrderRel;
 use app\models\OpenOrderSearch;
+use app\models\Product;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\components\UpcItemDB;
+use app\components\BarcodeLookup;
 
 /**
  * OrderController implements the CRUD actions for OpenOrder model.
@@ -50,10 +56,10 @@ class OrderController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($open_order_id)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($open_order_id),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -67,7 +73,7 @@ class OrderController extends Controller
         $model = new OpenOrder();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['add-items', 'open_order_id' => $model->open_order_id]);
+            return $this->redirect(['add-items', 'id' => $model->open_order_id]);
         }
 
         return $this->render('create', [
@@ -98,19 +104,115 @@ class OrderController extends Controller
 	// https://www.upcitemdb.com/info-coach_handbags-wallets
 	// https://www.upcitemdb.com/info-coach-handbag
 	// https://www.barcodelookup.com
-	public function actionAddItems($open_order_id)
+	public function actionAddItems($id)
     {
-        $model = OpenOrder::findOne($open_order_id);
+		$notFoundList = [];
+        $model = OpenOrder::findOne($id);
 
         if (Yii::$app->request->isPost)
 		{
+			$items = array_map('trim', explode("\n", $_POST['OpenOrder']['items']));
+			foreach($items AS $barcode)
+			{
+				$barcode = trim($barcode);
+				$product = Product::findOne(['upc'=>$barcode, 'status'=>1]);
+				
+				// Take care of adding missing products
+				if(empty($product))
+				{
+					$upcItemDB = New UpcItemDB();
+					$respond = $upcItemDB->getDataByBarcode($barcode);
+					if(is_numeric($respond)) // not valid
+						continue;
+					
+					$results = json_decode($respond, true);
+					if(empty($results['items'])) // UPC not found in UpcItemDB
+					{
+						$product = New Product();
+						$product->upc = $barcode;
+						$product->weight = 0;
+						$product->save(false);
+						
+						$notFoundList[$product->product_id] = $barcode;
+					}
+					else
+					{
+						foreach($results['items'] AS $item)
+						{
+							$product = New Product();
+							$product->upc = $barcode;
+							$product->model = empty($item['model']) ? NULL : $item['model'];
+							$product->title = empty($item['title']) ? NULL : $item['title'];
+							$product->description = empty($item['description']) ? NULL : $item['description'];
+							$product->color = empty($item['color']) ? NULL : $item['color'];
+							$product->size = empty($item['size']) ? NULL : $item['size'];
+							$product->image_path = empty($item['images']) ? NULL : $item['images'];
+							$product->weight = empty($item['weight']) ? 0 : $item['weight'];
+							$product->dimension = empty($item['dimension']) ? 0 : $item['dimension'];
+							if(!empty($item['brand']))
+							{
+								$brand = Brand::findOne(['title'=>$item['brand']]);
+								if(empty($brand))
+								{
+									$brand = New Brand();
+									$brand->title = $item['brand'];
+									$brand->save(false);
+								}
+								
+								$product->brand_id = $brand->brand_id;
+							}
+
+							$product->save(false);
+						}
+					}
+				}
+
+				if(!empty($product))
+				{
+					$openOrderRel = OpenOrderRel::findOne(['open_order_id'=>$id, 'product_id'=>$product->product_id]);
+					if(empty($openOrderRel))
+					{
+						$openOrderRel = New OpenOrderRel();
+						$openOrderRel->open_order_id = $id;
+						$openOrderRel->product_id = $product->product_id;
+						$openOrderRel->qty = 1;
+						$openOrderRel->save(false);
+					}
+					else
+					{
+						$openOrderRel->qty++;
+						$openOrderRel->save(false);
+					}
+				}
+			}
 			
-			
-            return $this->redirect(['view', 'id' => $model->open_order_id]);
+			if(empty($notFoundList))
+				return $this->redirect(['view', 'id' => $id]);
+			else
+				return $this->redirect(['add-products?id='.$id.'&'.http_build_query($notFoundList)]);
         }
 
         return $this->render('add-items', [
             'model' => $model,
+        ]);
+    }
+	
+	public function actionAddProducts($id)
+    {
+		unset($_GET['id']);
+		$model = $this->findModel($id);
+		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->all();
+		
+		if (Product::loadMultiple($products, Yii::$app->request->post()) && Product::validateMultiple($products)) {
+            foreach ($products as $product) {
+                $product->save(false);
+            }
+            return $this->redirect(['view', 'id' => $id]);
+        }
+		
+		return $this->render('add-products', [
+            'model' => $model,
+            'products' => $products,
         ]);
     }
 
@@ -126,6 +228,22 @@ class OrderController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+	
+	public function actionTest()
+    {
+		
+		//echo $this->redirect(['add-products', 'id' => 1]).http_build_query($notFoundList);
+		/*$upcItemDB = New UpcItemDB();
+		//$respond = $upcItemDB->getDataByBarcode('888099705690');
+		$respond = $upcItemDB->getDataByBarcode('191202767300');
+		$test = json_decode($respond, true);
+		
+		foreach($test['items'] AS $item)
+		{
+			var_dump($item['model']);
+		}
+		*/
     }
 
     /**

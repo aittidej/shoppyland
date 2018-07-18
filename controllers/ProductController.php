@@ -124,34 +124,4 @@ class ProductController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public function actionTest()
-    {
-		// create curl resource 
-        $ch = curl_init(); 
-
-        // set url 
-        curl_setopt($ch, CURLOPT_URL, "barcodespider.com/191202713673"); 
-
-        //return the transfer as a string 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-
-        // $output contains the output string 
-        $output = curl_exec($ch); 
-
-        // close curl resource to free up system resources 
-        curl_close($ch);
-		
-		
-		var_dump($output);
-		
-	}
 }

@@ -19,7 +19,7 @@ class ProductSearch extends Product
     {
         return [
             [['product_id', 'brand_id', 'category_id', 'status'], 'integer'],
-            [['upc', 'model', 'title', 'image_path'], 'safe'],
+            [['upc', 'model', 'title', 'description', 'color', 'size', 'dimension', 'image_path', 'json_data'], 'safe'],
             [['base_price', 'weight'], 'number'],
         ];
     }
@@ -71,7 +71,12 @@ class ProductSearch extends Product
         $query->andFilterWhere(['ilike', 'upc', $this->upc])
             ->andFilterWhere(['ilike', 'model', $this->model])
             ->andFilterWhere(['ilike', 'title', $this->title])
-            ->andFilterWhere(['ilike', 'image_path', $this->image_path]);
+            ->andFilterWhere(['ilike', 'description', $this->description])
+            ->andFilterWhere(['ilike', 'color', $this->color])
+            ->andFilterWhere(['ilike', 'size', $this->size])
+            ->andFilterWhere(['ilike', 'dimension', $this->dimension])
+            ->andFilterWhere(['ilike', 'image_path', $this->image_path])
+            ->andFilterWhere(['ilike', 'json_data', $this->json_data]);
 
         return $dataProvider;
     }

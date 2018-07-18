@@ -31,9 +31,19 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'weight') ?>
 
+    <?php // echo $form->field($model, 'status') ?>
+
+    <?php // echo $form->field($model, 'description') ?>
+
+    <?php // echo $form->field($model, 'color') ?>
+
+    <?php // echo $form->field($model, 'size') ?>
+
+    <?php // echo $form->field($model, 'dimension') ?>
+
     <?php // echo $form->field($model, 'image_path') ?>
 
-    <?php // echo $form->field($model, 'status') ?>
+    <?php // echo $form->field($model, 'json_data') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -26,9 +26,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'weight')->textInput() ?>
 
-    <?= $form->field($model, 'image_path')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'status')->textInput() ?>
+
+    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'size')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'dimension')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'image_path')->textInput() ?>
+
+    <?= $form->field($model, 'json_data')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

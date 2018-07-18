@@ -36,8 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'category_id',
             'title',
             'weight',
-            'image_path',
             'status',
+            'description:ntext',
+            'color',
+            'size',
+            'dimension',
+            'image_path',
+            'json_data',
         ],
     ]) ?>
 

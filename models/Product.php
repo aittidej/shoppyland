@@ -15,8 +15,12 @@ use Yii;
  * @property int $category_id
  * @property string $title
  * @property string $weight
- * @property string $image_path
  * @property int $status
+ * @property string $description
+ * @property string $color
+ * @property string $size
+ * @property string $dimension
+ * @property array $image_path
  *
  * @property OpenOrderRel[] $openOrderRels
  * @property Brand $brand
@@ -41,9 +45,10 @@ class Product extends \yii\db\ActiveRecord
             [['brand_id', 'category_id', 'status'], 'default', 'value' => null],
             [['brand_id', 'category_id', 'status'], 'integer'],
             [['base_price', 'weight'], 'number'],
-            [['upc', 'model'], 'string', 'max' => 100],
+            [['description'], 'string'],
+            [['image_path', 'json_data'], 'safe'],
+            [['upc', 'model', 'color', 'size', 'dimension'], 'string', 'max' => 100],
             [['title'], 'string', 'max' => 255],
-            [['image_path'], 'string', 'max' => 512],
             [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'category_id']],
         ];
@@ -56,15 +61,19 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'product_id' => 'Product ID',
-            'upc' => 'Upc',
+            'upc' => 'UPC',
             'model' => 'Model',
             'brand_id' => 'Brand ID',
             'base_price' => 'Base Price',
             'category_id' => 'Category ID',
             'title' => 'Title',
             'weight' => 'Weight',
-            'image_path' => 'Image Path',
             'status' => 'Status',
+            'description' => 'Description',
+            'color' => 'Color',
+            'size' => 'Size',
+            'dimension' => 'Dimension',
+            'image_path' => 'Image Path',
         ];
     }
 
