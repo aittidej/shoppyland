@@ -80,14 +80,21 @@ $total = $totalQty = 0;
 
 <?php 
 $this->registerJs("
-$('.price-field').keypress(function (e) {
+$('.qty-field').keypress(function (e) {
 	var keyCode = e.keyCode || e.which;
-	if (keyCode == 9 || keyCode ==  == 13) { 
+	if (keyCode == 9 || keyCode == 13) { 
 		e.preventDefault(); 
 		var vidID = parseInt(this.getAttribute('id'));
 		$('#'+(vidID+1)).focus();
 	}
-	
+});
+$('.price-field').keypress(function (e) {
+	var keyCode = e.keyCode || e.which;
+	if (keyCode == 9 || keyCode == 13) { 
+		e.preventDefault(); 
+		var vidID = parseInt(this.getAttribute('id'));
+		$('#'+(vidID+1)).focus();
+	}
 });
 ", View::POS_READY);
 ?>
