@@ -11,8 +11,8 @@ class UploadFile extends Model
     /**
      * @var UploadedFile
      */
-    public $image;
-    public $file;
+	public $image;
+	public $file;
 
     public function rules()
     {
@@ -52,17 +52,19 @@ class UploadFile extends Model
 		return false;
     }
 	
-	public function uploadLogo($accountId)
+	public function uploadMultiImages($uploadUrl)
     {
-		$error = false;
-		$upload_url = Yii::$app->params['ADMIN_PATH'] . '/web/client_data/' . $accountId . '/images/';
-		foreach ($this->file as $file) 
+		if (!file_exists(addslashes($uploadUrl)))
+			mkdir(addslashes($uploadUrl), 0777, true);
+		
+		$imagesPath = [];
+		foreach ($this->image as $image) 
 		{
-			if(!$file->saveAs($upload_url . $file->name))
-				$error = true;
+			$imagesPath[] = $uploadUrl . $image->name;
+			$image->saveAs($uploadUrl . $image->name);
 		}
 		
-		return !$error;
+		return $imagesPath;
     }
 }
 

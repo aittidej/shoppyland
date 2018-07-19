@@ -109,35 +109,35 @@ class ProductController extends Controller
     {
 		unset($_GET['id']);
 		$model = OpenOrder::findOne($id);
-		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->all();
-		$uploads = new UploadFile();
+		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
+		
+		//$count = count(Yii::$app->request->post('UploadFile', []));
+		$haha = new UploadFile();
+		foreach ($products as $index => $product) {
+			$uploads[$index] = new UploadFile();
+		}
 		
 		if (Product::loadMultiple($products, Yii::$app->request->post()) && Product::validateMultiple($products))
 		{
-			UploadFile::loadMultiple($uploads, Yii::$app->request->post());
-			foreach($uploads AS $upload)
+			//$uploads[11]->image = UploadedFile::getInstances($uploads[11], '[11]image');
+			foreach($uploads AS $product_id=>$upload)
 			{
-				$upload->image = UploadedFile::getInstances($upload, 'image');
-				var_dump($upload->image);exit;
-				
-				foreach ($upload->image as $file) {
-					var_dump($file);exit;
-					//$file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-				}
-			}
-            
-			
+				$upload->image = UploadedFile::getInstances($upload, "[$product_id]image");
+				$imagesPath[$product_id] = $upload->uploadMultiImages('images/products/' . $product_id . '/');
+			}	
 			
             foreach ($products as $product) {
+				$product->image_path = json_encode($imagesPath[$product->product_id]);
                 $product->save(false);
             }
-            return $this->redirect(['view', 'id' => $id]);
+            return $this->redirect(['openorder/order/view', 'id' => $id]);
         }
 		
 		return $this->render('add-products', [
             'model' => $model,
             'products' => $products,
             'uploads' => $uploads,
+            'haha' => $haha,
         ]);
     }
 
