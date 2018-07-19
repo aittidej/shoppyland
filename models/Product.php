@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "product".
@@ -93,5 +94,18 @@ class Product extends \yii\db\ActiveRecord
     public function getBrand()
     {
         return $this->hasOne(Brand::className(), ['brand_id' => 'brand_id']);
+    }
+	
+	public function getFirstImage()
+    {
+		if(empty($this->image_path))
+			return "http://www.topprintltd.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png";
+			
+		$imagePath = $this->image_path;
+        //return Yii::$app->request->BaseUrl . $imagePath[0];
+		if (strpos($imagePath[0], 'http') !== false)
+			return $imagePath[0];
+		else
+			return Url::base(true) .'/'. $imagePath[0]; 
     }
 }

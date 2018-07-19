@@ -119,18 +119,21 @@ class ProductController extends Controller
 		
 		if (Product::loadMultiple($products, Yii::$app->request->post()) && Product::validateMultiple($products))
 		{
-			//$uploads[11]->image = UploadedFile::getInstances($uploads[11], '[11]image');
 			foreach($uploads AS $product_id=>$upload)
 			{
 				$upload->image = UploadedFile::getInstances($upload, "[$product_id]image");
-				$imagesPath[$product_id] = $upload->uploadMultiImages('images/products/' . $product_id . '/');
-			}	
+				if(!empty($upload->image))
+					$imagesPath[$product_id] = $upload->uploadMultiImages('images/products/' . $product_id . '/');
+			}
 			
             foreach ($products as $product) {
-				$product->image_path = json_encode($imagesPath[$product->product_id]);
+				if(!empty($imagesPath[$product->product_id]))
+					$product->image_path = $imagesPath[$product->product_id];
+				
                 $product->save(false);
             }
-            return $this->redirect(['openorder/order/view', 'id' => $id]);
+			
+            return $this->redirect(['/openorder/order/view', 'id' => $id]);
         }
 		
 		return $this->render('add-products', [

@@ -17,19 +17,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?php $form = ActiveForm::begin(); ?>
 
-		<div class='col-sm-6'>
+		<div class='col-sm-12 col-md-6 col-lg-6'>
 			<?= $form->field($model, 'items')->textarea(['rows' => '20']) ?>
 		</div>
 		
-		<div class='col-sm-6'>
+		<div class='col-sm-12 col-md-6 col-lg-6'>
 			<span id="result"></span>
 		</div>
 
-    <div class="form-group col-sm-12">
-        <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
-    </div>
+		<div class="form-group col-sm-12">
+			<?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
+		</div>
 
-    <?php ActiveForm::end(); ?>
+	<?php ActiveForm::end(); ?>
 	
 </div>
 <?php 

@@ -60,8 +60,32 @@ class OrderController extends Controller
      */
     public function actionView($id)
     {
+        $openOrder = $this->findModel($id);
+		$openOrderRels = OpenOrderRel::find()->where(['open_order_id'=>$id])->with('product')->orderby('product_id ASC')->all();
+		
+		if (OpenOrderRel::loadMultiple($openOrderRels, Yii::$app->request->post()) && OpenOrderRel::validateMultiple($openOrderRels))
+		{
+            foreach ($openOrderRels as $openOrderRel) 
+			{
+				if(empty($openOrderRel->qty))
+				{
+					$openOrderRel->delete();
+					continue;
+				}
+				
+				if(empty($openOrderRel->unit_price))
+					$openOrderRel->unit_price = 0;
+					
+				$openOrderRel->subtotal = $openOrderRel->qty*$openOrderRel->unit_price;
+                $openOrderRel->save(false);
+            }
+			
+            return $this->redirect(['/openorder/order/view', 'id' => $id]);
+        }
+		
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'openOrder' => $this->findModel($id),
+            'openOrderRels' => $openOrderRels,
         ]);
     }
 
@@ -189,7 +213,7 @@ class OrderController extends Controller
 			}
 			
 			if(empty($notFoundList))
-				return $this->redirect(['view', 'id' => $id]);
+				return $this->redirect(['view', 'id' => $model->open_order_id]);
 			else
 				return $this->redirect(['product/add-products?id='.$id.'&'.http_build_query($notFoundList)]);
         }
