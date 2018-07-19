@@ -8,6 +8,8 @@ use app\models\OpenOrder;
 use app\models\OpenOrderRel;
 use app\models\OpenOrderSearch;
 use app\models\Product;
+use app\models\UploadFile;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -189,30 +191,11 @@ class OrderController extends Controller
 			if(empty($notFoundList))
 				return $this->redirect(['view', 'id' => $id]);
 			else
-				return $this->redirect(['add-products?id='.$id.'&'.http_build_query($notFoundList)]);
+				return $this->redirect(['product/add-products?id='.$id.'&'.http_build_query($notFoundList)]);
         }
 
         return $this->render('add-items', [
             'model' => $model,
-        ]);
-    }
-	
-	public function actionAddProducts($id)
-    {
-		unset($_GET['id']);
-		$model = $this->findModel($id);
-		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->all();
-		
-		if (Product::loadMultiple($products, Yii::$app->request->post()) && Product::validateMultiple($products)) {
-            foreach ($products as $product) {
-                $product->save(false);
-            }
-            return $this->redirect(['view', 'id' => $id]);
-        }
-		
-		return $this->render('add-products', [
-            'model' => $model,
-            'products' => $products,
         ]);
     }
 

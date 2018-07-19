@@ -3,11 +3,21 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Brand;
+use app\models\OpenOrder;
+use app\models\OpenOrderRel;
+use app\models\OpenOrderSearch;
 use app\models\Product;
-use app\models\ProductSearch;
+use app\models\UploadFile;
+use kartik\file\FileInput;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+
+use app\components\UpcItemDB;
+use app\components\BarcodeLookup;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -92,6 +102,42 @@ class ProductController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+        ]);
+    }
+	
+	public function actionAddProducts($id)
+    {
+		unset($_GET['id']);
+		$model = OpenOrder::findOne($id);
+		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->all();
+		$uploads = new UploadFile();
+		
+		if (Product::loadMultiple($products, Yii::$app->request->post()) && Product::validateMultiple($products))
+		{
+			UploadFile::loadMultiple($uploads, Yii::$app->request->post());
+			foreach($uploads AS $upload)
+			{
+				$upload->image = UploadedFile::getInstances($upload, 'image');
+				var_dump($upload->image);exit;
+				
+				foreach ($upload->image as $file) {
+					var_dump($file);exit;
+					//$file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+				}
+			}
+            
+			
+			
+            foreach ($products as $product) {
+                $product->save(false);
+            }
+            return $this->redirect(['view', 'id' => $id]);
+        }
+		
+		return $this->render('add-products', [
+            'model' => $model,
+            'products' => $products,
+            'uploads' => $uploads,
         ]);
     }
 

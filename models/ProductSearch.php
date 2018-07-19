@@ -18,8 +18,8 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['product_id', 'brand_id', 'category_id', 'status'], 'integer'],
-            [['upc', 'model', 'title', 'description', 'color', 'size', 'dimension', 'image_path', 'json_data'], 'safe'],
+            [['product_id', 'brand_id', 'status'], 'integer'],
+            [['upc', 'model', 'title', 'description', 'color', 'size', 'dimension', 'image_path', 'category', 'json_data'], 'safe'],
             [['base_price', 'weight'], 'number'],
         ];
     }
@@ -63,7 +63,6 @@ class ProductSearch extends Product
             'product_id' => $this->product_id,
             'brand_id' => $this->brand_id,
             'base_price' => $this->base_price,
-            'category_id' => $this->category_id,
             'weight' => $this->weight,
             'status' => $this->status,
         ]);
@@ -72,6 +71,7 @@ class ProductSearch extends Product
             ->andFilterWhere(['ilike', 'model', $this->model])
             ->andFilterWhere(['ilike', 'title', $this->title])
             ->andFilterWhere(['ilike', 'description', $this->description])
+            ->andFilterWhere(['ilike', 'category', $this->category])
             ->andFilterWhere(['ilike', 'color', $this->color])
             ->andFilterWhere(['ilike', 'size', $this->size])
             ->andFilterWhere(['ilike', 'dimension', $this->dimension])

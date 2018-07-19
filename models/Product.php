@@ -11,6 +11,7 @@ use Yii;
  * @property string $upc
  * @property string $model
  * @property int $brand_id
+ * @property string $category
  * @property string $base_price
  * @property int $category_id
  * @property string $title
@@ -42,15 +43,14 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['brand_id', 'category_id', 'status'], 'default', 'value' => null],
-            [['brand_id', 'category_id', 'status'], 'integer'],
+            [['brand_id', 'status'], 'default', 'value' => null],
+            [['brand_id', 'status'], 'integer'],
             [['base_price', 'weight'], 'number'],
             [['description'], 'string'],
             [['image_path', 'json_data'], 'safe'],
-            [['upc', 'model', 'color', 'size', 'dimension'], 'string', 'max' => 100],
+            [['upc', 'model', 'color', 'size', 'dimension', 'category'], 'string', 'max' => 100],
             [['title'], 'string', 'max' => 255],
             [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'category_id']],
         ];
     }
 
@@ -65,7 +65,7 @@ class Product extends \yii\db\ActiveRecord
             'model' => 'Model',
             'brand_id' => 'Brand ID',
             'base_price' => 'Base Price',
-            'category_id' => 'Category ID',
+            'category' => 'Category',
             'title' => 'Title',
             'weight' => 'Weight',
             'status' => 'Status',
@@ -91,13 +91,5 @@ class Product extends \yii\db\ActiveRecord
     public function getBrand()
     {
         return $this->hasOne(Brand::className(), ['brand_id' => 'brand_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::className(), ['category_id' => 'category_id']);
     }
 }
