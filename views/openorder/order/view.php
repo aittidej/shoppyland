@@ -21,8 +21,11 @@ $total = $totalQty = 0;
 </style>
 
 <div class="open-order-view">
-	<div class='col-sm-12'>
+	<div class='col-sm-10'>
 		<h1><?= Html::encode($this->title) ?></h1>
+	</div>
+	<div class='col-sm-2'><br>
+		<?= Html::a('<i class="glyphicon glyphicon-plus"></i> Add More Items', ['/openorder/order/add-items', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-success']) ?>
 	</div>
 	<?php $form = ActiveForm::begin(); ?>
 		
@@ -35,7 +38,7 @@ $total = $totalQty = 0;
 							<?= Html::img($product->firstImage, ['width'=>'100%']); ?>
 						</td>
 						<td colspan="3">
-							<?= "<h4><strong>".$product->title."</strong><br>Model #".$product->model."</h4>"; ?>
+							<?= "<h4><strong>".$product->title."</strong><br>Model #".$product->model."<br>UPC: ".$product->upc."</h4>"; ?>
 						</td>
 					</tr>
 					<tr>

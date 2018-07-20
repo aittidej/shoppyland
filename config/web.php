@@ -27,6 +27,9 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
+		'passwordhash' => [
+            'class' => 'app\components\PasswordHash',
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

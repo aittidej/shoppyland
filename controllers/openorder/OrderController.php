@@ -20,7 +20,7 @@ use app\components\BarcodeLookup;
 /**
  * OrderController implements the CRUD actions for OpenOrder model.
  */
-class OrderController extends Controller
+class OrderController extends \app\controllers\MainController
 {
     /**
      * {@inheritdoc}
@@ -28,13 +28,16 @@ class OrderController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
+			'access' => [
+				'class' => \yii\filters\AccessControl::className(),
+				'rules' => [
+					[
+						'allow' => true,
+						'roles' => ['@'],
+					],
+				],
+			],
+		];
     }
 
     /**
@@ -61,7 +64,7 @@ class OrderController extends Controller
     public function actionView($id)
     {
         $openOrder = $this->findModel($id);
-		$openOrderRels = OpenOrderRel::find()->where(['open_order_id'=>$id])->with('product')->orderby('product_id ASC')->all();
+		$openOrderRels = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith('product')->orderby('product.model ASC')->all();
 		
 		if (OpenOrderRel::loadMultiple($openOrderRels, Yii::$app->request->post()) && OpenOrderRel::validateMultiple($openOrderRels))
 		{

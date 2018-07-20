@@ -43,7 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
         'id' => 'open-order-list',
         'pjax' => false,
-        'toolbar' => [['content' => Html::a('Create Product', ['create'], ['class' => 'btn btn-success'])]],
+        'toolbar' => [
+			[
+				'content' => Html::a('Create Product Manually', ['create'], ['class' => 'btn btn-danger']).' '.
+							Html::a('Create Product using UPC', ['create'], ['class' => 'btn btn-success'])
+			]
+		],
         'bordered' => 0,
         'striped' => 1,
         'condensed' => 1,

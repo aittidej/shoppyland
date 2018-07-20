@@ -23,21 +23,32 @@ use app\components\BarcodeLookup;
 /**
  * ProductController implements the CRUD actions for Product model.
  */
-class ProductController extends Controller
+class ProductController extends \app\controllers\MainController
 {
     /**
      * {@inheritdoc}
      */
     public function behaviors()
     {
-        return [
+		return [
+			'access' => [
+				'class' => \yii\filters\AccessControl::className(),
+				'rules' => [
+					[
+						'allow' => true,
+						'roles' => ['@'],
+					],
+				],
+			],
+		];
+        /*return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-        ];
+        ];*/
     }
 
     /**
@@ -80,12 +91,14 @@ class ProductController extends Controller
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) 
 		{
+			$model->status = 1;
 			$upload->image = UploadedFile::getInstances($upload, "image");
 			if(!empty($upload->image))
-			{
 				$model->image_path = $upload->uploadMultiImages('images/products/' . $model->product_id . '/');
-				$model->save(false);
-			}
+			else
+				$model->image_path = [$_POST['Product']['imagPath']];
+			$model->save(false);
+			
             return $this->redirect(['view', 'id' => $model->product_id]);
         }
 
@@ -118,10 +131,12 @@ class ProductController extends Controller
         ]);
     }
 	
-	public function actionAddProducts($id)
+	public function actionAddProducts($id = NULL)
     {
-		unset($_GET['id']);
-		$model = OpenOrder::findOne($id);
+		if(!empty($id))
+			unset($_GET['id']);
+		//$model = OpenOrder::findOne($id);
+		
 		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
 		
 		foreach ($products as $index => $product) {
@@ -144,11 +159,13 @@ class ProductController extends Controller
                 $product->save(false);
             }
 			
-            return $this->redirect(['/openorder/order/view', 'id' => $id]);
+			if(empty($id))
+				return $this->redirect(['/product']);
+			else	
+				return $this->redirect(['/openorder/order/view', 'id' => $id]);
         }
 		
 		return $this->render('add-products', [
-            'model' => $model,
             'products' => $products,
             'uploads' => $uploads,
         ]);

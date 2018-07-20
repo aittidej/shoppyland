@@ -30,6 +30,7 @@ use yii\helpers\Url;
 class Product extends \yii\db\ActiveRecord
 {
 	public $image;
+	public $imagPath;
 	
     /**
      * {@inheritdoc}
@@ -65,8 +66,8 @@ class Product extends \yii\db\ActiveRecord
             'product_id' => 'Product ID',
             'upc' => 'UPC',
             'model' => 'Model',
-            'brand_id' => 'Brand ID',
-            'base_price' => 'Base Price',
+            'brand_id' => 'Brand',
+            'base_price' => 'Base Price ($)',
             'category' => 'Category',
             'title' => 'Title',
             'weight' => 'Weight',

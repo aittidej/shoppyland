@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'buttons' => [
 					'add-items' => function ($url, $model) {
 						return Html::a(
-							'<span class="glyphicon glyphicon-plus"></span>',
+							'<i class="glyphicon glyphicon-plus"></i>',
 							$url, [ 'title' => 'Add Items' ]
 						);
 					}

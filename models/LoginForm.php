@@ -19,17 +19,22 @@ class LoginForm extends Model
 
     private $_user = false;
 
+	public static function tableName()
+    {
+		return 'user';
+    }
 
     /**
      * @return array the validation rules.
      */
     public function rules()
     {
-        return [
+		return [
             // username and password are both required
             [['username', 'password'], 'required'],
             // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
+            //['rememberMe', 'boolean'],
+			[['rememberMe'], 'boolean', 'on' => 'login'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
@@ -49,7 +54,10 @@ class LoginForm extends Model
 
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
-            }
+            }else{
+				$user->last_login = date("Y-m-d H:i:s");
+				$user->save(false);
+			}
         }
     }
 

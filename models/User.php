@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
@@ -25,8 +26,11 @@ use Yii;
  * @property OpenOrder[] $openOrders
  * @property Role $role
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    public $authKey;
+    public $accessToken;
+	
     /**
      * {@inheritdoc}
      */
@@ -75,10 +79,112 @@ class User extends \yii\db\ActiveRecord
         ];
     }
 
+/**
+     * {@inheritdoc}
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        foreach (self::$users as $user) {
+            if ($user['accessToken'] === $token) {
+                return new static($user);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+	public static function findByUsername($username)
+    {
+		return static::find()->where("LOWER(username)='" . trim(strtolower($username)) . "'")->one();
+    }
+	
+	/**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthKey()
+    {
+        return $this->authKey;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->authKey === $authKey;
+    }
+	
+	/**
+     * Validates password
+     *
+     * @param  string  $password password to validate
+     * @return boolean if password provided is valid for current user
+     */
+    public function validatePassword($password) 
+    {
+        return Yii::$app->passwordhash->validate_password($password, $this->password);
+    }
+	
+	/**
+     * Generates password hash from password and sets it to the model
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password_hash = Security::generatePasswordHash($password);
+    }
+	
+	
+	public function getIsAdmin()
+	{
+		return ($this->role->title == 'Admin');
+	}
+	
+	public function getIsClient()
+	{
+		return ($this->role->title == 'Client');
+	}
+	
+	public function getIsVendor()
+	{
+		return ($this->role->title == 'Vendor');
+	}
+	
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOpenOrders()
+	public function getOpenOrders()
     {
         return $this->hasMany(OpenOrder::className(), ['user_id' => 'user_id']);
     }
