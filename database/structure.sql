@@ -95,8 +95,7 @@ CREATE TABLE open_order
   lot_number integer,
   number_of_box integer DEFAULT 0,
   total_weight numeric(4,2) DEFAULT 0,
-  total_usd numeric(6,2) DEFAULT 0,
-  total_baht numeric(6,2) DEFAULT 0,
+  shipping_cost numeric(6,2) DEFAULT 0,
   creation_datetime timestamp without time zone DEFAULT now(),
   status smallint DEFAULT 1,
   CONSTRAINT open_order_pkey PRIMARY KEY (open_order_id),
@@ -109,8 +108,7 @@ CREATE INDEX ON open_order(user_id);
 CREATE INDEX ON open_order(creation_datetime);
 CREATE INDEX ON open_order(number_of_box);
 CREATE INDEX ON open_order(total_weight);
-CREATE INDEX ON open_order(total_usd);
-CREATE INDEX ON open_order(total_baht);
+CREATE INDEX ON open_order(shipping_cost);
 CREATE INDEX ON open_order(status);
 
 

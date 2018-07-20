@@ -29,6 +29,7 @@ use yii\helpers\Url;
  */
 class Product extends \yii\db\ActiveRecord
 {
+	public $items;
 	public $image;
 	public $imagPath;
 	

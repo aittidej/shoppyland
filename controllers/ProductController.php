@@ -95,7 +95,7 @@ class ProductController extends \app\controllers\MainController
 			$upload->image = UploadedFile::getInstances($upload, "image");
 			if(!empty($upload->image))
 				$model->image_path = $upload->uploadMultiImages('images/products/' . $model->product_id . '/');
-			else
+			else  if(!empty($_POST['Product']['imagPath']))
 				$model->image_path = [$_POST['Product']['imagPath']];
 			$model->save(false);
 			
@@ -106,8 +106,8 @@ class ProductController extends \app\controllers\MainController
 		$model->weight = 0;
 		
         return $this->render('create', [
-            'model' => $model,
-            'upload' => $upload,
+			'model' => $model,
+			'upload' => $upload,
         ]);
     }
 
@@ -121,22 +121,33 @@ class ProductController extends \app\controllers\MainController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+		$upload = new UploadFile();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			$model->status = 1;
+			$upload->image = UploadedFile::getInstances($upload, "image");
+			if(!empty($upload->image))
+				$model->image_path = $upload->uploadMultiImages('images/products/' . $model->product_id . '/');
+			else if(!empty($_POST['Product']['imagPath']))
+				$model->image_path = [$_POST['Product']['imagPath']];
+			$model->save(false);
             return $this->redirect(['view', 'id' => $model->product_id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+			'upload' => $upload,
         ]);
     }
 	
-	public function actionAddProducts($id = NULL)
+	public function actionAddProducts()
     {
-		if(!empty($id))
+		if(!empty($_GET['id']))
+		{
+			$id = $_GET['id'];
 			unset($_GET['id']);
-		//$model = OpenOrder::findOne($id);
-		
+			$model = OpenOrder::findOne($id);
+		}
 		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
 		
 		foreach ($products as $index => $product) {
@@ -160,14 +171,95 @@ class ProductController extends \app\controllers\MainController
             }
 			
 			if(empty($id))
-				return $this->redirect(['/product']);
-			else	
+				return $this->redirect(['index']);
+			else
 				return $this->redirect(['/openorder/order/view', 'id' => $id]);
         }
 		
 		return $this->render('add-products', [
             'products' => $products,
             'uploads' => $uploads,
+        ]);
+    }
+	
+	public function actionAddProductsByUpc()
+    {
+		$notFoundList = $invalid = [];
+        $model = New Product();
+
+        if (Yii::$app->request->isPost)
+		{
+			set_time_limit(0);
+			$items = array_map('trim', explode("\n", $_POST['Product']['items']));
+			foreach($items AS $barcode)
+			{
+				$barcode = trim($barcode);
+				$product = Product::findOne(['upc'=>$barcode, 'status'=>1]);
+				
+				// Take care of adding missing products
+				if(empty($product))
+				{
+					$upcItemDB = New UpcItemDB();
+					$respond = $upcItemDB->getDataByBarcode($barcode);
+					if(is_numeric($respond)) // not valid
+					{
+						$notFoundList[] = $barcode;
+						$product = New Product();
+						$product->upc = $barcode;
+						$product->save(false);
+						continue;
+					}
+					
+					$results = json_decode($respond, true);
+					if(empty($results['items'])) // UPC not found in UpcItemDB
+					{
+						$notFoundList[] = $barcode;
+						$product = New Product();
+						$product->upc = $barcode;
+						$product->save(false);
+					}
+					else
+					{
+						foreach($results['items'] AS $item)
+						{
+							$product = New Product();
+							$product->upc = $barcode;
+							$product->model = empty($item['model']) ? NULL : $item['model'];
+							$product->title = empty($item['title']) ? NULL : $item['title'];
+							$product->description = empty($item['description']) ? NULL : $item['description'];
+							$product->color = empty($item['color']) ? NULL : $item['color'];
+							$product->size = empty($item['size']) ? NULL : $item['size'];
+							$product->image_path = empty($item['images']) ? NULL : $item['images'];
+							$product->weight = !empty($item['weight']) && is_numeric($item['weight']) ? $item['weight'] : 0;
+							$product->dimension = empty($item['dimension']) ? 0 : $item['dimension'];
+							$product->json_data = $results;
+							if(!empty($item['brand']))
+							{
+								$brand = Brand::find()->where("LOWER(title)='" . trim(strtolower($item['brand'])) . "'")->one();
+								if(empty($brand))
+								{
+									$brand = New Brand();
+									$brand->title = ucfirst(strtolower(trim($item['brand'])));
+									$brand->save(false);
+								}
+								
+								$product->brand_id = $brand->brand_id;
+							}
+
+							$product->save(false);
+						}
+					}
+				}
+			}
+			
+			if(empty($notFoundList))
+				return $this->redirect(['index']);
+			else
+				return $this->redirect(['product/add-products?'.http_build_query($notFoundList)]);
+        }
+
+        return $this->render('add-items', [
+            'model' => $model,
         ]);
     }
 
@@ -180,8 +272,10 @@ class ProductController extends \app\controllers\MainController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+		$model->status = 0;
+		$model->save(false);
+		
         return $this->redirect(['index']);
     }
 

@@ -20,7 +20,7 @@ class OpenOrderSearch extends OpenOrder
         return [
             [['open_order_id', 'lot_number', 'user_id', 'number_of_box', 'status'], 'integer'],
             [['creation_datetime'], 'safe'],
-            [['total_weight', 'total_usd', 'total_baht'], 'number'],
+            [['total_weight', 'shipping_cost'], 'number'],
         ];
     }
 
@@ -66,8 +66,7 @@ class OpenOrderSearch extends OpenOrder
             'creation_datetime' => $this->creation_datetime,
             'number_of_box' => $this->number_of_box,
             'total_weight' => $this->total_weight,
-            'total_usd' => $this->total_usd,
-            'total_baht' => $this->total_baht,
+            'shipping_cost' => $this->shipping_cost,
             'status' => $this->status,
         ]);
 

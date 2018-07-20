@@ -87,7 +87,7 @@ class OrderController extends \app\controllers\MainController
         }
 		
         return $this->render('view', [
-            'openOrder' => $this->findModel($id),
+            'openOrder' => $openOrder,
             'openOrderRels' => $openOrderRels,
         ]);
     }
@@ -140,6 +140,7 @@ class OrderController extends \app\controllers\MainController
 
         if (Yii::$app->request->isPost)
 		{
+			set_time_limit(0);
 			$items = array_map('trim', explode("\n", $_POST['OpenOrder']['items']));
 			foreach($items AS $barcode)
 			{
@@ -152,7 +153,14 @@ class OrderController extends \app\controllers\MainController
 					$upcItemDB = New UpcItemDB();
 					$respond = $upcItemDB->getDataByBarcode($barcode);
 					if(is_numeric($respond)) // not valid
+					{
+						$product = New Product();
+						$product->upc = $barcode;
+						$product->save(false);
+						
+						$notFoundList[$product->product_id] = $barcode;
 						continue;
+					}
 					
 					$results = json_decode($respond, true);
 					if(empty($results['items'])) // UPC not found in UpcItemDB
@@ -176,15 +184,15 @@ class OrderController extends \app\controllers\MainController
 							$product->color = empty($item['color']) ? NULL : $item['color'];
 							$product->size = empty($item['size']) ? NULL : $item['size'];
 							$product->image_path = empty($item['images']) ? NULL : $item['images'];
-							$product->weight = empty($item['weight']) ? 0 : $item['weight'];
+							$product->weight = !empty($item['weight']) && is_numeric($item['weight']) ? $item['weight'] : 0;
 							$product->dimension = empty($item['dimension']) ? 0 : $item['dimension'];
 							if(!empty($item['brand']))
 							{
-								$brand = Brand::findOne(['title'=>$item['brand']]);
+								$brand = Brand::find()->where("LOWER(title)='" . trim(strtolower($item['brand'])) . "'")->one();
 								if(empty($brand))
 								{
 									$brand = New Brand();
-									$brand->title = $item['brand'];
+									$brand->title = ucfirst(strtolower(trim($item['brand'])));
 									$brand->save(false);
 								}
 								
@@ -235,7 +243,7 @@ class OrderController extends \app\controllers\MainController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

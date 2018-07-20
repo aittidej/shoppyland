@@ -13,8 +13,7 @@ use Yii;
  * @property string $creation_datetime
  * @property int $number_of_box
  * @property string $total_weight
- * @property string $total_usd
- * @property string $total_baht
+ * @property string $shipping_cost
  * @property int $status
  *
  * @property User $user
@@ -41,7 +40,7 @@ class OpenOrder extends \yii\db\ActiveRecord
             [['lot_number', 'user_id', 'number_of_box', 'status'], 'default', 'value' => null],
             [['lot_number', 'user_id', 'number_of_box', 'status'], 'integer'],
             [['creation_datetime'], 'safe'],
-            [['total_weight', 'total_usd', 'total_baht'], 'number'],
+            [['total_weight', 'shipping_cost'], 'number'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
         ];
     }
@@ -58,8 +57,7 @@ class OpenOrder extends \yii\db\ActiveRecord
             'creation_datetime' => 'Creation Datetime',
             'number_of_box' => 'Number Of Box',
             'total_weight' => 'Total Weight',
-            'total_usd' => 'Total Usd',
-            'total_baht' => 'Total Baht',
+            'shipping_cost' => 'Shipping Cost',
             'status' => 'Status',
         ];
     }

@@ -22,10 +22,42 @@ $this->params['breadcrumbs'][] = $this->title;
             //['class' => 'yii\grid\SerialColumn'],
 
             //'product_id',
-            'upc',
-            'model',
-			'title',
-            'brand.title',
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'image_path',
+				'label' => '',
+				'vAlign' => 'middle',
+				'format' => 'raw',
+				'width' => '150px',
+				'value' => function($product) {
+					return Html::img($product->firstImage, ['width'=>'100%']);;
+				},
+			],
+            [
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'upc',
+				//'label' => 'Branch',
+				'vAlign' => 'middle',
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'model',
+				//'label' => 'Branch',
+				'vAlign' => 'middle',
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'brand.title',
+				'label' => 'brand',
+				'width' => '10%',
+				'vAlign' => 'middle',
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'title',
+				//'label' => 'Branch',
+				'vAlign' => 'middle',
+			],
             //'base_price',
             //'category',
             //'weight',
@@ -37,7 +69,12 @@ $this->params['breadcrumbs'][] = $this->title;
             //'image_path',
             //'json_data',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'hAlign' => 'center',
+				'vAlign' => 'middle',
+				'width' => '7%',
+			],
         ],
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
@@ -45,8 +82,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'pjax' => false,
         'toolbar' => [
 			[
-				'content' => Html::a('Create Product Manually', ['create'], ['class' => 'btn btn-danger']).' '.
-							Html::a('Create Product using UPC', ['create'], ['class' => 'btn btn-success'])
+				'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Add Product Manually', ['create'], ['class' => 'btn btn-danger']).' '.
+							Html::a('<i class="glyphicon glyphicon-plus"></i> Add Product using UPC', ['add-products-by-upc'], ['class' => 'btn btn-success'])
 			]
 		],
         'bordered' => 0,

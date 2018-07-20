@@ -21,11 +21,12 @@ $total = $totalQty = 0;
 </style>
 
 <div class="open-order-view">
-	<div class='col-sm-10'>
+	<div class='col-sm-9'>
 		<h1><?= Html::encode($this->title) ?></h1>
 	</div>
-	<div class='col-sm-2'><br>
+	<div class='col-sm-3'><br>
 		<?= Html::a('<i class="glyphicon glyphicon-plus"></i> Add More Items', ['/openorder/order/add-items', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('View Report', ['/openorder/report', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-info']) ?>
 	</div>
 	<?php $form = ActiveForm::begin(); ?>
 		
@@ -63,10 +64,10 @@ $total = $totalQty = 0;
 					</tr>
 			<?php } ?>
 				<tr>
-					<td><strong>Total</strong></td>
-					<td><strong><?= $totalQty ?></strong></td>
-					<td></td>
-					<td><strong><?= "$".$total ?></strong></td>
+					<th><strong>Total</strong></th>
+					<th><strong><?= $totalQty ?></strong></th>
+					<th></th>
+					<th><strong><?= "$".$total ?></strong></th>
 				</tr>
 			</table>
 		</div>
