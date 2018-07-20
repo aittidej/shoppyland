@@ -25,7 +25,7 @@ CREATE TABLE "user"
   role_id integer,
   username character varying(255),
   password character varying(512),
-  name character varying(255),
+  "name" character varying(255),
   email character varying(255),
   phone character varying(100),
   address text,
@@ -40,17 +40,17 @@ CREATE TABLE "user"
       REFERENCES role (role_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-CREATE INDEX ON user(name);
-CREATE INDEX ON user(status);
-CREATE INDEX ON user(role_id);
-CREATE INDEX ON user(username);
-CREATE INDEX ON user(email);
-CREATE INDEX ON user(phone);
-CREATE INDEX ON user(last_login);
-CREATE INDEX ON user(creation_datetime);
-CREATE INDEX ON user(payment_method);
-CREATE INDEX ON user(is_wholesale);
-CREATE INDEX ON user(exchange_rate);
+CREATE INDEX ON "user"(name);
+CREATE INDEX ON "user"(status);
+CREATE INDEX ON "user"(role_id);
+CREATE INDEX ON "user"(username);
+CREATE INDEX ON "user"(email);
+CREATE INDEX ON "user"(phone);
+CREATE INDEX ON "user"(last_login);
+CREATE INDEX ON "user"(creation_datetime);
+CREATE INDEX ON "user"(payment_method);
+CREATE INDEX ON "user"(is_wholesale);
+CREATE INDEX ON "user"(exchange_rate);
 
 
 CREATE TABLE product
@@ -62,7 +62,7 @@ CREATE TABLE product
   title character varying(255),
   category character varying(100),
   base_price numeric(6,2) DEFAULT 0,
-  weight numeric(4,2),
+  weight numeric(4,2) DEFAULT 0,
   description text,
   color character varying(100),
   size character varying(100),
@@ -73,9 +73,6 @@ CREATE TABLE product
   CONSTRAINT product_pkey PRIMARY KEY (product_id),
   CONSTRAINT product_brand_id_fkey FOREIGN KEY (brand_id)
       REFERENCES brand (brand_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT product_category_id_fkey FOREIGN KEY (category_id)
-      REFERENCES category (category_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 CREATE INDEX ON product(upc);

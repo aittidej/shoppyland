@@ -31,9 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'product_id',
             'upc',
             'model',
-            'brand_id',
+            'brand.title',
             'base_price',
-            'category_id',
+            'category',
             'title',
             'weight',
             'status',
@@ -41,8 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'color',
             'size',
             'dimension',
-            'image_path',
-            'json_data',
+            //'image_path',
         ],
     ]) ?>
 

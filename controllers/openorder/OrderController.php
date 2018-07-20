@@ -129,11 +129,11 @@ class OrderController extends Controller
 	
 	// https://www.upcitemdb.com/info-coach_handbags-wallets
 	// https://www.upcitemdb.com/info-coach-handbag
-	// https://www.barcodelookup.com
 	public function actionAddItems($id)
     {
 		$notFoundList = [];
         $model = OpenOrder::findOne($id);
+		$allProducts = Product::find()->orderby('brand_id ASC, product_id ASC')->all();
 
         if (Yii::$app->request->isPost)
 		{

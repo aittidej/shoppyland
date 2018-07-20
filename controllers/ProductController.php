@@ -8,6 +8,7 @@ use app\models\OpenOrder;
 use app\models\OpenOrderRel;
 use app\models\OpenOrderSearch;
 use app\models\Product;
+use app\models\ProductSearch;
 use app\models\UploadFile;
 use kartik\file\FileInput;
 
@@ -75,13 +76,25 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		$upload = new UploadFile();
+		
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+		{
+			$upload->image = UploadedFile::getInstances($upload, "image");
+			if(!empty($upload->image))
+			{
+				$model->image_path = $upload->uploadMultiImages('images/products/' . $model->product_id . '/');
+				$model->save(false);
+			}
             return $this->redirect(['view', 'id' => $model->product_id]);
         }
 
+		$model->brand_id = 0;
+		$model->weight = 0;
+		
         return $this->render('create', [
             'model' => $model,
+            'upload' => $upload,
         ]);
     }
 
@@ -111,8 +124,6 @@ class ProductController extends Controller
 		$model = OpenOrder::findOne($id);
 		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
 		
-		//$count = count(Yii::$app->request->post('UploadFile', []));
-		$haha = new UploadFile();
 		foreach ($products as $index => $product) {
 			$uploads[$index] = new UploadFile();
 		}
@@ -140,7 +151,6 @@ class ProductController extends Controller
             'model' => $model,
             'products' => $products,
             'uploads' => $uploads,
-            'haha' => $haha,
         ]);
     }
 

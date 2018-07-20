@@ -35,7 +35,7 @@ $total = $totalQty = 0;
 							<?= Html::img($product->firstImage, ['width'=>'100%']); ?>
 						</td>
 						<td colspan="3">
-							<?= "<h4>".$product->title."<br>Model #".$product->model."</h4>"; ?>
+							<?= "<h4><strong>".$product->title."</strong><br>Model #".$product->model."</h4>"; ?>
 						</td>
 					</tr>
 					<tr>
@@ -60,10 +60,10 @@ $total = $totalQty = 0;
 					</tr>
 			<?php } ?>
 				<tr>
-					<td>Total</td>
-					<td><?= $totalQty ?></td>
+					<td><strong>Total</strong></td>
+					<td><strong><?= $totalQty ?></strong></td>
 					<td></td>
-					<td><?= "$".$total ?></td>
+					<td><strong><?= "$".$total ?></strong></td>
 				</tr>
 			</table>
 		</div>

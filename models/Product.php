@@ -14,7 +14,6 @@ use yii\helpers\Url;
  * @property int $brand_id
  * @property string $category
  * @property string $base_price
- * @property int $category_id
  * @property string $title
  * @property string $weight
  * @property int $status

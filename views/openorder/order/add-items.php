@@ -7,7 +7,8 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\OpenOrder */
 
-$this->title = 'Add Items';
+$user = $model->user;
+$this->title = 'Add Items for '.$user->name.' - Lot #'.$model->lot_number;
 $this->params['breadcrumbs'][] = ['label' => 'Open Orders', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,12 +18,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?php $form = ActiveForm::begin(); ?>
 
-		<div class='col-sm-12 col-md-6 col-lg-6'>
+		<div class='col-sm-12 col-md-4 col-lg-4'>
 			<?= $form->field($model, 'items')->textarea(['rows' => '20']) ?>
 		</div>
 		
-		<div class='col-sm-12 col-md-6 col-lg-6'>
+		<div class='col-sm-12 col-md-8 col-lg-8'>
 			<span id="result"></span>
+			<?php
+				
+			?>
 		</div>
 
 		<div class="form-group col-sm-12">

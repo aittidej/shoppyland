@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OpenOrderSearch */
@@ -14,28 +14,57 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Open Order', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?= GridView::widget([
+	
+	
+	<?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+		'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
-            'open_order_id',
+            //'open_order_id',
             'lot_number',
-            'user_id',
+            'user.name',
             'creation_datetime',
             'number_of_box',
-            //'total_weight',
+            'total_weight',
             //'total_usd',
             //'total_baht',
             //'status',
 
-            ['class' => 'yii\grid\ActionColumn'],
+			[
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '{add-items} {view} {update} {delete}',
+				'hAlign' => 'center', 
+				'vAlign' => 'middle',
+				'width' => '10%',
+				'buttons' => [
+					'add-items' => function ($url, $model) {
+						return Html::a(
+							'<span class="glyphicon glyphicon-plus"></span>',
+							$url, [ 'title' => 'Add Items' ]
+						);
+					}
+				],
+			],
         ],
-    ]); ?>
+        'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+        'filterRowOptions' => ['class' => 'kartik-sheet-style'],
+        'id' => 'open-order-list',
+        'pjax' => false,
+        'toolbar' => [['content' => Html::a('Create Open Order', ['create'], ['class' => 'btn btn-success'])]],
+        'bordered' => 0,
+        'striped' => 1,
+        'condensed' => 1,
+        'responsive' => 1,
+        'hover' => 1,
+        'showPageSummary' => false,
+        'panel' => [
+            'type' => GridView::TYPE_PRIMARY,
+			'heading' => '<span id="display-filter" style=\'cursor: pointer\'><span class="view-upload-files glyphicon glyphicon-menu-down"></span>  List of Open Orders</span>',
+        ],
+        'persistResize' => false,
+    ]);
+	
+	?>
 </div>
