@@ -96,6 +96,7 @@ CREATE TABLE open_order
   number_of_box integer DEFAULT 0,
   total_weight numeric(4,2) DEFAULT 0,
   shipping_cost numeric(6,2) DEFAULT 0,
+  additional_cost numeric(6,2) DEFAULT 0,
   creation_datetime timestamp without time zone DEFAULT now(),
   status smallint DEFAULT 1,
   CONSTRAINT open_order_pkey PRIMARY KEY (open_order_id),

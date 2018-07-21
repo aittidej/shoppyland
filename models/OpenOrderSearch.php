@@ -20,7 +20,7 @@ class OpenOrderSearch extends OpenOrder
         return [
             [['open_order_id', 'lot_number', 'user_id', 'number_of_box', 'status'], 'integer'],
             [['creation_datetime'], 'safe'],
-            [['total_weight', 'shipping_cost'], 'number'],
+            [['total_weight', 'shipping_cost', 'additional_cost'], 'number'],
         ];
     }
 

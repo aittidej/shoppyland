@@ -52,7 +52,7 @@ $total = $totalQty = 0;
 							<?php
 								if(empty($openOrderRel->unit_price))
 									$openOrderRel->unit_price = 0;
-								echo $form->field($openOrderRel, "[$index]unit_price")->label('Price '.($user->payment_method == 'USD' ? '($)' : '(฿)'))->textInput(['type' => 'number', 'class'=>'form-control price-field', 'id'=>$index]); 
+								echo $form->field($openOrderRel, "[$index]unit_price")->label('Price ($)')->textInput(['type' => 'number', 'class'=>'form-control price-field', 'id'=>$index]); 
 							?>
 						</td>
 						<td>
@@ -60,7 +60,7 @@ $total = $totalQty = 0;
 								$openOrderRel->subtotal = $openOrderRel->qty*$openOrderRel->unit_price;
 								$totalQty += $openOrderRel->qty;
 								$total += $openOrderRel->subtotal;
-								echo $form->field($openOrderRel, "[$index]subtotal")->label('Subtotal '.($user->payment_method == 'USD' ? '($)' : '(฿)'))->textInput(['maxlength' => true, 'disabled'=>'disabled']);
+								echo $form->field($openOrderRel, "[$index]subtotal")->label('Subtotal ($)')->textInput(['maxlength' => true, 'disabled'=>'disabled']);
 							?>
 						</td>
 					</tr>

@@ -39,6 +39,17 @@ class ReportController extends \app\controllers\MainController
         ]);
     }
 	
+	public function actionPrint($id)
+    {
+        $openOrder = $this->findModel($id);
+		$openOrderRels = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith('product')->orderby('product.model ASC')->all();
+		
+        return $this->renderPartial('print', [
+            'openOrder' => $openOrder,
+            'openOrderRels' => $openOrderRels,
+        ]);
+    }
+	
     /**
      * Finds the OpenOrder model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

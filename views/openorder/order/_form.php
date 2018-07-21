@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'total_weight')->textInput() ?>
 
     <?= $form->field($model, 'shipping_cost')->textInput() ?>
+	
+    <?= $form->field($model, 'additional_cost')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save & Continue', ['class' => 'btn btn-success']) ?>

@@ -1,6 +1,5 @@
 <?php
 
-use yii\web\View;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -8,24 +7,15 @@ use yii\helpers\Html;
 
 $user = $openOrder->user;
 $this->title = $user->name."'s Report - Lot #".$openOrder->lot_number;
-$this->params['breadcrumbs'][] = ['label' => 'Open Orders', 'url' => ['/openorder/order/index']];
-$this->params['breadcrumbs'][] = $this->title;
 $total = $subtotal = $totalQty = $tax = 0;
 ?>
-<div class="open-order-view">
-	<div class='col-sm-6'>
-		<h1><?= Html::encode($this->title) ?></h1>
-	</div>
-	<div class='col-sm-6'><br>
-		<?= Html::a('Print', 'javascript:void(0);', ['class' => 'btn btn-primary', 'id'=>'print', 'style'=>'float: right;']) ?> 
-		<?= Html::a('Edit Pricing', ['/openorder/order/view', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-info', 'style'=>'float: right;']) ?> 
-		<?= Html::a('<i class="glyphicon glyphicon-plus"></i> Add More Items', ['/openorder/order/add-items', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-success', 'style'=>'float: right;']) ?> 
-	</div>
-		
-	<div class='col-sm-12' id="printablediv">
+<div class="open-order-view" id="printablediv">
+	<div class='col-sm-12'><h2><?= Html::encode($this->title) ?></h2></div>
+	<div class='col-sm-12'>
 		<style>
 			table {
 				font-family: arial, sans-serif;
+				font-size: 11px;
 				border-collapse: collapse;
 				width: 100%;
 			}
@@ -36,7 +26,7 @@ $total = $subtotal = $totalQty = $tax = 0;
 				padding: 8px;
 			}
 
-			tr:nth-child(even) { background-color: #dee7e8; }
+			tr:nth-child(even) { background-color: #dddddd; }
 		</style>
 		<table class="tftable" border="0">
 			<tr>
@@ -82,15 +72,10 @@ $total = $subtotal = $totalQty = $tax = 0;
 			</tr>
 		</table>
 	</div>
-
 </div>
 
-<?php 
-$this->registerJs("
-
-$('#print').click(function (e) {
-	var myWindow = window.open('".Yii::$app->getUrlManager()->createUrl(['openorder/report/print', 'id'=>$openOrder->open_order_id])."', '', 'width=600, height=600, scrollbars=1');
-});
-
-", View::POS_READY);
-?>
+<script>
+//$(function() {
+	window.print();
+//});
+</script>
