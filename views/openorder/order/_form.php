@@ -20,9 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'total_weight')->textInput() ?>
 
-    <?= $form->field($model, 'total_usd')->textInput() ?>
-
-    <?= $form->field($model, 'total_baht')->textInput() ?>
+    <?= $form->field($model, 'shipping_cost')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save & Continue', ['class' => 'btn btn-success']) ?>

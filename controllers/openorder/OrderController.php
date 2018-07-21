@@ -23,24 +23,6 @@ use app\components\BarcodeLookup;
 class OrderController extends \app\controllers\MainController
 {
     /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-			'access' => [
-				'class' => \yii\filters\AccessControl::className(),
-				'rules' => [
-					[
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
-		];
-    }
-
-    /**
      * Lists all OpenOrder models.
      * @return mixed
      */
@@ -144,6 +126,9 @@ class OrderController extends \app\controllers\MainController
 			$items = array_map('trim', explode("\n", $_POST['OpenOrder']['items']));
 			foreach($items AS $barcode)
 			{
+				if(empty($barcode))
+					continue;
+				
 				$barcode = trim($barcode);
 				$product = Product::findOne(['upc'=>$barcode, 'status'=>1]);
 				

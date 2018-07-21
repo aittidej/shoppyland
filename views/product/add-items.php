@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php $form = ActiveForm::begin(); ?>
 
 		<div class='col-sm-12 col-md-6 col-lg-6'>
-			<?= $form->field($model, 'items')->label('Barcode (UPC)')->textarea(['rows' => '20']) ?>
+			<?= $form->field($model, 'items')->label('Barcode (UPC)')->textarea(['rows' => '20', 'id'=>'items-field']) ?>
 		</div>
 
 		<div class="form-group col-sm-12">
@@ -28,12 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php ActiveForm::end(); ?>
 	
 </div>
-<?php 
-$this->registerJs("
-	
-
-
-
-
-", View::POS_READY);
-?>
+<script>
+document.getElementById('items-field').focus();
+</script>

@@ -23,24 +23,6 @@ use app\components\BarcodeLookup;
 class ReportController extends \app\controllers\MainController
 {
     /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-			'access' => [
-				'class' => \yii\filters\AccessControl::className(),
-				'rules' => [
-					[
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
-		];
-    }
-
-    /**
      * Displays a single OpenOrder model.
      * @param integer $id
      * @return mixed

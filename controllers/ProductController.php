@@ -26,32 +26,6 @@ use app\components\BarcodeLookup;
 class ProductController extends \app\controllers\MainController
 {
     /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-		return [
-			'access' => [
-				'class' => \yii\filters\AccessControl::className(),
-				'rules' => [
-					[
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
-		];
-        /*return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];*/
-    }
-
-    /**
      * Lists all Product models.
      * @return mixed
      */
@@ -154,6 +128,7 @@ class ProductController extends \app\controllers\MainController
 			$uploads[$index] = new UploadFile();
 		}
 		
+		set_time_limit(0);
 		if (Product::loadMultiple($products, Yii::$app->request->post()) && Product::validateMultiple($products))
 		{
 			foreach($uploads AS $product_id=>$upload)
@@ -193,6 +168,9 @@ class ProductController extends \app\controllers\MainController
 			$items = array_map('trim', explode("\n", $_POST['Product']['items']));
 			foreach($items AS $barcode)
 			{
+				if(empty($barcode))
+					continue;
+				
 				$barcode = trim($barcode);
 				$product = Product::findOne(['upc'=>$barcode, 'status'=>1]);
 				

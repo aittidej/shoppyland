@@ -39,7 +39,9 @@ $total = $totalQty = 0;
 							<?= Html::img($product->firstImage, ['width'=>'100%']); ?>
 						</td>
 						<td colspan="3">
-							<?= "<h4><strong>".$product->title."</strong><br>Model #".$product->model."<br>UPC: ".$product->upc."</h4>"; ?>
+							<?= "<h4><strong>".Html::a($product->title, ['/product/view', 'id'=>$product->product_id], ['target'=>'_blank'])."</strong><br>Model #".$product->model."<br>UPC: ".$product->upc."</h4>"; ?>
+						
+						
 						</td>
 					</tr>
 					<tr>

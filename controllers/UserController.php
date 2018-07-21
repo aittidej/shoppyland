@@ -15,24 +15,6 @@ use yii\filters\VerbFilter;
 class UserController extends \app\controllers\MainController
 {
     /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-			'access' => [
-				'class' => \yii\filters\AccessControl::className(),
-				'rules' => [
-					[
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
-		];
-    }
-	
-    /**
      * Lists all User models.
      * @return mixed
      */
