@@ -80,6 +80,26 @@ class Product extends \yii\db\ActiveRecord
             'image_path' => 'Image Path',
         ];
     }
+   
+	public function beforeSave($insert) 
+	{
+        if (parent::beforeSave($insert)) 
+		{
+			$this->title = trim($this->title);
+			$this->category = trim($this->category);
+			$this->upc = trim($this->upc);
+			$this->model = trim($this->model);
+			$this->color = trim($this->color);
+			$this->size = trim($this->size);
+			$this->dimension = trim($this->dimension);
+			if(!is_numeric($this->weight))
+				$this->weight = 0;
+			
+            return true;
+        } 
+
+		return false;
+    }
 
     /**
      * @return \yii\db\ActiveQuery
