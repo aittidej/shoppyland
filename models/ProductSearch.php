@@ -83,9 +83,9 @@ class ProductSearch extends Product
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['ilike', 'upc', $this->upc])
-            ->andFilterWhere(['ilike', 'model', $this->model])
-            ->andFilterWhere(['ilike', 'title', $this->title])
+        $query->andFilterWhere(['ilike', 'upc', trim($this->upc)])
+            ->andFilterWhere(['ilike', 'model', trim($this->model)])
+            ->andFilterWhere(['ilike', 'title', trim($this->title)])
             ->andFilterWhere(['ilike', 'description', $this->description])
             ->andFilterWhere(['ilike', 'category', $this->category])
             ->andFilterWhere(['ilike', 'color', $this->color])
