@@ -45,7 +45,7 @@ class eBaySearch extends Component {
 	public function cleanJson($json)
 	{
 		$galleryURL = [];
-		$title = $model = $brand_id = $categoryName = NULL;
+		$titleToUse = $title = $model = $saveBrand = $brand_id = $categoryName = NULL;
 		$results = json_decode($json, true);
 		$brands = Brand::find()->where(['status'=>1])->asArray()->all();
 		if(!empty($results['findItemsByKeywordsResponse'][0]['searchResult'][0]['item']))
@@ -53,6 +53,7 @@ class eBaySearch extends Component {
 			$items = $results['findItemsByKeywordsResponse'][0]['searchResult'][0]['item'];
 			foreach($items AS $item)
 			{
+				$modelFlag = false;
 				if(!empty($item['galleryURL'][0]))
 					$galleryURL[] = $item['galleryURL'][0];
 					
@@ -65,21 +66,34 @@ class eBaySearch extends Component {
 				{
 					$title = $item['title'][0];
 					$strings = explode(" ", $title);
-					foreach($strings AS $string)
-					{
-						if(preg_match('/^F[0-9]{5}$/', $string)){
-							$model = $string;
-							break;
-						}
-					}
-
 					foreach($brands AS $brand)
 					{
-						if (strpos($title, $brand['title']) !== false) {
+						if (stripos($title, $brand['title']) !== false) {
 							$brand_id = $brand['brand_id'];
+							$saveBrand = $brand['title'];
 							break;
 						}
 					}
+					
+					foreach($strings AS $string)
+					{
+						if(preg_match('/^F[0-9]{5}$/', $string)) {
+							$model = $string;
+							$modelFlag = true;
+							break;
+						} else if(preg_match('/^f[0-9]{5}$/', $string)) {
+							$model = $string;
+							$modelFlag = true;
+							break;
+						} else if(preg_match('/^[0-9]{5}$/', $string)) {
+							$model = 'F'.$string;
+							$modelFlag = true;
+							break;
+						}
+					}
+					
+					if($modelFlag)
+						$titleToUse = $item['title'][0];
 				}
 				
 				if(!empty($item['primaryCategory']['categoryName'][0]))
@@ -87,7 +101,7 @@ class eBaySearch extends Component {
 			}
 			
 			return [
-				'title' => $title,
+				'title' => empty($titleToUse) ? $title : $titleToUse,
 				'model' => $model,
 				'galleryURL' => $galleryURL,
 				'brand_id' => $brand_id,
@@ -122,7 +136,7 @@ class eBaySearch extends Component {
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 		curl_close($ch);
-		return ($httpcode != 200) ? $httpcode : this->cleanJson($response);
+		return ($httpcode != 200) ? $httpcode : $this->cleanJson($response);
 	}
 
 }

@@ -5,6 +5,15 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 
+use app\models\Brand;
+use app\models\OpenOrder;
+use app\models\OpenOrderRel;
+use app\models\OpenOrderSearch;
+use app\components\UpcItemDB;
+use app\components\eBaySearch;
+use app\models\Product;
+use app\models\UploadFile;
+
 /**
  * MainController is extended by other controllers in order to check permissions
  */
@@ -109,6 +118,8 @@ abstract class MainController extends Controller
 					if(empty($respond))
 					{
 						$product->upc = $barcode;
+						$product->save(false);
+						
 						$notFoundList[$product->product_id] = $barcode;
 					}
 					else
@@ -119,8 +130,8 @@ abstract class MainController extends Controller
 						$product->title = $respond['title'];
 						$product->category = $respond['categoryName'];
 						$product->image_path = $respond['galleryURL'];
+						$product->save(false);
 					}
-					$product->save(false);
 				}
 			}
 			

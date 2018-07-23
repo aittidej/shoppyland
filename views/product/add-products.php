@@ -12,7 +12,7 @@ use app\models\Brand;
 /* @var $model app\models\OpenOrder */
 
 $this->title = 'Add Products';
-$this->params['breadcrumbs'][] = ['label' => 'Open Orders', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title ASC')->all(), 'brand_id', 'title');
