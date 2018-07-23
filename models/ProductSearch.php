@@ -91,7 +91,7 @@ class ProductSearch extends Product
             ->andFilterWhere(['ilike', 'color', $this->color])
             ->andFilterWhere(['ilike', 'size', $this->size])
             ->andFilterWhere(['ilike', 'dimension', $this->dimension])
-            ->andFilterWhere(['ilike', 'image_path', $this->image_path])
+            //->andFilterWhere(['ilike', 'image_path', $this->image_path])
             ->andFilterWhere(['ilike', 'json_data', $this->json_data]);
 
         return $dataProvider;
