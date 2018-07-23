@@ -17,6 +17,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
+use app\components\eBaySearch;
 use app\components\UpcItemDB;
 use app\components\BarcodeLookup;
 
@@ -25,6 +26,14 @@ use app\components\BarcodeLookup;
  */
 class ProductController extends \app\controllers\MainController
 {
+	public function actionTest()
+	{
+		$eBaySearch = New eBaySearch();
+		$respond = $eBaySearch->getDataByBarcode('191202719316');
+		$results = json_decode($respond, true);
+		$item = $results['findItemsByKeywordsResponse'][0]['searchResult'][0]['item'];
+	}
+
     /**
      * Lists all Product models.
      * @return mixed
@@ -166,69 +175,7 @@ class ProductController extends \app\controllers\MainController
 		{
 			set_time_limit(0);
 			$items = array_map('trim', explode("\n", $_POST['Product']['items']));
-			foreach($items AS $barcode)
-			{
-				if(empty($barcode))
-					continue;
-				
-				$barcode = trim($barcode);
-				$product = Product::findOne(['upc'=>$barcode, 'status'=>1]);
-				
-				// Take care of adding missing products
-				if(empty($product))
-				{
-					$upcItemDB = New UpcItemDB();
-					$respond = $upcItemDB->getDataByBarcode($barcode);
-					if(is_numeric($respond)) // not valid
-					{
-						$notFoundList[] = $barcode;
-						$product = New Product();
-						$product->upc = $barcode;
-						$product->save(false);
-						continue;
-					}
-					
-					$results = json_decode($respond, true);
-					if(empty($results['items'])) // UPC not found in UpcItemDB
-					{
-						$notFoundList[] = $barcode;
-						$product = New Product();
-						$product->upc = $barcode;
-						$product->save(false);
-					}
-					else
-					{
-						foreach($results['items'] AS $item)
-						{
-							$product = New Product();
-							$product->upc = $barcode;
-							$product->model = empty($item['model']) ? NULL : $item['model'];
-							$product->title = empty($item['title']) ? NULL : $item['title'];
-							$product->description = empty($item['description']) ? NULL : $item['description'];
-							$product->color = empty($item['color']) ? NULL : $item['color'];
-							$product->size = empty($item['size']) ? NULL : $item['size'];
-							$product->image_path = empty($item['images']) ? NULL : $item['images'];
-							$product->weight = !empty($item['weight']) && is_numeric($item['weight']) ? $item['weight'] : 0;
-							$product->dimension = empty($item['dimension']) ? 0 : $item['dimension'];
-							$product->json_data = $results;
-							if(!empty($item['brand']))
-							{
-								$brand = Brand::find()->where("LOWER(title)='" . trim(strtolower($item['brand'])) . "'")->one();
-								if(empty($brand))
-								{
-									$brand = New Brand();
-									$brand->title = ucfirst(strtolower(trim($item['brand'])));
-									$brand->save(false);
-								}
-								
-								$product->brand_id = $brand->brand_id;
-							}
-
-							$product->save(false);
-						}
-					}
-				}
-			}
+			$notFoundList = $this->addItemsHelper($items);
 			
 			if(empty($notFoundList))
 				return $this->redirect(['index']);

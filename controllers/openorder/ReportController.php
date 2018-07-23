@@ -14,9 +14,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-use app\components\UpcItemDB;
-use app\components\BarcodeLookup;
-
 /**
  * OrderController implements the CRUD actions for OpenOrder model.
  */
