@@ -57,8 +57,8 @@ class OpenOrder extends \yii\db\ActiveRecord
             'creation_datetime' => 'Creation Datetime',
             'number_of_box' => 'Number Of Box',
             'total_weight' => 'Total Weight',
-            'shipping_cost' => 'Shipping Cost',
-            'additional_cost' => 'Additional Cost',
+            'shipping_cost' => 'Shipping Cost (฿)',
+            'additional_cost' => 'Additional Cost ($)',
             'status' => 'Status',
         ];
     }

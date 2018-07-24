@@ -142,25 +142,11 @@ class OrderController extends \app\controllers\MainController
      */
     public function actionDelete($id)
     {
-        //$this->findModel($id)->delete();
+		$order = $this->findModel($id);
+		OpenOrderRel::deleteAll(['open_order_id'=>$order->open_order_id]);
+        $order->delete();
 
         return $this->redirect(['index']);
-    }
-	
-	public function actionTest()
-    {
-		
-		//echo $this->redirect(['add-products', 'id' => 1]).http_build_query($notFoundList);
-		/*$upcItemDB = New UpcItemDB();
-		//$respond = $upcItemDB->getDataByBarcode('888099705690');
-		$respond = $upcItemDB->getDataByBarcode('191202767300');
-		$test = json_decode($respond, true);
-		
-		foreach($test['items'] AS $item)
-		{
-			var_dump($item['model']);
-		}
-		*/
     }
 
     /**

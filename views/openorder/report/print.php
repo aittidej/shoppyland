@@ -61,13 +61,13 @@ $total = $subtotal = $totalQty = $tax = 0;
 					Total (Baht): 
 				</th>
 				<th>
-					<?php $total += $subtotal+$tax+$openOrder->shipping_cost; ?>
+					<?php $total += $subtotal+$tax; ?>
 					$<?= number_format($openOrder->additional_cost, 2) ?><br>
-					$<?= number_format($openOrder->shipping_cost, 2) ?><br>
+					<?= number_format($openOrder->shipping_cost, 2) ?> ฿<br>
 					$<?= number_format($tax, 2) ?><hr>
 					$<?= number_format($subtotal, 2) ?><hr>
 					$<?= number_format($total, 2) ?><br>
-					<?= number_format(ceil($total*$user->exchange_rate)) ?> &#3647;
+					<?= number_format(ceil($total*$user->exchange_rate+$openOrder->shipping_cost)) ?> &#3647;
 				</th>
 			</tr>
 		</table>

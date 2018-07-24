@@ -19,6 +19,7 @@ $total = $subtotal = $totalQty = $tax = 0;
 	<div class='col-sm-6'><br>
 		<?= Html::a('Print', 'javascript:void(0);', ['class' => 'btn btn-primary', 'id'=>'print', 'style'=>'float: right;']) ?> 
 		<?= Html::a('Edit Pricing', ['/openorder/order/view', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-info', 'style'=>'float: right;']) ?> 
+		<?= Html::a('<i class="glyphicon glyphicon-pencil"></i> Update Order', ['/openorder/order/update', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-warning', 'style'=>'float: right;']) ?> 
 		<?= Html::a('<i class="glyphicon glyphicon-plus"></i> Add More Items', ['/openorder/order/add-items', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-success', 'style'=>'float: right;']) ?> 
 	</div>
 		
@@ -71,13 +72,13 @@ $total = $subtotal = $totalQty = $tax = 0;
 					Total (Baht): 
 				</th>
 				<th>
-					<?php $total += $subtotal+$tax+$openOrder->shipping_cost; ?>
+					<?php $total += $subtotal+$tax; ?>
 					$<?= number_format($openOrder->additional_cost, 2) ?><br>
-					$<?= number_format($openOrder->shipping_cost, 2) ?><br>
+					<?= number_format($openOrder->shipping_cost, 2) ?> ฿<br>
 					$<?= number_format($tax, 2) ?><hr>
 					$<?= number_format($subtotal, 2) ?><hr>
 					$<?= number_format($total, 2) ?><br>
-					<?= number_format(ceil($total*$user->exchange_rate)) ?> &#3647;
+					<?= number_format(ceil($total*$user->exchange_rate+$openOrder->shipping_cost)) ?> &#3647;
 				</th>
 			</tr>
 		</table>
