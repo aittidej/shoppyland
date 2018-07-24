@@ -22,6 +22,10 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+	<style>
+		.my-navbar { background-color: #eeeeee;border-bottom: 1px solid #bfbfbf;color: #000; }
+		.my-navbar a { color: #000; }
+	</style>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -32,24 +36,34 @@ AppAsset::register($this);
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'my-navbar navbar-fixed-top',
+			//'style' => 'color: #000;background-color: #eeeeee;border-bottom: 1px solid #bfbfbf;'
         ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+			[
+				'label' => 'Lots', 
+				
+				'items' => [
+					['label' => 'Create New Lot','url' => ['/lot/create'], 'active' => ('/lot/create' == $this->context->id)],
+					['label' => 'Current Lot','url' => ['/lot/modify'], 'active' => ('/lot/modify' == $this->context->id)],
+					['label' => 'Lots History','url' => ['/lot'], 'active' => ('/lot' == $this->context->id)],
+				]
+			],
             ['label' => 'Product', 'url' => ['/product']],
             ['label' => 'Orders', 'url' => ['/openorder/order']],
-            ['label' => 'Users', 'url' => ['/user']],
+            ['label' => 'Users', 'url' => ['/user']], 
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => 'color: #000;']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
                     'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
+                    ['class' => 'btn btn-link logout', 'style' => 'color: #000;']
                 )
                 . Html::endForm()
                 . '</li>'
@@ -70,7 +84,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Shoppyland <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

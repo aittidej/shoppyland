@@ -28,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				'vAlign' => 'middle',
 				'filter' => false,
 				'format' => 'raw',
-				'width' => '150px',
+				'width' => '15%',
 				'value' => function($product) {
-					return Html::img($product->firstImage, ['width'=>'100%']);;
+					return Html::img($product->firstImage, ['width'=>'90%']);
 				},
 			],
             [
@@ -43,20 +43,33 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'model',
 				'vAlign' => 'middle',
 			],
+
 			[
-				'class' => 'kartik\grid\DataColumn',
-				'attribute' => 'brand_id', 
+				'attribute' => 'brand_id',
+				'value' => 'brand.title',
+				'label' => 'Brand',
+				'options' => [],
+				'format' => 'raw',
 				'vAlign' => 'middle',
-				'width' => '10%',
-				'value' => function($product) {
-					return $product->brand->title;
-				},
-				'format' => 'raw'
+				'filterType' => GridView::FILTER_SELECT2,
+				'filter' => ArrayHelper::map(Brand::find()->where(['status'=>1])->orderby('title ASC')->all(), 'brand_id', 'title'),
+				'filterWidgetOptions' => [
+					'pluginOptions' => ['allowClear' => true]
+				],
+				'filterInputOptions' => ['placeholder' => 'Filter by Brand', 'class' => 'form-control']
 			],
 			[
 				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'title',
 				'vAlign' => 'middle',
+				'contentOptions' => [
+					'style' => [
+						'max-width' => '450px',
+						'white-space' => 'normal',
+					],
+				],
+				'width' => '45%',
+				'format' => 'raw'
 			],
             //'base_price',
             //'category',
@@ -78,18 +91,21 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
-        'id' => 'open-order-list',
+        'id' => 'product-list',
         'pjax' => false,
+        'pjaxSettings' => ['options' => ['id'=>'-pjax']],
         'toolbar' => [
 			[
 				'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Add Product Manually', ['create'], ['class' => 'btn btn-danger']).' '.
 							Html::a('<i class="glyphicon glyphicon-plus"></i> Add Product using UPC', ['add-products-by-upc'], ['class' => 'btn btn-success'])
 			]
 		],
+        'bootstrap' => 1,
         'bordered' => 0,
         'striped' => 1,
         'condensed' => 1,
         'responsive' => 1,
+        'responsiveWrap' => 1,
         'hover' => 1,
         'showPageSummary' => false,
         'panel' => [

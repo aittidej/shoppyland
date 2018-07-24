@@ -19,7 +19,6 @@ use yii\web\UploadedFile;
 
 use app\components\eBaySearch;
 use app\components\UpcItemDB;
-use app\components\BarcodeLookup;
 
 /**
  * ProductController implements the CRUD actions for Product model.
