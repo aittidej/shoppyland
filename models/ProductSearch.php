@@ -77,7 +77,7 @@ class ProductSearch extends Product
         // grid filtering conditions
         $query->andFilterWhere([
             'product_id' => $this->product_id,
-            'brand_id' => $this->brand_id,
+			'brand_id' => $this->brand_id,
             'base_price' => $this->base_price,
             'weight' => $this->weight,
             'status' => $this->status,

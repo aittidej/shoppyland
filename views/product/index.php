@@ -1,7 +1,9 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use app\models\Brand;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductSearch */
@@ -19,14 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
-
-            //'product_id',
 			[
 				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'image_path',
 				'label' => '',
 				'vAlign' => 'middle',
+				'filter' => false,
 				'format' => 'raw',
 				'width' => '150px',
 				'value' => function($product) {
@@ -36,26 +36,26 @@ $this->params['breadcrumbs'][] = $this->title;
             [
 				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'upc',
-				//'label' => 'Branch',
 				'vAlign' => 'middle',
 			],
 			[
 				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'model',
-				//'label' => 'Branch',
 				'vAlign' => 'middle',
 			],
 			[
 				'class' => 'kartik\grid\DataColumn',
-				'attribute' => 'brand.title',
-				'label' => 'brand',
-				'width' => '10%',
+				'attribute' => 'brand_id', 
 				'vAlign' => 'middle',
+				'width' => '10%',
+				'value' => function($product) {
+					return $product->brand->title;
+				},
+				'format' => 'raw'
 			],
 			[
 				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'title',
-				//'label' => 'Branch',
 				'vAlign' => 'middle',
 			],
             //'base_price',
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'showPageSummary' => false,
         'panel' => [
             'type' => GridView::TYPE_PRIMARY,
-			'heading' => '<span id="display-filter" style=\'cursor: pointer\'><span class="view-upload-files glyphicon glyphicon-menu-down"></span>  List of Open Orders</span>',
+			'heading' => '<span id="display-filter" style=\'cursor: pointer\'><span class="view-upload-files glyphicon glyphicon-menu-down"></span>  List of Products</span>',
         ],
         'persistResize' => false,
     ]);
