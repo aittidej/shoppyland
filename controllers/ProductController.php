@@ -195,10 +195,14 @@ class ProductController extends \app\controllers\MainController
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
-		$model->status = 0;
-		$model->save(false);
-		
+        $product = $this->findModel($id);
+		if(empty($product->title))
+			$product->delete();
+		else
+		{
+			$product->status = 0;
+			$product->save(false);
+		}
         return $this->redirect(['index']);
     }
 
