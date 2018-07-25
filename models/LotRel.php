@@ -19,6 +19,8 @@ use Yii;
  */
 class LotRel extends \yii\db\ActiveRecord
 {
+	public $subtotal;
+	
     /**
      * {@inheritdoc}
      */

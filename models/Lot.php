@@ -15,6 +15,9 @@ use Yii;
  */
 class Lot extends \yii\db\ActiveRecord
 {
+	public $items;
+	public $discount_list_id;
+	
     /**
      * {@inheritdoc}
      */

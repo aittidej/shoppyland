@@ -4,15 +4,16 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
+use app\components\UpcItemDB;
+use app\components\eBaySearch;
 
 use app\models\Brand;
 use app\models\OpenOrder;
 use app\models\OpenOrderRel;
 use app\models\OpenOrderSearch;
-use app\components\UpcItemDB;
-use app\components\eBaySearch;
 use app\models\Product;
 use app\models\UploadFile;
+use app\models\DiscountList;
 
 /**
  * MainController is extended by other controllers in order to check permissions
@@ -156,5 +157,15 @@ abstract class MainController extends Controller
 		}
 		
 		return $notFoundList;
+	}
+	
+	public function priceDiscountCalculator($price, $discountListId)
+	{
+		$discountList = DiscountList::findOne($discountListId);
+		$discounts = $discountList->discount_json;
+		foreach($discounts AS $percentage)
+			$price = $price*(100-$percentage)/100;
+		
+		return number_format((is_numeric($price) && $price > 0) ? $price : 0, 2);
 	}
 }

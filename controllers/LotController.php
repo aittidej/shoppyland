@@ -7,7 +7,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use app\models\DiscountList;
 use app\models\Lot;
+use app\models\LotRel;
 use app\models\LotSearch;
 use app\models\Product;
 
@@ -16,31 +18,18 @@ use app\components\BarcodeReader;
 /**
  * LotController implements the CRUD actions for Lot model.
  */
-class LotController extends Controller
+class LotController extends \app\controllers\MainController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Lot models.
      * @return mixed
      */
     public function actionTest()
 	{
+		echo $this->priceDiscountCalculator(100, 4);
+	
 		//BarcodeReader
-		$Barcode = new BarcodeReader();
+		/*$Barcode = new BarcodeReader();
 		$Barcode->setAppID("shipping "); //use your appID
 		$Barcode->setPassword("yveB9ujd1Qnmu4Rz5QF/Y4Og"); //use your password
 		$Barcode->setFileName('C:\Users\User\Desktop\barcode1.jpg');
@@ -49,7 +38,7 @@ class LotController extends Controller
 
 		//echo "<img src='images/barcode1.jpg' /><br />";
 		//echo "Result: ".
-		var_dump($Result);
+		var_dump($Result);*/
 	}
 	
     public function actionIndex()
@@ -75,24 +64,6 @@ class LotController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-	
-	/**
-     * Displays a single Lot model.
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionModify()
-    {
-		$model = Lot::find()->orderby('lot_id DESC')->one();
-		if(empty($model))
-			die('No lot found');
-		
-		
-        return $this->render('view', [
-            'model' => $model,
-            'id' => $model->lot_id,
-        ]);
-    }
 
     /**
      * Creates a new Lot model.
@@ -102,15 +73,31 @@ class LotController extends Controller
     public function actionCreate()
     {
         $model = new Lot();
-		$products = Product::find()->where(['brand_id'=>1, 'status'=>1])->orderby('model ASC')->all();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->lot_id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+		{
+			set_time_limit(0);
+			$items = array_map('trim', explode("\n", $_POST['Lot']['items']));
+			$notFoundList = $this->addItemsHelper($items);
+			
+			$products = Product::find()->where(['IN', 'upc', array_values($items)])->indexBy('product_id')->orderby('product_id ASC')->all();
+			foreach($products AS $product)
+			{
+				$lotRel = LotRel::findOne(['lot_id'=>$model->lot_id, 'product_id'=>$product->product_id]);
+				if(empty($lotRel))
+				{
+					$lotRel = New LotRel();
+					$lotRel->lot_id = $model->lot_id;
+					$lotRel->product_id = $product->product_id;
+					$lotRel->discount_list_id = $_POST['Lot']['discount_list_id'];
+					$lotRel->save(false);
+				}
+			}
+			
+            return $this->redirect(['update', 'id' => $model->lot_id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'products' => $products,
         ]);
     }
 
@@ -121,18 +108,67 @@ class LotController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id = 0)
     {
-        $model = $this->findModel($id);
+		if(empty($id))
+		{
+			$model = Lot::find()->orderby('lot_id DESC')->one();
+			if(empty($model)) die('No lot found');
+		}
+		else
+			$model = $this->findModel($id);
+			
+		$lotRels = LotRel::find()->where(['lot_id'=>$model->lot_id])->with('product')->orderby('lot_rel_id DESC')->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->lot_id]);
+        if (Yii::$app->request->isPost)
+		{
+			set_time_limit(0);
+			$items = array_map('trim', explode("\n", $_POST['Lot']['items']));
+			$notFoundList = $this->addItemsHelper($items);
+			
+			$products = Product::find()->where(['IN', 'upc', array_values($items)])->indexBy('product_id')->orderby('product_id ASC')->all();
+			foreach($products AS $product)
+			{
+				$lotRel = LotRel::findOne(['lot_id'=>$model->lot_id, 'product_id'=>$product->product_id]);
+				if(empty($lotRel))
+				{
+					$lotRel = New LotRel();
+					$lotRel->lot_id = $model->lot_id;
+					$lotRel->product_id = $product->product_id;
+					$lotRel->discount_list_id = $_POST['Lot']['discount_list_id'];
+					$lotRel->save(false);
+				}
+			}
+			
+            return $this->redirect(['update', 'id' => $model->lot_id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'lotRels' => $lotRels,
         ]);
     }
+	
+	public function actionCalculatePrice()
+	{
+		if (Yii::$app->request->isAjax) 
+		{
+			if (!empty($_POST['price']) && !empty($_POST['discount_id'])) 
+			{
+				if(!empty($_POST['lot_rel_id']))
+				{
+					$lotRel = LotRel::findOne($_POST['lot_rel_id']);
+					$lotRel->price = $_POST['price'];
+					$lotRel->discount_list_id = $_POST['discount_id'];
+					$lotRel->save(false);
+				}
+				
+				echo $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
+			}
+		}
+		
+		Yii::$app->end();
+	}
 
     /**
      * Deletes an existing Lot model.
@@ -143,9 +179,10 @@ class LotController extends Controller
      */
     public function actionDelete($id)
     {
+		LotRel::deleteAll(['lot_id'=>$id->lot_id]);
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/']);
     }
 
     /**

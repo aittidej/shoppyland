@@ -49,7 +49,7 @@ AppAsset::register($this);
 				
 				'items' => [
 					['label' => 'Create New Lot','url' => ['/lot/create'], 'active' => ('/lot/create' == $this->context->id)],
-					['label' => 'Current Lot','url' => ['/lot/modify'], 'active' => ('/lot/modify' == $this->context->id)],
+					['label' => 'Current Lot','url' => ['/lot/update'], 'active' => ('/lot/update' == $this->context->id)],
 					['label' => 'Lots History','url' => ['/lot'], 'active' => ('/lot' == $this->context->id)],
 				]
 			],
@@ -84,7 +84,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Shoppyland <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Buchoo <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
