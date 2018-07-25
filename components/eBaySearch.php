@@ -106,6 +106,7 @@ class eBaySearch extends Component {
 				'galleryURL' => $galleryURL,
 				'brand_id' => $brand_id,
 				'categoryName' => $categoryName,
+				'jsonData' => $items,
 			];
 		}
 		

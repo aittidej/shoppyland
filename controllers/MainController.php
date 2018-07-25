@@ -130,6 +130,7 @@ abstract class MainController extends Controller
 						$product->title = $respond['title'];
 						$product->category = $respond['categoryName'];
 						$product->image_path = $respond['galleryURL'];
+						$product->json_data = $respond['jsonData'];
 						$product->save(false);
 					}
 				}

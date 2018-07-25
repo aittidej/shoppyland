@@ -29,8 +29,7 @@ class ProductController extends \app\controllers\MainController
 	{
 		$eBaySearch = New eBaySearch();
 		$respond = $eBaySearch->getDataByBarcode('191202719316');
-		$results = json_decode($respond, true);
-		$item = $results['findItemsByKeywordsResponse'][0]['searchResult'][0]['item'];
+		var_dump($respond);
 	}
 
     /**
