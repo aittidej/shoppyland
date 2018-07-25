@@ -130,7 +130,11 @@ class ProductController extends \app\controllers\MainController
 			unset($_GET['id']);
 			$model = OpenOrder::findOne($id);
 		}
-		$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
+		
+		if(empty($_GET))
+			$products = Product::find()->where("title = ''")->indexBy('product_id')->orderby('product_id ASC')->all();
+		else
+			$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
 		foreach ($products as $index => $product) {
 			$uploads[$index] = new UploadFile();
 		}
