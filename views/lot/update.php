@@ -9,7 +9,7 @@ use app\models\DiscountList;
 /* @var $this yii\web\View */
 /* @var $model app\models\Lot */
 
-$this->title = 'Update Lot #' . $model->lot_number;
+$this->title = 'Update Lot #' . $model->lot_number . ' ('.(empty($model->user_id) ? 'All buyers' : $model->user->name).')';
 $this->params['breadcrumbs'][] = ['label' => 'Lots', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->lot_id, 'url' => ['view', 'id' => $model->lot_id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -45,7 +45,13 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 						$product = $lotRel['product'];
 						//echo Html::img($product->firstImage, ['width'=>'100%']);
 						echo "<br>$product->upc";
-						echo "<br># $product->model";
+						echo "<br># $product->model ";
+						echo Html::a(" <i class='glyphicon glyphicon-trash'></i>", ['/lot/lot-rel-delete', 'id'=>$lotRel->lot_rel_id, 'product_id'=>0], [
+													'data-confirm' => 'Are you sure you want to delete this?',
+													'data-method' => 'post',
+													'title' => 'Delete',
+													'style'=>'color: red;',
+												]);
 					?>
 				</div>
 				<div class='col-sm-12 col-md-3 col-lg-2'>

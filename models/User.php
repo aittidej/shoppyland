@@ -196,4 +196,5 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(Role::className(), ['role_id' => 'role_id']);
     }
+	
 }

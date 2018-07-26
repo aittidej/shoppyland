@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "open_order".
  *
  * @property int $open_order_id
- * @property int $lot_number
+ * @property int $lot_id
  * @property int $user_id
  * @property string $creation_datetime
  * @property int $number_of_box
@@ -37,11 +37,12 @@ class OpenOrder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lot_number', 'user_id', 'number_of_box', 'status'], 'default', 'value' => null],
-            [['lot_number', 'user_id', 'number_of_box', 'status'], 'integer'],
+            [['lot_id', 'user_id', 'number_of_box', 'status'], 'default', 'value' => null],
+            [['lot_id', 'user_id', 'number_of_box', 'status'], 'integer'],
             [['creation_datetime'], 'safe'],
             [['total_weight', 'shipping_cost', 'additional_cost'], 'number'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
+            [['lot_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lot::className(), 'targetAttribute' => ['lot_id' => 'lot_id']],
         ];
     }
 
@@ -52,7 +53,7 @@ class OpenOrder extends \yii\db\ActiveRecord
     {
         return [
             'open_order_id' => 'Open Order ID',
-            'lot_number' => 'Lot Number',
+            'lot_id' => 'Lot',
             'user_id' => 'User ID',
             'creation_datetime' => 'Creation Datetime',
             'number_of_box' => 'Number Of Box',
@@ -69,6 +70,14 @@ class OpenOrder extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['user_id' => 'user_id']);
+    }
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLot()
+    {
+        return $this->hasOne(Lot::className(), ['lot_id' => 'lot_id']);
     }
 
     /**

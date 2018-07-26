@@ -8,6 +8,7 @@ use app\components\UpcItemDB;
 use app\components\eBaySearch;
 
 use app\models\Brand;
+use app\models\Lot;
 use app\models\OpenOrder;
 use app\models\OpenOrderRel;
 use app\models\OpenOrderSearch;
@@ -52,7 +53,7 @@ abstract class MainController extends Controller
 			return $this->redirect(['/']);
     }
 	
-	protected function addItemsHelper($items, $openOrderId = FALSE)
+	protected function addItemsHelper($items, $openOrderId = FALSE, $data = [])
 	{
 		$notFoundList = [];
 		foreach($items AS $barcode)
@@ -119,6 +120,11 @@ abstract class MainController extends Controller
 					if(empty($respond))
 					{
 						$product->upc = $barcode;
+						if(!empty($data))
+						{
+							$product->model = empty($data['model']) ? NULL : $data['model'];
+							$product->brand_id = empty($data['brand_id']) ? NULL : $data['brand_id'];
+						}
 						$product->save(false);
 						
 						$notFoundList[$product->product_id] = $barcode;
@@ -139,18 +145,23 @@ abstract class MainController extends Controller
 			
 			if(!empty($openOrderId) && !empty($product))
 			{
+				$openOrder = OpenOrder::findOne($openOrderId);
 				$openOrderRel = OpenOrderRel::findOne(['open_order_id'=>$openOrderId, 'product_id'=>$product->product_id]);
 				if(empty($openOrderRel))
 				{
+					$lot = $openOrder->lot;
 					$openOrderRel = New OpenOrderRel();
 					$openOrderRel->open_order_id = $openOrderId;
 					$openOrderRel->product_id = $product->product_id;
 					$openOrderRel->qty = 1;
+					$openOrderRel->unit_price = $lot->getUnitPrice($product->product_id);
+					$openOrderRel->subtotal = $openOrderRel->unit_price;
 					$openOrderRel->save(false);
 				}
 				else
 				{
 					$openOrderRel->qty++;
+					$openOrderRel->subtotal = $openOrderRel->unit_price*$openOrderRel->qty;
 					$openOrderRel->save(false);
 				}
 			}

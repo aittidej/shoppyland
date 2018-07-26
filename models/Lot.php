@@ -34,11 +34,20 @@ class Lot extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['lot_number'], 'default', 'value' => null],
-            [['lot_number'], 'integer'],
+            [['lot_number', 'user_id'], 'default', 'value' => null],
+            [['lot_number', 'user_id'], 'integer'],
             [['lot_number'], 'required'],
             [['creation_datetime'], 'safe'],
+			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
         ];
+    }
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['user_id' => 'user_id']);
     }
 
     /**
@@ -60,4 +69,23 @@ class Lot extends \yii\db\ActiveRecord
     {
         return $this->hasMany(LotRel::className(), ['lot_id' => 'lot_id']);
     }
+	
+	public function getLotOwner()
+    {
+        return empty($this->user_id) ? 'All Buyers' : $this->user->name;
+    }
+	
+	public function getLotOwnerText()
+    {
+        return empty($this->user_id) ? 'Lot #'.$this->lot_number.' (All User)' : 'Lot #'.$this->lot_number.' ('.$this->user->name.')';
+    }
+	
+	public function getUnitPrice($productId)
+	{
+		$lotRel = LotRel::findOne(['lot_id' => $this->lot_id, 'product_id'=>$productId]);
+		if(empty($lotRel->overwrite_total))
+			return Yii::$app->controller->priceDiscountCalculator($lotRel->price, $lotRel->discount_list_id);
+		else
+			return $lotRel->overwrite_total;
+	}
 }

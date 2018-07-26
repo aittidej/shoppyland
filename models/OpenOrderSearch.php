@@ -18,7 +18,7 @@ class OpenOrderSearch extends OpenOrder
     public function rules()
     {
         return [
-            [['open_order_id', 'lot_number', 'user_id', 'number_of_box', 'status'], 'integer'],
+            [['open_order_id', 'lot_id', 'user_id', 'number_of_box', 'status'], 'integer'],
             [['creation_datetime'], 'safe'],
             [['total_weight', 'shipping_cost', 'additional_cost'], 'number'],
         ];
@@ -61,7 +61,7 @@ class OpenOrderSearch extends OpenOrder
         // grid filtering conditions
         $query->andFilterWhere([
             'open_order_id' => $this->open_order_id,
-            'lot_number' => $this->lot_number,
+            'lot_id' => $this->lot_id,
             'user_id' => $this->user_id,
             'creation_datetime' => $this->creation_datetime,
             'number_of_box' => $this->number_of_box,

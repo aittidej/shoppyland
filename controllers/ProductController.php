@@ -176,7 +176,7 @@ class ProductController extends \app\controllers\MainController
 		{
 			set_time_limit(0);
 			$items = array_map('trim', explode("\n", $_POST['Product']['items']));
-			$notFoundList = $this->addItemsHelper($items);
+			$notFoundList = $this->addItemsHelper($items, FALSE, $_POST['Product']);
 			
 			if(empty($notFoundList))
 				return $this->redirect(['index']);

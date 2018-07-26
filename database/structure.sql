@@ -92,7 +92,7 @@ CREATE TABLE open_order
 (
   open_order_id serial NOT NULL,
   user_id integer,
-  lot_number integer,
+  lot_id integer,
   number_of_box integer DEFAULT 0,
   total_weight numeric(6,2) DEFAULT 0,
   shipping_cost numeric(10,2) DEFAULT 0,
@@ -102,9 +102,12 @@ CREATE TABLE open_order
   CONSTRAINT open_order_pkey PRIMARY KEY (open_order_id),
   CONSTRAINT open_order_user_id_fkey FOREIGN KEY (user_id)
       REFERENCES "user" (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT open_order_lot_id_fkey FOREIGN KEY (lot_id)
+      REFERENCES lot (lot_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-CREATE INDEX ON open_order(lot_number);
+CREATE INDEX ON open_order(lot_id);
 CREATE INDEX ON open_order(user_id);
 CREATE INDEX ON open_order(creation_datetime);
 CREATE INDEX ON open_order(number_of_box);

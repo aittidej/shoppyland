@@ -8,7 +8,8 @@ use yii\bootstrap\ActiveForm;
 /* @var $model app\models\OpenOrder */
 
 $user = $model->user;
-$this->title = 'Add Items for '.$user->name.' - Lot #'.$model->lot_number;
+$lot = $model->lot;
+$this->title = 'Add Items for '.$user->name.' - Lot #'.$lot->lot_number;
 $this->params['breadcrumbs'][] = ['label' => 'Open Orders', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

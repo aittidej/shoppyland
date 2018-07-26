@@ -8,7 +8,8 @@ use yii\bootstrap\ActiveForm;
 /* @var $openOrder app\models\OpenOrder */
 
 $user = $openOrder->user;
-$this->title = "Pricing ".$user->name."'s Order - Lot #".$openOrder->lot_number;
+$lot = $openOrder->lot;
+$this->title = "Pricing ".$user->name."'s Order - Lot #".$lot->lot_number;
 $this->params['breadcrumbs'][] = ['label' => 'Open Orders', 'url' => ['/openorder/order/index']];
 $this->params['breadcrumbs'][] = $this->title;
 $total = $totalQty = 0;
@@ -21,13 +22,15 @@ $total = $totalQty = 0;
 </style>
 
 <div class="open-order-view">
-	<div class='col-sm-9'>
+	<div class='col-sm-7'>
 		<h1><?= Html::encode($this->title) ?></h1>
 	</div>
-	<div class='col-sm-3'><br>
-		<?= Html::a('<i class="glyphicon glyphicon-plus"></i> Add More Items', ['/openorder/order/add-items', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-success']) ?>
+	<div class='col-sm-5'><br>
+		<?= Html::a('<i class="glyphicon glyphicon-plus"></i> Add More Items', ['/openorder/order/add-items', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-success']) ?> 
+		<?= Html::a('<i class="glyphicon glyphicon-pencil"></i> Update Order', ['/openorder/order/update', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-warning']) ?> 
 		<?= Html::a('View Report', ['/openorder/report', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-info']) ?>
 	</div>
+	
 	<?php $form = ActiveForm::begin(); ?>
 		
 		<div class='col-sm-12'>

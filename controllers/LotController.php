@@ -152,6 +152,27 @@ class LotController extends \app\controllers\MainController
         ]);
     }
 	
+	public function actionSelect($id = 0)
+    {
+		if(empty($id))
+		{
+			$model = Lot::find()->orderby('lot_id DESC')->one();
+			if(empty($model)) die('No lot found');
+		}
+		else
+			$model = $this->findModel($id);
+			
+
+        if (Yii::$app->request->isPost)
+		{
+
+        }
+
+        return $this->render('select', [
+            'model' => $model,
+        ]);
+    }
+	
 	public function actionPreCalculatePrice()
 	{
 		if (Yii::$app->request->isAjax) 
@@ -203,6 +224,22 @@ class LotController extends \app\controllers\MainController
         $this->findModel($id)->delete();
 
         return $this->redirect(['/']);
+    }
+	
+	/**
+     * Deletes an existing Lot model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionLotRelDelete($id)
+    {
+		$lotRel = LotRel::findOne($id);
+		$lotId = $lotRel->lot_id;
+        $lotRel->delete();
+
+        return $this->redirect(['/lot/update', 'id'=>$lotId]);
     }
 
     /**

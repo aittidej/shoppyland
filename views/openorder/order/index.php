@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //['class' => 'yii\grid\SerialColumn'],
 
             //'open_order_id',
-            'lot_number',
+            'lot.lot_number',
             'user.name',
             'creation_datetime',
             'number_of_box',

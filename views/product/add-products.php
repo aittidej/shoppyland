@@ -43,26 +43,15 @@ $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title
 				
 				<div class='col-sm-12 col-md-6 col-lg-2'>
 					<?= $form->field($uploads[$index], "[$index]image[]")->fileInput(['multiple' => true]); ?>
-					<?php /*echo $form->field($uploads[$index], "[$index]image[]")->fileInput()->widget(FileInput::classname(), [
-						'options' => ['multiple' => false, 'accept' => 'image/*'],
-						'pluginOptions' => [
-							'showUpload' => false,
-							'showCaption' => false,
-							'showRemove' => false,
-							'showPreview' => false,
-							'previewFileType' => 'image',
-							//'browseLabel' => '',
-							//'removeLabel' => '',
-							'mainClass' => 'input-group-md'
-						]
-					])*/ ?>
 				</div>
 			</div>
 		<?php } ?>
 		
-    <div class="form-group col-sm-12">
-        <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
-    </div>
+		<div class="form-group col-sm-12">
+			<div class="col-sm-12">
+				<?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
+			</div>
+		</div>
 
     <?php ActiveForm::end(); ?>
 	

@@ -6,7 +6,8 @@ use yii\helpers\Html;
 /* @var $openOrder app\models\OpenOrder */
 
 $user = $openOrder->user;
-$this->title = $user->name."'s Report - Lot #".$openOrder->lot_number;
+$lot = $openOrder->lot;
+$this->title = $user->name."'s Report - Lot #".$lot->lot_number;
 $total = $subtotal = $totalQty = $tax = 0;
 ?>
 <div class="open-order-view" id="printablediv">

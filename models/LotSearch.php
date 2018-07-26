@@ -18,7 +18,7 @@ class LotSearch extends Lot
     public function rules()
     {
         return [
-            [['lot_id', 'lot_number'], 'integer'],
+            [['lot_id', 'lot_number', 'user_id'], 'integer'],
             [['creation_datetime'], 'safe'],
         ];
     }
@@ -47,6 +47,15 @@ class LotSearch extends Lot
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+			'sort' => [
+				'defaultOrder' => ['lot_number' => SORT_DESC],
+				'attributes' => [
+                    'lot_id',
+                    'lot_number',
+                    'user_id',
+                    'creation_datetime',
+                ]
+            ],
         ]);
 
         $this->load($params);

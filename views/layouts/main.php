@@ -23,8 +23,18 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 	<style>
+		/*
 		.my-navbar { background-color: #eeeeee;border-bottom: 1px solid #bfbfbf;color: #000; }
 		.my-navbar a { color: #000; }
+		
+		.navbar-inverse {
+			background-image: linear-gradient(#EEEEEE, #EEEEEE 60%, #EEEEEE);
+			background-repeat: no-repeat;
+			border-bottom: 1px solid #bfbfbf;
+			box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+			filter: none;
+		}
+		.navbar-inverse a{ color: #3a3a3a; } */
 	</style>
 </head>
 <body>
@@ -36,7 +46,7 @@ AppAsset::register($this);
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'my-navbar navbar-fixed-top',
+            'class' => 'navbar-inverse navbar-fixed-top', //my-navbar 
 			//'style' => 'color: #000;background-color: #eeeeee;border-bottom: 1px solid #bfbfbf;'
         ],
     ]);
