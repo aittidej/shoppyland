@@ -88,7 +88,8 @@ class LotController extends \app\controllers\MainController
 					$lotRel = New LotRel();
 					$lotRel->lot_id = $model->lot_id;
 					$lotRel->product_id = $product->product_id;
-					$lotRel->discount_list_id = $_POST['Lot']['discount_list_id'];
+					$lotRel->discount_list_id = empty($_POST['Lot']['discount_list_id']) ? NULL : $_POST['Lot']['discount_list_id'];
+					$lotRel->price = empty($_POST['Lot']['price']) ? NULL : $_POST['Lot']['price'];
 					$lotRel->save(false);
 				}
 			}
@@ -136,6 +137,8 @@ class LotController extends \app\controllers\MainController
 					$lotRel->lot_id = $model->lot_id;
 					$lotRel->product_id = $product->product_id;
 					$lotRel->discount_list_id = $_POST['Lot']['discount_list_id'];
+					$lotRel->price = empty($_POST['Lot']['price']) ? NULL : $_POST['Lot']['price'];
+					$lotRel->overwrite_total = empty($_POST['Lot']['overwrite_total']) ? NULL : $_POST['Lot']['overwrite_total'];
 					$lotRel->save(false);
 				}
 			}
@@ -149,6 +152,19 @@ class LotController extends \app\controllers\MainController
         ]);
     }
 	
+	public function actionPreCalculatePrice()
+	{
+		if (Yii::$app->request->isAjax) 
+		{
+			if (!empty($_POST['price']) && !empty($_POST['discount_id'])) 
+			{
+				echo $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
+			}
+		}
+		
+		Yii::$app->end();
+	}
+	
 	public function actionCalculatePrice()
 	{
 		if (Yii::$app->request->isAjax) 
@@ -160,10 +176,14 @@ class LotController extends \app\controllers\MainController
 					$lotRel = LotRel::findOne($_POST['lot_rel_id']);
 					$lotRel->price = $_POST['price'];
 					$lotRel->discount_list_id = $_POST['discount_id'];
+					$lotRel->overwrite_total = empty($_POST['overwrite']) ? NULL : $_POST['overwrite'];
 					$lotRel->save(false);
 				}
 				
-				echo $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
+				if(empty($_POST['overwrite']))
+					echo $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
+				else
+					echo $_POST['overwrite'];
 			}
 		}
 		

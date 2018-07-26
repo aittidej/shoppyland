@@ -16,7 +16,9 @@ use Yii;
 class Lot extends \yii\db\ActiveRecord
 {
 	public $items;
+	public $price;
 	public $discount_list_id;
+	public $overwrite_total;
 	
     /**
      * {@inheritdoc}
@@ -32,8 +34,9 @@ class Lot extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lot_number'], 'default', 'value' => null],
+            //[['lot_number'], 'default', 'value' => null],
             [['lot_number'], 'integer'],
+            [['lot_number'], 'required'],
             [['creation_datetime'], 'safe'],
         ];
     }

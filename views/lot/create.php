@@ -37,17 +37,18 @@ $discountLists = ArrayHelper::map(DiscountList::find()->where(['status'=>'1'])->
     <h1><?= Html::encode($this->title) ?></h1>
 
 	<?php $form = ActiveForm::begin(); ?>
-
-		<div class='col-sm-6'>
-			<?= $form->field($model, 'lot_number')->textInput() ?>
-		</div>
 		
 		<div class='col-sm-6'>
-			<?= $form->field($model, 'discount_list_id')->label('Discount')->dropDownList($discountLists, ['prompt'=>'Select discount...']); ?>
-		</div>
-		
-		<div class='col-sm-12'>
 			<?= $form->field($model, 'items')->label('Barcode (UPC)')->textarea(['rows' => '20', 'id'=>'items-field']) ?>
+		</div>
+		
+		<div class='col-sm-6'>
+
+			<?= $form->field($model, 'lot_number')->textInput(['required'=>true]) ?>
+
+			<?= $form->field($model, 'discount_list_id')->label('Discount')->dropDownList($discountLists, ['prompt'=>'Select discount...']); ?>
+
+			<?= $form->field($model, 'price')->label('Price ($)')->textInput() ?>
 		</div>
 
 		<div class="clearfix"></div><br>

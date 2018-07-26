@@ -12,6 +12,8 @@ use Yii;
  * @property int $product_id
  * @property int $discount_list_id
  * @property string $price
+ * @property string $overwrite_total
+ * @property string $creation_datetime
  *
  * @property DiscountList $discountList
  * @property Lot $lot
@@ -37,7 +39,8 @@ class LotRel extends \yii\db\ActiveRecord
         return [
             [['lot_id', 'product_id', 'discount_list_id'], 'default', 'value' => null],
             [['lot_id', 'product_id', 'discount_list_id'], 'integer'],
-            [['price'], 'number'],
+            [['price', 'overwrite_total'], 'number'],
+			[['creation_datetime'], 'safe'],
             [['discount_list_id'], 'exist', 'skipOnError' => true, 'targetClass' => DiscountList::className(), 'targetAttribute' => ['discount_list_id' => 'discount_list_id']],
             [['lot_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lot::className(), 'targetAttribute' => ['lot_id' => 'lot_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],

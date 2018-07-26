@@ -6,6 +6,9 @@ use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
+use yii\imagine\Image;
+use Imagine\Image\Box;
+
 class UploadFile extends Model
 {
     /**
@@ -30,7 +33,7 @@ class UploadFile extends Model
         ];
     }
     
-	public function upload()
+	/*public function upload()
     {
         if ($this->validate()) {
             $this->file->saveAs('uploads/' . $this->file->baseName . '.' . $this->file->extension);
@@ -38,21 +41,26 @@ class UploadFile extends Model
         } else {
             return false;
         }
-    }
+    }*/
 	
-	public function uploadImage($folder)
+	public function uploadImage($folder, $maxSize = 500, $quality = 90)
     {
 		if (!file_exists(addslashes($folder)))
 			mkdir(addslashes($folder), 0777, true);
 		
 		$file = $this->image[0];
-		if($file->saveAs($folder. '/' . $file->name))
+		$imagine = Image::getImagine()
+					->open($file->tempName)
+					->thumbnail(new Box($maxSize, $maxSize))
+					->save($folder. '/' . $file->name, ['quality' => $quality]);
+		
+		if($imagine)
 			return true;
-
-		return false;
+		else
+			return false;
     }
 	
-	public function uploadMultiImages($uploadUrl)
+	public function uploadMultiImages($uploadUrl, $maxSize = 500, $quality = 90)
     {
 		if (!file_exists(addslashes($uploadUrl)))
 			mkdir(addslashes($uploadUrl), 0777, true);
@@ -61,7 +69,10 @@ class UploadFile extends Model
 		foreach ($this->image as $image) 
 		{
 			$imagesPath[] = $uploadUrl . $image->name;
-			$image->saveAs($uploadUrl . $image->name);
+			$imagine = Image::getImagine()
+				->open($image->tempName)
+				->thumbnail(new Box($maxSize, $maxSize))
+				->save($uploadUrl . $image->name, ['quality' => $quality]);
 		}
 		
 		return $imagesPath;
