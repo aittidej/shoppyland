@@ -40,7 +40,7 @@ $discountLists = ArrayHelper::map(DiscountList::find()->where(['status'=>'1'])->
 				<div class='col-sm-12 col-md-2 col-lg-3'>
 					<?php  
 						$product = $lotRel['product'];
-						//echo Html::img($product->firstImage, ['width'=>'100%']);
+						echo Html::img($product->firstImage, ['width'=>'100%']);
 						echo "<br>$product->upc";
 						echo "<br># $product->model";
 					?>
