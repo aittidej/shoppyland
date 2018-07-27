@@ -29,7 +29,10 @@ $discountLists = ArrayHelper::map(DiscountList::find()->where(['status'=>1])->or
 		</div>	
 		<div class='col-sm-12 col-md-6 col-lg-6'>
 			<?= $form->field($model, 'price')->label('Price ($)')->textInput(['id'=>'price']) ?>
-		</div>	
+		</div>
+		<div class='col-sm-12'>
+			<center><?= Html::a('Add by Barcode & Edit Price', ['/lot/update', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?></center>
+		</div>
 		<div class='col-sm-12'>
 			<center>
 			<?= $form->field($model, 'items')->label(false)->checkboxList($products, [

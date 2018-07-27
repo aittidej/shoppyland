@@ -172,10 +172,13 @@ abstract class MainController extends Controller
 	
 	public function priceDiscountCalculator($price, $discountListId)
 	{
-		$discountList = DiscountList::findOne($discountListId);
-		$discounts = $discountList->discount_json;
-		foreach($discounts AS $percentage)
-			$price = $price*(100-$percentage)/100;
+		if(!empty($discountListId))
+		{
+			$discountList = DiscountList::findOne($discountListId);
+			$discounts = $discountList->discount_json;
+			foreach($discounts AS $percentage)
+				$price = $price*(100-$percentage)/100;
+		}
 		
 		return number_format((is_numeric($price) && $price > 0) ? $this->roundIt($price) : 0, 2);
 	}

@@ -38,6 +38,9 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 	</div>
 	
 	<div class='col-sm-12 col-md-10 col-lg-10'>
+		<div class='col-sm-12'>
+			<?= Html::a('Add by Image', ['/lot/select', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
+		</div>
 		<div class="clearfix"></div><br>
 		<?php foreach($lotRels AS $lotRel) { ?>
 				<div class='col-sm-12 col-md-2 col-lg-3'>
