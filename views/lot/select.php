@@ -24,19 +24,21 @@ $discountLists = ArrayHelper::map(DiscountList::find()->where(['status'=>1])->or
 
     <?php $form = ActiveForm::begin(); ?>
 	
-		<div class='col-sm-6'>
+		<div class='col-sm-12 col-md-6 col-lg-6'>
 			<?= $form->field($model, 'discount_list_id')->label('Discount')->dropDownList($discountLists, ['prompt'=>'Select discount...', 'id'=>'discount']); ?>
 		</div>	
-		<div class='col-sm-6'>
+		<div class='col-sm-12 col-md-6 col-lg-6'>
 			<?= $form->field($model, 'price')->label('Price ($)')->textInput(['id'=>'price']) ?>
 		</div>	
 		<div class='col-sm-12'>
+			<center>
 			<?= $form->field($model, 'items')->label(false)->checkboxList($products, [
 					'item' => function($index, $label, $name, $checked, $value) {
-						$print = Html::img($label->firstImage, ["width"=>"100px"])."<br>".$label->upc;
-						echo "<span class='checkbox-".$label->product_id."'>".Html::checkbox($name, $checked, ['label' => $print, 'data-product_id'=>$label->product_id])."</span>";
+						$print = Html::img($label->firstImage, ['style'=>'width: 100px; padding: 3px;cursor: pointer;', 'title'=>$label->title])."<br>".$label->upc;
+						echo "<span class='checkbox-".$label->product_id."'>".Html::checkbox($name, $checked, ['label' => $print, 'data-product_id'=>$label->product_id, 'style'=>'display:none;'])."</span>";
 					}]);
 			?>
+			</center>
 		</div>
 
     <?php ActiveForm::end(); ?>
