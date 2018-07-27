@@ -177,6 +177,12 @@ abstract class MainController extends Controller
 		foreach($discounts AS $percentage)
 			$price = $price*(100-$percentage)/100;
 		
-		return number_format((is_numeric($price) && $price > 0) ? $price : 0, 2);
+		return number_format((is_numeric($price) && $price > 0) ? $this->roundIt($price) : 0, 2);
+	}
+	
+	public function roundIt($number, $breakPoint = 0.1)
+	{
+		$fraction = $number - floor($number);
+		return ($fraction > $breakPoint) ? ceil($number) : floor($number);
 	}
 }

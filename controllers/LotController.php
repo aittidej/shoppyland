@@ -161,8 +161,13 @@ class LotController extends \app\controllers\MainController
 		}
 		else
 			$model = $this->findModel($id);
-			
-
+		
+		$alreadyIn = [];
+		$lotRels = $model->lotRels;
+		foreach($lotRels AS $lotRel)
+			$alreadyIn[] = $lotRel->product_id;
+		$products = Product::find()->where(['NOT IN', 'product_id', array_values($alreadyIn)])->andWhere(['brand_id'=>$model->brand_id])->orderby('model ASC')->all();
+		
         if (Yii::$app->request->isPost)
 		{
 
@@ -170,6 +175,7 @@ class LotController extends \app\controllers\MainController
 
         return $this->render('select', [
             'model' => $model,
+            'products' => $products,
         ]);
     }
 	
@@ -205,6 +211,32 @@ class LotController extends \app\controllers\MainController
 					echo $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
 				else
 					echo $_POST['overwrite'];
+			}
+		}
+		
+		Yii::$app->end();
+	}
+	
+	public function actionSelectedProduct()
+	{
+		if (Yii::$app->request->isAjax) 
+		{
+			if (!empty($_POST['lot_id']) && !empty($_POST['product_id'])) 
+			{
+				if(empty($_POST['isCheck']))
+				{
+					$lotRel = LotRel::findOne(['lot_id'=>$_POST['lot_id'], 'product_id'=>$_POST['product_id']]);
+					$lotRel->delete();
+				}
+				else
+				{
+					$lotRel = New LotRel();
+					$lotRel->lot_id = $_POST['lot_id'];
+					$lotRel->product_id = $_POST['product_id'];
+					$lotRel->discount_list_id = empty($_POST['discount_id']) ? NULL : $_POST['discount_id'];
+					$lotRel->price = empty($_POST['price']) ? NULL : $_POST['price'];
+					$lotRel->save(false);
+				}
 			}
 		}
 		

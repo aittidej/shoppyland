@@ -8,6 +8,8 @@ use Yii;
  * This is the model class for table "lot".
  *
  * @property int $lot_id
+ * @property int $brand_id
+ * @property int $user_id
  * @property int $lot_number
  * @property string $creation_datetime
  *
@@ -34,20 +36,13 @@ class Lot extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lot_number', 'user_id'], 'default', 'value' => null],
-            [['lot_number', 'user_id'], 'integer'],
+            [['lot_number', 'user_id', 'brand_id'], 'default', 'value' => null],
+            [['lot_number', 'user_id', 'brand_id'], 'integer'],
             [['lot_number'], 'required'],
             [['creation_datetime'], 'safe'],
 			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
+			[['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
         ];
-    }
-	
-	/**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['user_id' => 'user_id']);
     }
 
     /**
@@ -56,6 +51,9 @@ class Lot extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'lot_id' => 'Lot ID',
+            'user_id' => 'User',
+            'brand_id' => 'Brand',
             'lot_id' => 'Lot ID',
             'lot_number' => 'Lot Number',
             'creation_datetime' => 'Creation Datetime',
@@ -68,6 +66,22 @@ class Lot extends \yii\db\ActiveRecord
     public function getLotRels()
     {
         return $this->hasMany(LotRel::className(), ['lot_id' => 'lot_id']);
+    }
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['user_id' => 'user_id']);
+    }
+	
+	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBrand()
+    {
+        return $this->hasOne(Brand::className(), ['brand_id' => 'brand_id']);
     }
 	
 	public function getLotOwner()
@@ -88,4 +102,5 @@ class Lot extends \yii\db\ActiveRecord
 		else
 			return $lotRel->overwrite_total;
 	}
+	
 }

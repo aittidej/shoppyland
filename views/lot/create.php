@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
+use app\models\Brand;
 use app\models\DiscountList;
 use app\models\User;
 
@@ -15,8 +16,9 @@ $this->title = 'Create Lot';
 $this->params['breadcrumbs'][] = ['label' => 'Lots', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$discountLists = ArrayHelper::map(DiscountList::find()->where(['status'=>'1'])->orderby('title ASC')->all(), 'discount_list_id', 'title');
-$users = ArrayHelper::map(User::find()->where(['role_id'=>2, 'status'=>'1'])->orderby('name ASC')->all(), 'user_id', 'name');
+$discountLists = ArrayHelper::map(DiscountList::find()->where(['status'=>1])->orderby('title ASC')->all(), 'discount_list_id', 'title');
+$users = ArrayHelper::map(User::find()->where(['role_id'=>2, 'status'=>1])->orderby('name ASC')->all(), 'user_id', 'name');
+$brands = ArrayHelper::map(Brand::find()->where(['status'=>1])->orderby('title ASC')->all(), 'brand_id', 'title');
 ?>
 <style>
 	table {
@@ -45,6 +47,8 @@ $users = ArrayHelper::map(User::find()->where(['role_id'=>2, 'status'=>'1'])->or
 			<?= $form->field($model, 'lot_number')->textInput(['required'=>true]) ?>
 			
 			<?= $form->field($model, 'user_id')->dropDownList($users, ['prompt'=>'(All buyer)']); ?>
+			
+			<?= $form->field($model, 'brand_id')->dropDownList($brands, ['prompt'=>'Select brand...']); ?>
 
 			<?= $form->field($model, 'discount_list_id')->label('Discount')->dropDownList($discountLists, ['prompt'=>'Select discount...']); ?>
 
@@ -67,10 +71,10 @@ $users = ArrayHelper::map(User::find()->where(['role_id'=>2, 'status'=>'1'])->or
 
 <?php $this->registerJs("
 
-	$('.discount').change(function (e) {
+	/*$('.discount').change(function (e) {
 		
 		alert('test');
 		
-	});
+	});*/
 
 ",View::POS_READY); ?>

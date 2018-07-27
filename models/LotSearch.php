@@ -18,7 +18,7 @@ class LotSearch extends Lot
     public function rules()
     {
         return [
-            [['lot_id', 'lot_number', 'user_id'], 'integer'],
+            [['lot_id', 'lot_number', 'user_id', 'brand_id'], 'integer'],
             [['creation_datetime'], 'safe'],
         ];
     }
@@ -52,7 +52,8 @@ class LotSearch extends Lot
 				'attributes' => [
                     'lot_id',
                     'lot_number',
-                    'user_id',
+                    'user.name',
+                    'brand.title',
                     'creation_datetime',
                 ]
             ],
@@ -70,6 +71,8 @@ class LotSearch extends Lot
         $query->andFilterWhere([
             'lot_id' => $this->lot_id,
             'lot_number' => $this->lot_number,
+            'brand_id' => $this->brand_id,
+            'user_id' => $this->user_id,
             'creation_datetime' => $this->creation_datetime,
         ]);
 

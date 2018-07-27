@@ -43,7 +43,7 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 				<div class='col-sm-12 col-md-2 col-lg-3'>
 					<?php  
 						$product = $lotRel['product'];
-						//echo Html::img($product->firstImage, ['width'=>'100%']);
+						echo Html::img($product->firstImage, ['width'=>'100%']);
 						echo "<br>$product->upc";
 						echo "<br># $product->model ";
 						echo Html::a(" <i class='glyphicon glyphicon-trash'></i>", ['/lot/lot-rel-delete', 'id'=>$lotRel->lot_rel_id, 'product_id'=>0], [
