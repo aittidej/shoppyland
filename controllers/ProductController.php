@@ -112,7 +112,7 @@ class ProductController extends \app\controllers\MainController
 			else if(!empty($_POST['Product']['imagPath']))
 				$model->image_path = [$_POST['Product']['imagPath']];
 			$model->save(false);
-            return $this->redirect(['view', 'id' => $model->product_id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
