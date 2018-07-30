@@ -167,12 +167,148 @@ class ProductController extends \app\controllers\MainController
         ]);
     }
 	
+	public function actionAddProductsOcr($id)
+    {
+		$product = Product::findOne($id);
+		$upload = new UploadFile();
+		$image = new UploadFile();
+		
+		set_time_limit(0);
+		if (Yii::$app->request->isPost)
+		{
+			$target_dir = "uploads/tmp/";
+			if (!file_exists(addslashes($target_dir)))
+				mkdir(addslashes($target_dir), 0777, true);
+			
+			$uploadOk = 1;
+			$FileType = strtolower(pathinfo($_FILES["UploadFile"]["name"]["attachment"], PATHINFO_EXTENSION));
+			$target_file = $target_dir . $this->generateRandomString() .'.'.$FileType;
+			// Check file size
+			if ($_FILES["UploadFile"]["size"]["attachment"] > 5000000) {
+				header('HTTP/1.0 403 Forbidden');
+				echo "Sorry, your file is too large.";
+				$uploadOk = 0;
+			}
+			if($FileType != "pdf" && $FileType != "png" && $FileType != "jpg") {
+				header('HTTP/1.0 403 Forbidden');
+				echo "Sorry, please upload a pdf file";
+				$uploadOk = 0;
+			}
+			if ($uploadOk == 1) {
+
+				if (move_uploaded_file($_FILES["UploadFile"]["tmp_name"]["attachment"], $target_file)) 
+				{
+					$response = $this->uploadToApi($target_file);
+					$array = $this->parseCleanUp($response['ParsedResults'][0]['ParsedText'], empty($product->brand) ? NULL : $product->brand->title);
+					if(!empty($array['model']))
+					{
+						$product->model = $array['model'];
+						$product->title = $array['title'];
+						$product->base_price = $array['base_price'];
+						$image->image = UploadedFile::getInstances($image, "image");
+						if(!empty($image->image))
+							$product->image_path = $image->uploadMultiImages('images/products/' . $product->product_id . '/');
+						else  if(!empty($_POST['Product']['imagPath']))
+							$product->image_path = [$_POST['Product']['imagPath']];
+						$product->save(false);
+						
+						return $this->redirect(['/product/index']);
+					}
+					else
+						die(var_dump($response));
+				} 
+				else 
+				{
+					header('HTTP/1.0 403 Forbidden');
+					echo "Sorry, there was an error uploading your file.";
+				}
+			} 
+        }
+		
+		return $this->render('add-products-ocr', [
+            'product' => $product,
+            'upload' => $upload,
+            'image' => $image,
+        ]);
+    }
+	
+	
+	function parseCleanUp($text, $brand = 'coach')
+	{
+		$array = ['model' => '','upc' => '','title' => '','base_price' => ''];
+		$lines = array_map('trim', explode("\n", $text));
+		switch (strtolower($brand)) 
+		{
+			case "coach":
+				if(!empty($lines[0]) && (preg_match('/^F[0-9]{5}$/', $lines[0]) || preg_match('/^f[0-9]{5}$/', $lines[0]) || preg_match('/^[0-9]{5}$/', $lines[0])))
+					$array['model'] = $lines[0];
+				if(!empty($lines[2]))
+				{
+					$upc = str_replace(' ', '', $lines[2]);
+					if(is_numeric($upc) && strlen($upc) == 12)
+						$array['upc'] = $upc;
+				}
+				if(!empty($lines[3]))
+					$array['title'] .= $lines[3].' ';
+				if(!empty($lines[1]))
+					$array['title'] .= $lines[1];
+				$array['base_price'] = empty($lines[6]) ? NULL : str_replace('$', '', $lines[6]);
+				break;
+			case "michael kors":
+				break;
+			default:
+				echo "Your favorite color is neither red, blue, nor green!";
+		}
+		
+		return $array;
+	}
+	
+	function uploadToApi($target_file)
+	{
+		$fileData = fopen($target_file, 'r');
+		$client = new \GuzzleHttp\Client();
+		try {
+			$r = $client->request('POST', 'http://api.ocr.space/parse/image', [
+				'headers' => ['apiKey' => '0fa99465ac88957'],
+				'query' => ['isOverlayRequired' => TRUE],
+				'multipart' => [
+					[
+						'name' => 'file',
+						'contents' => $fileData,
+					],
+				],
+			], 
+			['file' => $fileData]
+		);
+		$response =  json_decode($r->getBody(),true);
+		if($response['ErrorMessage'] == "") {
+			return $response;
+		} else {
+			header('HTTP/1.0 400 Forbidden');
+			echo $response['ErrorMessage'];
+		}
+		} catch(Exception $err) {
+			header('HTTP/1.0 403 Forbidden');
+			echo $err->getMessage();
+		}
+	}
+	
+	function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+	
 	public function actionAddProductsByUpc()
     {
 		$notFoundList = $invalid = [];
         $model = New Product();
 
-        if (Yii::$app->request->isPost)
+		if (Yii::$app->request->isPost)
 		{
 			set_time_limit(0);
 			$items = array_map('trim', explode("\n", $_POST['Product']['items']));

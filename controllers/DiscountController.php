@@ -16,14 +16,14 @@ class DiscountController extends \app\controllers\MainController
 {
     public function actionIndex()
     {
-		discounts
 		if (Yii::$app->request->isPost)
 		{
 			$title = '';
 			$dis = [];
 			$discounts = explode(",", $_POST['discounts'])
-			foreach($discounts AS $discount)
+			foreach($discounts AS $index => $discount)
 			{
+				if(count($discounts) > $index)
 				$title .= $discount'% + ';
 				$dis[] = $discount;
 			}

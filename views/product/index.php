@@ -82,12 +82,23 @@ $this->params['breadcrumbs'][] = $this->title;
             //'image_path',
             //'json_data',
 
-            [
+			[
 				'class' => 'kartik\grid\ActionColumn',
-				'hAlign' => 'center',
-				'vAlign' => 'middle',
-				'width' => '7%',
+				'template' => '{add-products-ocr} {view} {update} {delete}',
+				'buttons' => [
+
+					'add-products-ocr' => function ($url, $model) {
+						return Html::a(
+							'<span class="glyphicon glyphicon-plus"></span>',
+							$url, [ 'title' => 'Add Product by OCR' ]
+						);
+					},
+				],
 			],
+			
+			
+			
+			
         ],
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],

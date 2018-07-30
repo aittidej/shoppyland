@@ -14,12 +14,14 @@ class UploadFile extends Model
     /**
      * @var UploadedFile
      */
-	public $image;
+	public $attachment;
 	public $file;
+	public $image;
 
     public function rules()
     {
         return [
+            [['attachment'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 5, 'maxSize' => 5 * 1024 * 1024],
             [['file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 5, 'maxSize' => 5 * 1024 * 1024],
 			[['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, gif', 'maxSize' => 10 * 1024 * 1024, 'maxFiles'=>5],
         ];
@@ -30,6 +32,7 @@ class UploadFile extends Model
         return [
             'file' => 'File (5MB Max)',
             'image' => 'Image (5MB Max)',
+            'attachment' => 'Attachment (5MB Max)',
         ];
     }
     
