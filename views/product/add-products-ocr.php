@@ -28,7 +28,7 @@ $brands = ArrayHelper::map(Brand::find()->where(['status'=>1])->orderby('title A
 		</div>
 		
 		<div class='col-sm-12'>
-			<?= $form->field($image, "image[]")->fileInput(['multiple' => true]); ?>
+			<?php echo $form->field($image, "image[]")->fileInput(['multiple' => true]); ?>
 		</div>
 		
 		<div class="form-group col-sm-12">

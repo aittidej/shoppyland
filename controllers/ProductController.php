@@ -184,7 +184,7 @@ class ProductController extends \app\controllers\MainController
 			$FileType = strtolower(pathinfo($_FILES["UploadFile"]["name"]["attachment"], PATHINFO_EXTENSION));
 			$target_file = $target_dir . $this->generateRandomString() .'.'.$FileType;
 			// Check file size
-			if ($_FILES["UploadFile"]["size"]["attachment"] > 5000000) {
+			if ($_FILES["UploadFile"]["size"]["attachment"] > 10000000) {
 				header('HTTP/1.0 403 Forbidden');
 				echo "Sorry, your file is too large.";
 				$uploadOk = 0;
@@ -200,11 +200,12 @@ class ProductController extends \app\controllers\MainController
 				{
 					$response = $this->uploadToApi($target_file);
 					$array = $this->parseCleanUp($response['ParsedResults'][0]['ParsedText'], empty($product->brand) ? NULL : $product->brand->title);
+//var_dump($array);var_dump($response);exit;
 					if(!empty($array['model']))
 					{
 						$product->model = $array['model'];
 						$product->title = $array['title'];
-						$product->base_price = $array['base_price'];
+						//$product->base_price = $array['base_price'];
 						$image->image = UploadedFile::getInstances($image, "image");
 						if(!empty($image->image))
 							$product->image_path = $image->uploadMultiImages('images/products/' . $product->product_id . '/');
@@ -220,9 +221,9 @@ class ProductController extends \app\controllers\MainController
 				else 
 				{
 					header('HTTP/1.0 403 Forbidden');
-					echo "Sorry, there was an error uploading your file.";
+					echo "Sorry, there was an error uploading your file.";exit;
 				}
-			} 
+			}exit; 
         }
 		
 		return $this->render('add-products-ocr', [
@@ -285,7 +286,7 @@ class ProductController extends \app\controllers\MainController
 			return $response;
 		} else {
 			header('HTTP/1.0 400 Forbidden');
-			echo $response['ErrorMessage'];
+			var_dump($response['ErrorMessage']);
 		}
 		} catch(Exception $err) {
 			header('HTTP/1.0 403 Forbidden');
