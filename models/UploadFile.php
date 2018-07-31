@@ -21,9 +21,9 @@ class UploadFile extends Model
     public function rules()
     {
         return [
-            [['attachment'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 5, 'maxSize' => 10 * 1024 * 1024],
-            [['file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 5, 'maxSize' => 10 * 1024 * 1024],
-			[['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, gif', 'maxSize' => 10 * 1024 * 1024, 'maxFiles'=>5],
+            [['attachment'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 5, 'maxSize' => 5 * 1024 * 1024],
+            [['file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 5, 'maxSize' => 5 * 1024 * 1024],
+			[['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, gif', 'maxSize' => 5 * 1024 * 1024, 'maxFiles'=>5],
         ];
     }
 	
@@ -48,16 +48,18 @@ class UploadFile extends Model
 	
 	public function uploadAttachment($folder, $targetFile = '', $maxSize = 500, $quality = 90)
     {
-		if (!file_exists(addslashes($folder)))
+		if (!empty($folder) && !file_exists(addslashes($folder)))
 			mkdir(addslashes($folder), 0777, true);
 		
-		$file = $this->attachment[0];
-		$imagine = Image::getImagine()
-					->open($file->tempName)
+		foreach ($this->attachment as $attachment) 
+		{
+			Image::getImagine()
+					->open($attachment->tempName)
 					->thumbnail(new Box($maxSize, $maxSize))
 					->save(empty($folder) ? $targetFile : $folder. '/' . $file->name, ['quality' => $quality]);
+		}
 		
-		return $imagine;
+		return true;
     }
 	
 	public function uploadMultiImages($uploadUrl, $maxSize = 500, $quality = 90)

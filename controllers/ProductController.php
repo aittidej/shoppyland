@@ -131,11 +131,12 @@ class ProductController extends \app\controllers\MainController
 		}
 		
 		if(empty($_GET))
-			$products = Product::find()->where("title = ''")->indexBy('product_id')->orderby('product_id ASC')->all();
+			$products = Product::find()->where("title = '' AND model = ''")->indexBy('product_id')->orderby('product_id ASC')->all();
 		else
 			$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
 		foreach ($products as $index => $product) {
 			$uploads[$index] = new UploadFile();
+			$attachments[$index] = new UploadFile();
 		}
 		
 		set_time_limit(0);
@@ -146,6 +147,33 @@ class ProductController extends \app\controllers\MainController
 				$upload->image = UploadedFile::getInstances($upload, "[$product_id]image");
 				if(!empty($upload->image))
 					$imagesPath[$product_id] = $upload->uploadMultiImages('images/products/' . $product_id . '/');
+			}
+			
+			$target_dir = "uploads/tmp/";
+			if (!file_exists(addslashes($target_dir)))
+				mkdir(addslashes($target_dir), 0777, true);
+				
+			foreach($attachments AS $product_id=>$attachment)
+			{
+				$product = Product::findOne($product_id);
+				$fileType = strtolower(pathinfo($_FILES["UploadFile"]["name"][$product_id]["attachment"][0], PATHINFO_EXTENSION));
+				$target_file = $target_dir . $this->generateRandomString() .'.'.$fileType;
+				$attachment->attachment = UploadedFile::getInstances($attachment, "[$product_id]attachment");
+				if(!empty($attachment->attachment))
+				{
+					if($attachment->uploadAttachment(NULL, $target_file))
+					{
+						$response = $this->uploadToApi($target_file);
+						$array = $this->parseCleanUp($response['ParsedResults'][0]['ParsedText'], empty($product->brand) ? NULL : $product->brand->title);
+						if(!empty($array['model']))
+						{
+							$product->model = $array['model'];
+							$product->title = $array['title'];
+							$product->base_price = $array['base_price'];
+							$product->save(false);
+						}
+					}
+				}
 			}
 			
             foreach ($products as $product) {
@@ -164,6 +192,29 @@ class ProductController extends \app\controllers\MainController
 		return $this->render('add-products', [
             'products' => $products,
             'uploads' => $uploads,
+            'attachments' => $attachments,
+        ]);
+    }
+	
+	public function actionAddProductsByUpc()
+    {
+		$notFoundList = $invalid = [];
+        $model = New Product();
+
+		if (Yii::$app->request->isPost)
+		{
+			set_time_limit(0);
+			$items = array_map('trim', explode("\n", $_POST['Product']['items']));
+			$notFoundList = $this->addItemsHelper($items, FALSE, $_POST['Product']);
+			
+			if(empty($notFoundList))
+				return $this->redirect(['index']);
+			else
+				return $this->redirect(['product/add-products?'.http_build_query($notFoundList)]);
+        }
+
+        return $this->render('add-items', [
+            'model' => $model,
         ]);
     }
 	
@@ -180,25 +231,22 @@ class ProductController extends \app\controllers\MainController
 			if (!file_exists(addslashes($target_dir)))
 				mkdir(addslashes($target_dir), 0777, true);
 			
-			$uploadOk = 1;
 			$FileType = strtolower(pathinfo($_FILES["UploadFile"]["name"]["attachment"], PATHINFO_EXTENSION));
 			$target_file = $target_dir . $this->generateRandomString() .'.'.$FileType;
 			$upload->attachment = UploadedFile::getInstances($upload, "attachment");
 			
 			// Check file size
-			if ($_FILES["UploadFile"]["size"]["attachment"] > 10000000) {
+			if ($_FILES["UploadFile"]["size"]["attachment"] > 5000000) {
 				header('HTTP/1.0 403 Forbidden');
-				echo "Sorry, your file is too large.";
-				$uploadOk = 0;
+				die("Sorry, your file is too large.");
 			}
-			if($FileType != "pdf" && $FileType != "png" && $FileType != "jpg") {
+			else if($FileType != "pdf" && $FileType != "png" && $FileType != "jpg") {
 				header('HTTP/1.0 403 Forbidden');
-				echo "Sorry, please upload a pdf file";
-				$uploadOk = 0;
+				die("Sorry, please upload a pdf file");
 			}
-			if ($uploadOk == 1 && !empty($upload->attachment)) 
+			else if(!empty($upload->attachment)) 
 			{
-				if ($image->uploadAttachment(NULL, $target_file)) 
+				if ($upload->uploadAttachment(NULL, $target_file)) 
 				{
 					$response = $this->uploadToApi($target_file);
 					$array = $this->parseCleanUp($response['ParsedResults'][0]['ParsedText'], empty($product->brand) ? NULL : $product->brand->title);
@@ -207,23 +255,26 @@ class ProductController extends \app\controllers\MainController
 					{
 						$product->model = $array['model'];
 						$product->title = $array['title'];
-						//$product->base_price = $array['base_price'];
+						$product->base_price = $array['base_price'];
 						$image->image = UploadedFile::getInstances($image, "image");
-						if(!empty($image->image))
-							$product->image_path = $image->uploadMultiImages('images/products/' . $product->product_id . '/');
+						$product->image_path = empty($image->image) ? NULL : $image->uploadMultiImages('images/products/' . $product->product_id . '/');
 						$product->save(false);
 						
 						return $this->redirect(['/product/index']);
 					}
 					else
-						die(var_dump($response));
-				} 
+					{
+						var_dump($response);
+						var_dump($array);
+						die();
+					}
+				}
 				else 
 				{
 					header('HTTP/1.0 403 Forbidden');
-					echo "Sorry, there was an error uploading your file.";exit;
+					die("Sorry, there was an error uploading your file.");
 				}
-			}exit; 
+			}
         }
 		
 		return $this->render('add-products-ocr', [
@@ -236,10 +287,44 @@ class ProductController extends \app\controllers\MainController
 	
 	function parseCleanUp($text, $brand = 'coach')
 	{
-		$array = ['model' => '','upc' => '','title' => '','base_price' => ''];
+		$array = ['model' => '','upc' => '','title' => '','base_price' => NULL];
 		$title = [];
 		$lines = array_map('trim', explode("\n", $text));
-		switch (strtolower($brand)) 
+		foreach($lines AS $i=>$line)
+		{
+			//if(empty($array['model']) && (preg_match('/\F\d{5}/', $line, $withF) || preg_match('/\d{5}/', $line, $withoutF))) // start with F follow by 5 digits number
+				//$array['model'] = empty($withF[0]) ? (empty($withoutF[0]) ? '' : $withoutF[0]) : $withF[0];
+			if(preg_match('/\F\d{5}/', $line, $withF)) {
+				$array['model'] = $withF[0];
+				continue;
+			} else if(empty($array['model']) && $i < 2 && preg_match('/\d{5}/', $line, $withoutF)) {
+				$array['model'] = $withoutF[0];
+				continue;
+			}
+			
+			if(strpos($line, '$') !== false && is_numeric(str_replace('$', '', $line))) { // with $ sign
+				$array['base_price'] = str_replace('$', '', $line);
+				continue;
+			}
+			
+			$upc = str_replace(' ', '', $line);
+			if(is_numeric($upc) && strlen($upc) == 12) { // only number with 12 digits
+				$array['upc'] = $upc;
+				continue;
+			}
+				
+			if(!preg_match("/[0-9]+/", $line) == TRUE) { // no number
+				$title[] = $line;
+				continue;
+			}
+		}
+		
+		if(!empty($title))
+		{
+			foreach(array_reverse($title) AS $t)
+				$array['title'] .= $t." ";
+		}
+		/*switch (strtolower($brand)) 
 		{
 			case "coach":
 				foreach($lines AS $i=>$line)
@@ -247,7 +332,7 @@ class ProductController extends \app\controllers\MainController
 					if(preg_match('/^F[0-9]{5}$/', $line) || preg_match('/^f[0-9]{5}$/', $line) || preg_match('/^[0-9]{5}$/', $line)) // start with F follow by 5 digits number
 						$array['model'] = $line;
 					
-					if(strpos($line, '$') === false) // with $ sign
+					if(strpos($line, '$') === false && is_numeric(str_replace('$', '', $line))) // with $ sign
 						$array['base_price'] = str_replace('$', '', $line);
 					
 					$upc = str_replace(' ', '', $line);
@@ -266,9 +351,7 @@ class ProductController extends \app\controllers\MainController
 				break;
 			case "michael kors":
 				break;
-			default:
-				echo "Your favorite color is neither red, blue, nor green!";
-		}
+		}*/
 		
 		return $array;
 	}
@@ -296,10 +379,12 @@ class ProductController extends \app\controllers\MainController
 		} else {
 			header('HTTP/1.0 400 Forbidden');
 			var_dump($response['ErrorMessage']);
+			exit;
 		}
 		} catch(Exception $err) {
 			header('HTTP/1.0 403 Forbidden');
-			echo $err->getMessage();
+			var_dump($err->getMessage());
+			exit;
 		}
 	}
 	
@@ -312,28 +397,6 @@ class ProductController extends \app\controllers\MainController
 		}
 		return $randomString;
 	}
-	
-	public function actionAddProductsByUpc()
-    {
-		$notFoundList = $invalid = [];
-        $model = New Product();
-
-		if (Yii::$app->request->isPost)
-		{
-			set_time_limit(0);
-			$items = array_map('trim', explode("\n", $_POST['Product']['items']));
-			$notFoundList = $this->addItemsHelper($items, FALSE, $_POST['Product']);
-			
-			if(empty($notFoundList))
-				return $this->redirect(['index']);
-			else
-				return $this->redirect(['product/add-products?'.http_build_query($notFoundList)]);
-        }
-
-        return $this->render('add-items', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Deletes an existing Product model.

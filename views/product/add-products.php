@@ -29,22 +29,27 @@ $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title
 					<?= $form->field($product, "[$index]upc")->textInput(['maxlength' => true, 'readonly'=>'readonly']) ?>
 				</div>
 				
-				<div class='col-sm-12 col-md-6 col-lg-4'>
+				<div class='col-sm-12 col-md-6 col-lg-6'>
 					<?= $form->field($product, "[$index]title")->textInput(['maxlength' => true]) ?>
 				</div>
 				
-				<div class='col-sm-12 col-md-6 col-lg-2'>
+				<div class='col-sm-12 col-md-6 col-lg-4'>
 					<?= $form->field($product, "[$index]model")->textInput(['maxlength' => true]) ?>
 				</div>
 				
-				<div class='col-sm-12 col-md-6 col-lg-2'>
+				<div class='col-sm-12 col-md-6 col-lg-4'>
 					<?= $form->field($product, "[$index]brand_id")->dropDownList($brands, ['prompt'=>'Select Brand...']); ?>
 				</div>
 				
-				<div class='col-sm-12 col-md-6 col-lg-2'>
+				<div class='col-sm-12 col-md-6 col-lg-4'>
 					<?= $form->field($uploads[$index], "[$index]image[]")->fileInput(['multiple' => true]); ?>
 				</div>
+				
+				<div class='col-sm-12 col-md-6 col-lg-4'>
+					<?= $form->field($attachments[$index], "[$index]attachment[]")->label('Tag (5MB Max)')->fileInput(['multiple' => false]); ?>
+				</div>
 			</div>
+			<div class='col-sm-12 col-md-12 col-lg-12'><hr></div>
 		<?php } ?>
 		
 		<div class="form-group col-sm-12">

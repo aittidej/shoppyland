@@ -19,7 +19,7 @@ class ProductSearch extends Product
     {
         return [
             [['product_id', 'brand_id', 'status'], 'integer'],
-            [['upc', 'model', 'title', 'description', 'color', 'size', 'dimension', 'image_path', 'category', 'json_data'], 'safe'],
+            [['upc', 'model', 'title', 'description', 'color', 'size', 'dimension', 'image_path', 'category', 'json_data', 'creation_datetime', 'modify_datetime'], 'safe'],
             [['base_price', 'weight'], 'number'],
         ];
     }
@@ -49,7 +49,7 @@ class ProductSearch extends Product
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
 			'sort' => [
-				'defaultOrder' => ['product_id' => SORT_DESC],
+				'defaultOrder' => ['modify_datetime' => SORT_ASC],
 				'attributes' => [
                     'product_id',
                     'brand.title',
@@ -62,6 +62,8 @@ class ProductSearch extends Product
                     'dimension',
                     'base_price',
                     'weight',
+                    'modify_datetime',
+                    'creation_datetime',
                 ]
             ],
         ]);

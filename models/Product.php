@@ -40,7 +40,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return 'product';
     }
-
+	
     /**
      * {@inheritdoc}
      */
@@ -51,7 +51,7 @@ class Product extends \yii\db\ActiveRecord
             [['brand_id', 'status'], 'integer'],
             [['base_price', 'weight'], 'number'],
             [['description'], 'string'],
-            [['image_path', 'json_data'], 'safe'],
+            [['image_path', 'json_data', 'creation_datetime', 'modify_datetime'], 'safe'],
             [['upc', 'model', 'color', 'size', 'dimension', 'category'], 'string', 'max' => 100],
             [['title'], 'string', 'max' => 255],
             [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
@@ -92,6 +92,7 @@ class Product extends \yii\db\ActiveRecord
 			$this->color = trim($this->color);
 			$this->size = trim($this->size);
 			$this->dimension = trim($this->dimension);
+			$this->modify_datetime = date("Y-m-d H:i:s");
 			if(!is_numeric($this->weight))
 				$this->weight = 0;
 			
