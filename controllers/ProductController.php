@@ -183,6 +183,8 @@ class ProductController extends \app\controllers\MainController
 			$uploadOk = 1;
 			$FileType = strtolower(pathinfo($_FILES["UploadFile"]["name"]["attachment"], PATHINFO_EXTENSION));
 			$target_file = $target_dir . $this->generateRandomString() .'.'.$FileType;
+			$upload->attachment = UploadedFile::getInstances($upload, "attachment");
+			
 			// Check file size
 			if ($_FILES["UploadFile"]["size"]["attachment"] > 10000000) {
 				header('HTTP/1.0 403 Forbidden');
@@ -194,13 +196,13 @@ class ProductController extends \app\controllers\MainController
 				echo "Sorry, please upload a pdf file";
 				$uploadOk = 0;
 			}
-			if ($uploadOk == 1) {
-
-				if (move_uploaded_file($_FILES["UploadFile"]["tmp_name"]["attachment"], $target_file)) 
+			if ($uploadOk == 1 && !empty($upload->attachment)) 
+			{
+				if ($image->uploadAttachment(NULL, $target_file)) 
 				{
 					$response = $this->uploadToApi($target_file);
 					$array = $this->parseCleanUp($response['ParsedResults'][0]['ParsedText'], empty($product->brand) ? NULL : $product->brand->title);
-//var_dump($array);var_dump($response);exit;
+					//var_dump($array);var_dump($response);exit;
 					if(!empty($array['model']))
 					{
 						$product->model = $array['model'];
@@ -209,8 +211,6 @@ class ProductController extends \app\controllers\MainController
 						$image->image = UploadedFile::getInstances($image, "image");
 						if(!empty($image->image))
 							$product->image_path = $image->uploadMultiImages('images/products/' . $product->product_id . '/');
-						else  if(!empty($_POST['Product']['imagPath']))
-							$product->image_path = [$_POST['Product']['imagPath']];
 						$product->save(false);
 						
 						return $this->redirect(['/product/index']);
@@ -237,23 +237,32 @@ class ProductController extends \app\controllers\MainController
 	function parseCleanUp($text, $brand = 'coach')
 	{
 		$array = ['model' => '','upc' => '','title' => '','base_price' => ''];
+		$title = [];
 		$lines = array_map('trim', explode("\n", $text));
 		switch (strtolower($brand)) 
 		{
 			case "coach":
-				if(!empty($lines[0]) && (preg_match('/^F[0-9]{5}$/', $lines[0]) || preg_match('/^f[0-9]{5}$/', $lines[0]) || preg_match('/^[0-9]{5}$/', $lines[0])))
-					$array['model'] = $lines[0];
-				if(!empty($lines[2]))
+				foreach($lines AS $i=>$line)
 				{
-					$upc = str_replace(' ', '', $lines[2]);
-					if(is_numeric($upc) && strlen($upc) == 12)
+					if(preg_match('/^F[0-9]{5}$/', $line) || preg_match('/^f[0-9]{5}$/', $line) || preg_match('/^[0-9]{5}$/', $line)) // start with F follow by 5 digits number
+						$array['model'] = $line;
+					
+					if(strpos($line, '$') === false) // with $ sign
+						$array['base_price'] = str_replace('$', '', $line);
+					
+					$upc = str_replace(' ', '', $line);
+					if(is_numeric($upc) && strlen($upc) == 12) // only number with 12 digits
 						$array['upc'] = $upc;
+						
+					if(!preg_match("/[0-9]+/", $line) == TRUE) // no number
+						$title[] = $line;
 				}
-				if(!empty($lines[3]))
-					$array['title'] .= $lines[3].' ';
-				if(!empty($lines[1]))
-					$array['title'] .= $lines[1];
-				$array['base_price'] = empty($lines[6]) ? NULL : str_replace('$', '', $lines[6]);
+				
+				if(!empty($title))
+				{
+					foreach(array_reverse($title) AS $t)
+						$array['title'] .= $t." ";
+				}
 				break;
 			case "michael kors":
 				break;

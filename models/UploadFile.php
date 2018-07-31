@@ -46,21 +46,18 @@ class UploadFile extends Model
         }
     }*/
 	
-	public function uploadImage($folder, $maxSize = 500, $quality = 90)
+	public function uploadAttachment($folder, $targetFile = '', $maxSize = 500, $quality = 90)
     {
 		if (!file_exists(addslashes($folder)))
 			mkdir(addslashes($folder), 0777, true);
 		
-		$file = $this->image[0];
+		$file = $this->attachment[0];
 		$imagine = Image::getImagine()
 					->open($file->tempName)
 					->thumbnail(new Box($maxSize, $maxSize))
-					->save($folder. '/' . $file->name, ['quality' => $quality]);
+					->save(empty($folder) ? $targetFile : $folder. '/' . $file->name, ['quality' => $quality]);
 		
-		if($imagine)
-			return true;
-		else
-			return false;
+		return $imagine;
     }
 	
 	public function uploadMultiImages($uploadUrl, $maxSize = 500, $quality = 90)
