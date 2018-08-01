@@ -251,13 +251,14 @@ class ProductController extends \app\controllers\MainController
 					$response = $this->uploadToApi($target_file);
 					$array = $this->parseCleanUp($response['ParsedResults'][0]['ParsedText'], empty($product->brand) ? NULL : $product->brand->title);
 					//var_dump($array);var_dump($response);exit;
-					if(!empty($array['model']))
+					
+					$image->image = UploadedFile::getInstances($image, "image");
+					$product->image_path = empty($image->image) ? NULL : $image->uploadMultiImages('images/products/' . $product->product_id . '/');
+					if(!empty($array['model']) || !empty($array['title']))
 					{
 						$product->model = $array['model'];
 						$product->title = $array['title'];
 						$product->base_price = $array['base_price'];
-						$image->image = UploadedFile::getInstances($image, "image");
-						$product->image_path = empty($image->image) ? NULL : $image->uploadMultiImages('images/products/' . $product->product_id . '/');
 						$product->save(false);
 						
 						return $this->redirect(['/product/index']);
@@ -294,6 +295,12 @@ class ProductController extends \app\controllers\MainController
 		{
 			//if(empty($array['model']) && (preg_match('/\F\d{5}/', $line, $withF) || preg_match('/\d{5}/', $line, $withoutF))) // start with F follow by 5 digits number
 				//$array['model'] = empty($withF[0]) ? (empty($withoutF[0]) ? '' : $withoutF[0]) : $withF[0];
+			$upc = str_replace(' ', '', $line);
+			if(is_numeric($upc) && strlen($upc) == 12) { // only number with 12 digits
+				$array['upc'] = $upc;
+				continue;
+			}
+			
 			if(preg_match('/\F\d{5}/', $line, $withF)) {
 				$array['model'] = $withF[0];
 				continue;
@@ -306,14 +313,8 @@ class ProductController extends \app\controllers\MainController
 				$array['base_price'] = str_replace('$', '', $line);
 				continue;
 			}
-			
-			$upc = str_replace(' ', '', $line);
-			if(is_numeric($upc) && strlen($upc) == 12) { // only number with 12 digits
-				$array['upc'] = $upc;
-				continue;
-			}
 				
-			if(!preg_match("/[0-9]+/", $line) == TRUE) { // no number
+			if(!preg_match("/[0-9]+/", $line) == TRUE && strtolower($line) != 'mfsrp') { // no number
 				$title[] = $line;
 				continue;
 			}

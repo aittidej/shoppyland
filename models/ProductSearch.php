@@ -49,7 +49,7 @@ class ProductSearch extends Product
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
 			'sort' => [
-				'defaultOrder' => ['modify_datetime' => SORT_ASC],
+				'defaultOrder' => ['modify_datetime' => SORT_DESC],
 				'attributes' => [
                     'product_id',
                     'brand.title',
