@@ -9,7 +9,7 @@ use app\models\Brand;
 /* @var $this yii\web\View */
 /* @var $model app\models\OpenOrder */
 
-$this->title = 'Add Product using UPC';
+$this->title = 'Add Product using Barcode';
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 

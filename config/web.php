@@ -8,7 +8,7 @@ Yii::setAlias('web', dirname(__DIR__) . '/web');
 
 $config = [
     'id' => 'basic',
-	'name' => 'Shoppyland by Honey',
+	'name' => 'Shoppyland',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [

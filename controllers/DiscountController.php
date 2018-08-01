@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers\openorder;
+namespace app\controllers;
 
 use Yii;
 use app\models\DiscountList;
@@ -16,24 +16,38 @@ class DiscountController extends \app\controllers\MainController
 {
     public function actionIndex()
     {
+		$discountLists = DiscountList::find()->orderby('title ASC')->all();
+		
 		if (Yii::$app->request->isPost)
 		{
 			$title = '';
-			$dis = [];
-			$discounts = explode(",", $_POST['discounts'])
+			$allDiscounts = [];
+			$discounts = explode(",", $_POST['discounts']);
 			foreach($discounts AS $index => $discount)
 			{
-				if(count($discounts) > $index)
-				$title .= $discount'% + ';
-				$dis[] = $discount;
+				if(!is_numeric($discount))
+					continue;
+					
+				$discount = str_replace(' ', '', trim($discount));
+				$title .= ($index) ? '% + '.$discount : $discount;
+				$allDiscounts[] = $discount;
+			}
+			$title .= '%';
+			
+			if(empty($allDiscounts))
+				Yii::$app->session->setFlash('danger', "Something wrong!");
+			else
+			{
+				$discountList = New DiscountList();
+				$discountList->title = $title;
+				$discountList->discount_json = $allDiscounts;
+				$discountList->save(false);
+				Yii::$app->session->setFlash('success', "Discount saved!");
 			}
 			
-			$discountList = New DiscountList();
-			$discountList->title = $title;
-			$discountList->discount_json = json_encode($dis);
-			$discountList->save(false);
+			return $this->redirect(['index']);
 		}
 		
-        return $this->render('index');
+        return $this->render('index', ['discountLists'=>$discountLists]);
     }
 }

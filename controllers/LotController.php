@@ -114,7 +114,11 @@ class LotController extends \app\controllers\MainController
 		if(empty($id))
 		{
 			$model = Lot::find()->orderby('lot_id DESC')->one();
-			if(empty($model)) die('No lot found');
+			if(empty($model))
+			{
+				Yii::$app->session->setFlash('warning', "No Lot created yet!");
+				return $this->redirect(['create']);
+			}
 		}
 		else
 			$model = $this->findModel($id);

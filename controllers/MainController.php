@@ -56,19 +56,19 @@ abstract class MainController extends Controller
 	protected function addItemsHelper($items, $openOrderId = FALSE, $data = [])
 	{
 		$notFoundList = [];
-		foreach($items AS $barcode)
+		foreach($items AS $item)
 		{
-			if(empty($barcode))
+			$barcode = str_replace(' ', '', trim($item));
+			if(empty($barcode) || !is_numeric($barcode) || strlen($barcode) != 12)
 				continue;
 			
-			$invalidUPC = false;
-			$barcode = trim($barcode);
-			$product = Product::findOne(['upc'=>$barcode, 'status'=>1]);
+			//$invalidUPC = false;
+			$product = Product::findOne(['upc'=>$barcode]);
 			
 			// Take care of adding missing products
 			if(empty($product))
 			{
-				$upcItemDB = New UpcItemDB();
+				/*$upcItemDB = New UpcItemDB();
 				$respond = $upcItemDB->getDataByBarcode($barcode);
 				if(is_numeric($respond)) // invalid UPC
 					$invalidUPC = true;
@@ -107,15 +107,12 @@ abstract class MainController extends Controller
 							$product->save(false);
 						}
 					}
-				}
+				}*/
 				
-				// invalid UPC, product are not yet been created.
-				// try with ebay
-				if($invalidUPC)
-				{
+				// try ebay
+				//if($invalidUPC) {
 					$eBaySearch = New eBaySearch();
 					$respond = $eBaySearch->getDataByBarcode($barcode);
-					
 					$product = New Product();
 					if(empty($respond))
 					{
@@ -140,7 +137,12 @@ abstract class MainController extends Controller
 						$product->json_data = $respond['jsonData'];
 						$product->save(false);
 					}
-				}
+				//}
+			}
+			else
+			{
+				$product->status = 1;
+				$product->save(false);
 			}
 			
 			if(!empty($openOrderId) && !empty($product))

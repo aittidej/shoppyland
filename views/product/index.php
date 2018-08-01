@@ -71,34 +71,19 @@ $this->params['breadcrumbs'][] = $this->title;
 				'width' => '45%',
 				'format' => 'raw'
 			],
-            //'base_price',
-            //'category',
-            //'weight',
-            //'status',
-            //'description:ntext',
-            //'color',
-            //'size',
-            //'dimension',
-            //'image_path',
-            //'json_data',
-
 			[
 				'class' => 'kartik\grid\ActionColumn',
 				'template' => '{add-products-ocr} {view} {update} {delete}',
+				'width' => '8%',
 				'buttons' => [
-
 					'add-products-ocr' => function ($url, $model) {
 						return Html::a(
-							'<span class="glyphicon glyphicon-plus"></span>',
-							$url, [ 'title' => 'Add Product by OCR' ]
+							'<span class="glyphicon glyphicon-tag"></span>',
+							$url, [ 'title' => 'Edit Product by Price Tags' ]
 						);
 					},
 				],
 			],
-			
-			
-			
-			
         ],
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],

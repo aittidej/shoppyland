@@ -134,6 +134,13 @@ class ProductController extends \app\controllers\MainController
 			$products = Product::find()->where("title = '' AND model = ''")->indexBy('product_id')->orderby('product_id ASC')->all();
 		else
 			$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
+		
+		if(empty($products))
+		{
+			Yii::$app->session->setFlash('danger', "No unfinished product!");
+			return $this->redirect(['/']);
+		}
+			
 		foreach ($products as $index => $product) {
 			$uploads[$index] = new UploadFile();
 			$attachments[$index] = new UploadFile();
@@ -236,13 +243,13 @@ class ProductController extends \app\controllers\MainController
 			$upload->attachment = UploadedFile::getInstances($upload, "attachment");
 			
 			// Check file size
-			if ($_FILES["UploadFile"]["size"]["attachment"] > 5000000) {
+			/*if ($_FILES["UploadFile"]["size"]["attachment"] > 5000000) {
 				header('HTTP/1.0 403 Forbidden');
 				die("Sorry, your file is too large.");
-			}
-			else if($FileType != "pdf" && $FileType != "png" && $FileType != "jpg") {
+			}*/
+			if($FileType != "pdf" && $FileType != "png" && $FileType != "jpg") {
 				header('HTTP/1.0 403 Forbidden');
-				die("Sorry, please upload a pdf file");
+				die("Sorry, please upload an image file");
 			}
 			else if(!empty($upload->attachment)) 
 			{

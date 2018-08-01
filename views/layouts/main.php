@@ -23,18 +23,25 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 	<style>
-		/*
-		.my-navbar { background-color: #eeeeee;border-bottom: 1px solid #bfbfbf;color: #000; }
-		.my-navbar a { color: #000; }
-		
-		.navbar-inverse {
-			background-image: linear-gradient(#EEEEEE, #EEEEEE 60%, #EEEEEE);
-			background-repeat: no-repeat;
-			border-bottom: 1px solid #bfbfbf;
-			box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-			filter: none;
+		.navbar-inverse { 
+			background-color: #eeeeee; 
+			border-bottom: 2.75px solid #bfbfbf;
+			min-height: 60px;
 		}
-		.navbar-inverse a{ color: #3a3a3a; } */
+		.brandclass {  }
+		.navbar-toggle { margin-top: 12px; }
+		.navbar-inverse .navbar-toggle { border-color: #eeeeee; }
+		.navbar-inverse .navbar-toggle .icon-bar { background-color: #000; }
+		.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus { background-color: #eeeeee; }
+		.navbar-inverse .btn-link { color: #000; margin-top:3px; }
+		.navbar-inverse .btn-link:hover, .navbar-inverse .btn-link:focus { font-weight: bold; color: #000 }
+		.navbar-inverse .navbar-nav > li > a { color: #000; margin-top:3px;	}
+		.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus { font-weight: bold;color: #000; }
+		.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+			background-color: #eeeeee;
+			font-weight: bold;
+			color: #000;
+		}
 	</style>
 </head>
 <body>
@@ -43,37 +50,45 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        //'brandLabel' => Yii::$app->name,
+        'brandLabel' => Html::img('http://shopforclipart.com/images/cartoon-superwoman/17.jpg', ['height'=>'50px', 'alt'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
+		'brandOptions' => ['class' => 'brandclass'],//options of the brand
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top', //my-navbar 
-			//'style' => 'color: #000;background-color: #eeeeee;border-bottom: 1px solid #bfbfbf;'
         ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Home', 'url' => ['/site/index'], 'active' => ('/site/index' == $this->context->id)],
 			[
 				'label' => 'Lots', 
-				
 				'items' => [
 					['label' => 'Create New Lot','url' => ['/lot/create'], 'active' => ('/lot/create' == $this->context->id)],
 					['label' => 'Current Lot','url' => ['/lot/update'], 'active' => ('/lot/update' == $this->context->id)],
 					['label' => 'Lots History','url' => ['/lot'], 'active' => ('/lot' == $this->context->id)],
+					['label' => 'Discount Managment','url' => ['/discount'], 'active' => ('/lot' == $this->context->id)],
 				]
 			],
-            ['label' => 'Product', 'url' => ['/product']],
+			[
+				'label' => 'Products', 
+				'items' => [
+					['label' => 'Products List','url' => ['/product'], 'active' => ('/product' == $this->context->id)],
+					['label' => 'Add Product by Barcode','url' => ['/product/add-products-by-upc'], 'active' => ('/product/add-products-by-upc' == $this->context->id)],
+					['label' => 'Edit Unfinished Product','url' => ['/product/add-products'], 'active' => ('/product/add-products' == $this->context->id)],
+				]
+			],
             ['label' => 'Orders', 'url' => ['/openorder/order']],
             ['label' => 'Users', 'url' => ['/user']], 
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => 'color: #000;']]
+                ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => '']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout', 'style' => 'color: #000;']
+                    'Logout (' . Yii::$app->user->identity->name . ')',
+                    ['class' => 'btn btn-link logout', 'style' => '']
                 )
                 . Html::endForm()
                 . '</li>'
@@ -96,7 +111,7 @@ AppAsset::register($this);
     <div class="container">
         <p class="pull-left">&copy; Buchoo <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <!--<p class="pull-right"><?= Yii::powered() ?></p>-->
     </div>
 </footer>
 

@@ -57,4 +57,14 @@ class DiscountList extends \yii\db\ActiveRecord
     {
         return $this->hasMany(LotRel::className(), ['discount_list_id' => 'discount_list_id']);
     }
+	
+	public function getHowToPutIt()
+    {
+		$text = '';
+		$discountJson = $this->discount_json;
+		foreach($discountJson AS $index=>$discount)
+			$text .= ($index) ? ','.$discount : $discount;
+		
+		return $text;
+	}
 }
