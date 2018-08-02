@@ -23,11 +23,6 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 	<style>
-		.navbar-inverse { 
-			background-color: #eeeeee; 
-			border-bottom: 2.75px solid #bfbfbf;
-			min-height: 60px;
-		}
 		.brandclass {  }
 		.navbar-toggle { margin-top: 12px; }
 		.navbar-inverse .navbar-toggle { border-color: #eeeeee; }
@@ -42,6 +37,11 @@ AppAsset::register($this);
 			font-weight: bold;
 			color: #000;
 		}
+		.navbar-inverse { 
+			background-color: #eeeeee; 
+			border-bottom: 2.75px solid #bfbfbf;
+			min-height: 60px;
+		}
 	</style>
 </head>
 <body>
@@ -51,7 +51,7 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         //'brandLabel' => Yii::$app->name,
-        'brandLabel' => Html::img('http://shopforclipart.com/images/cartoon-superwoman/17.jpg', ['height'=>'50px', 'alt'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
+        'brandLabel' => Html::img('https://cdn.iconscout.com/public/images/icon/free/png-256/google-logo-39642b4be634b363-256x256.png', ['height'=>'50px', 'alt'=>Yii::$app->name, 'title'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
 		'brandOptions' => ['class' => 'brandclass'],//options of the brand
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
@@ -74,9 +74,9 @@ AppAsset::register($this);
 			[
 				'label' => 'Products', 
 				'items' => [
-					['label' => 'Products List','url' => ['/product'], 'active' => ('/product' == $this->context->id)],
 					['label' => 'Add Product by Barcode','url' => ['/product/add-products-by-upc'], 'active' => ('/product/add-products-by-upc' == $this->context->id)],
 					['label' => 'Edit Unfinished Product','url' => ['/product/add-products'], 'active' => ('/product/add-products' == $this->context->id)],
+					['label' => 'Products List','url' => ['/product'], 'active' => ('/product' == $this->context->id)],
 				]
 			],
             ['label' => 'Orders', 'url' => ['/openorder/order']],

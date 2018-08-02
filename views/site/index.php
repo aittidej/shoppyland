@@ -60,20 +60,16 @@ $this->title = Yii::$app->name;
 	<center>
 		<div class='col-sm-12' style='margin-top: 14%;'>
 			<div class='col-sm-12'>
-				<img src="https://www.google.com/images/srpr/logo11w.png"/ style='width: 270px;height: 95px;margin:5px;'>
+				<?= Html::a(Html::img('https://www.google.com/images/srpr/logo11w.png', ['style'=>'width:270px;height:95px;margin:5px;']), ['/']); ?>
 			</div>
 			<div class='col-sm-12'><br></div>
 			<div class='col-sm-12'>
 				<?php 
-				//$form = ActiveForm::begin(['action'=>'https://www.google.com/search', 'method'=>'GET']); 
-				$form = ActiveForm::begin(['method'=>'GET', 'action' => ['/product']]); 
-					
-					echo Html::textInput('q', NULL, ['type'=>'search', 'class'=>'search'])."<br><br>";
-					
-					echo Html::submitButton('Google Search', ['class' => 'button', 'value'=>'submit', 'id'=>'submit']);
-					echo Html::submitButton("I'm Feeling Lucky", ['class' => 'button', 'value'=>'lucky', 'id'=>'lucky']);
-				
-				 ActiveForm::end(); 
+					$form = ActiveForm::begin(['method'=>'GET', 'action' => ['/product']]); 
+						echo Html::textInput('q', NULL, ['type'=>'search', 'class'=>'search'])."<br><br>";
+						echo Html::submitButton('Google Search', ['class' => 'button', 'value'=>'submit', 'id'=>'submit']);
+						echo Html::submitButton("I'm Feeling Lucky", ['class' => 'button', 'value'=>'lucky', 'id'=>'lucky']);
+					 ActiveForm::end();
 				 ?>
 				<!--<form name="google" action="https://www.google.com/search" method="GET"><br>
 					<input type="search" name='q' class="search"><br><br>
