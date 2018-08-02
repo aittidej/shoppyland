@@ -32,6 +32,7 @@ AppAsset::register($this);
 		.navbar-inverse .btn-link:hover, .navbar-inverse .btn-link:focus { font-weight: bold; color: #000 }
 		.navbar-inverse .navbar-nav > li > a { color: #000; margin-top:3px;	}
 		.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus { font-weight: bold;color: #000; }
+		.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus { background-color: #eeeeee;color: #000; }
 		.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
 			background-color: #eeeeee;
 			font-weight: bold;

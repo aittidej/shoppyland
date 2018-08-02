@@ -28,6 +28,8 @@ $users = ArrayHelper::map(User::find()->where(['role_id'=>2, 'status'=>'1'])->or
 
     <?= $form->field($model, 'shipping_cost')->textInput() ?>
 	
+    <?= $form->field($model, 'shipping_cost_usd')->textInput() ?>
+	
     <?= $form->field($model, 'additional_cost')->textInput() ?>
 
     <div class="form-group">

@@ -4,6 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+
 use app\components\UpcItemDB;
 use app\components\eBaySearch;
 
@@ -47,10 +50,19 @@ abstract class MainController extends Controller
         ];*/
     }
 	
-    public function init()
+	public function beforeAction($action)
     {
-		if(Yii::$app->user->isGuest || !Yii::$app->user->identity->isAdmin)
+        if(Yii::$app->user->isGuest || !Yii::$app->user->identity->isAdmin)
+		{
+			Yii::$app->session->setFlash('danger', "You do not have sufficient permissions to view this page.");
 			return $this->redirect(['/']);
+		}
+
+        if (parent::beforeAction($action)) {
+            return true;
+        }
+
+        return false;
     }
 	
 	protected function addItemsHelper($items, $openOrderId = FALSE, $data = [])
@@ -62,7 +74,7 @@ abstract class MainController extends Controller
 			if(empty($barcode) || !is_numeric($barcode) || strlen($barcode) != 12)
 				continue;
 			
-			//$invalidUPC = false;
+			$invalidUPC = false;
 			$product = Product::findOne(['upc'=>$barcode]);
 			
 			// Take care of adding missing products

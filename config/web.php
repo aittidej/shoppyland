@@ -8,7 +8,7 @@ Yii::setAlias('web', dirname(__DIR__) . '/web');
 
 $config = [
     'id' => 'basic',
-	'name' => 'Shoppyland',
+	'name' => 'Shoppyland by Honey',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -40,6 +40,25 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+		
+		
+		'mail' => [
+			'class' => 'yii\swiftmailer\Mailer',
+			'viewPath' => '@app/mail',
+			'useFileTransport' => false,//set this property to false to send mails to real email addresses
+			//comment the following array to send mail using php's mail function
+			'transport' => [
+				'class' => 'Swift_SmtpTransport',
+				'host' => 'smtp.gmail.com',
+				'username' => 'username@gmail.com',
+				'password' => 'password',
+				'port' => '587',
+				'encryption' => 'tls',
+			]
+		],
+		
+		
+		
 		'urlManager' => [
 			'enablePrettyUrl' => true,
 			'rules' => [

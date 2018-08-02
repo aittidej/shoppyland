@@ -40,7 +40,7 @@ class OpenOrder extends \yii\db\ActiveRecord
             [['lot_id', 'user_id', 'number_of_box', 'status'], 'default', 'value' => null],
             [['lot_id', 'user_id', 'number_of_box', 'status'], 'integer'],
             [['creation_datetime'], 'safe'],
-            [['total_weight', 'shipping_cost', 'additional_cost'], 'number'],
+            [['total_weight', 'shipping_cost', 'shipping_cost_usd', 'additional_cost'], 'number'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
             [['lot_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lot::className(), 'targetAttribute' => ['lot_id' => 'lot_id']],
         ];
@@ -59,6 +59,7 @@ class OpenOrder extends \yii\db\ActiveRecord
             'number_of_box' => 'Number Of Box',
             'total_weight' => 'Total Weight',
             'shipping_cost' => 'Shipping Cost (฿)',
+            'shipping_cost_usd' => 'Shipping Cost ($)',
             'additional_cost' => 'Additional Cost ($)',
             'status' => 'Status',
         ];
