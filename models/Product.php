@@ -50,7 +50,7 @@ class Product extends \yii\db\ActiveRecord
             [['brand_id', 'status'], 'default', 'value' => null],
             [['brand_id', 'status'], 'integer'],
             [['base_price', 'weight'], 'number'],
-            [['description'], 'string'],
+            [['description', 'searchtext'], 'string'],
             [['image_path', 'json_data', 'creation_datetime', 'modify_datetime'], 'safe'],
             [['upc', 'model', 'color', 'size', 'dimension', 'category'], 'string', 'max' => 100],
             [['title'], 'string', 'max' => 255],

@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use app\models\Product;
 
 /**
@@ -40,9 +41,12 @@ class ProductSearch extends Product
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $q = NULL)
     {
-        $query = Product::find()->where(['status'=>1]);
+		if(empty($q))
+			$query = Product::find()->where(['status'=>1]);
+		else
+			$query = Product::find()->where("searchtext @@ to_tsquery('".$q."')");
 
         // add conditions that should always apply here
 
