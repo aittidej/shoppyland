@@ -13,7 +13,14 @@ $this->params['breadcrumbs'][] = 'Update';
 <div class="product-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+	
+	<center>
+	<?php
+		if(!empty($model->firstImage))
+			echo Html::img($model->firstImage, [])
+	?>
+	</center>
+	
     <?= $this->render('_form', [
         'model' => $model,
 		'upload' => $upload

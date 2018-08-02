@@ -25,6 +25,8 @@ use app\components\UpcItemDB;
  */
 class ProductController extends \app\controllers\MainController
 {
+	public $wontInclude = ['mfsrp', 'usd', 'cad', 'our price', 'ns'];
+	
 	public function actionTest()
 	{
 		$eBaySearch = New eBaySearch();
@@ -300,28 +302,42 @@ class ProductController extends \app\controllers\MainController
 		$lines = array_map('trim', explode("\n", $text));
 		foreach($lines AS $i=>$line)
 		{
-			//if(empty($array['model']) && (preg_match('/\F\d{5}/', $line, $withF) || preg_match('/\d{5}/', $line, $withoutF))) // start with F follow by 5 digits number
-				//$array['model'] = empty($withF[0]) ? (empty($withoutF[0]) ? '' : $withoutF[0]) : $withF[0];
 			$upc = str_replace(' ', '', $line);
 			if(is_numeric($upc) && strlen($upc) == 12) { // only number with 12 digits
 				$array['upc'] = $upc;
 				continue;
 			}
 			
-			if(preg_match('/\F\d{5}/', $line, $withF)) {
-				$array['model'] = $withF[0];
-				continue;
-			} else if(empty($array['model']) && $i < 2 && preg_match('/\d{5}/', $line, $withoutF)) {
-				$array['model'] = $withoutF[0];
-				continue;
+			switch (strtolower($brand)) 
+			{
+				case "coach":
+					if(preg_match('/\F\d{5}/', $line, $withF)) {
+						$array['model'] = $withF[0];
+						continue;
+					} else if(empty($array['model']) && $i < 2 && preg_match('/\d{5}/', $line, $withoutF)) {
+						$array['model'] = $withoutF[0];
+						continue;
+					}
+					break;
+				case "michael kors":
+					break;
+				case "kate spade":
+					if(preg_match('/\WKRU\d{4}/', $line, $m)) {
+						$array['model'] = $m[0];
+						continue;
+					} else if(preg_match('/\WLRU\d{4}/', $line, $m)) {
+						$array['model'] = $m[0];
+						continue;
+					}
+					break;
 			}
 			
 			if(strpos($line, '$') !== false && is_numeric(str_replace('$', '', $line))) { // with $ sign
 				$array['base_price'] = str_replace('$', '', $line);
 				continue;
 			}
-				
-			if(!preg_match("/[0-9]+/", $line) == TRUE && strtolower($line) != 'mfsrp') { // no number
+			
+			if(!preg_match("/[0-9]+/", $line) == TRUE && !in_array(strtolower($line), $this->wontInclude)) { // no number
 				$title[] = $line;
 				continue;
 			}
@@ -335,27 +351,7 @@ class ProductController extends \app\controllers\MainController
 		/*switch (strtolower($brand)) 
 		{
 			case "coach":
-				foreach($lines AS $i=>$line)
-				{
-					if(preg_match('/^F[0-9]{5}$/', $line) || preg_match('/^f[0-9]{5}$/', $line) || preg_match('/^[0-9]{5}$/', $line)) // start with F follow by 5 digits number
-						$array['model'] = $line;
-					
-					if(strpos($line, '$') === false && is_numeric(str_replace('$', '', $line))) // with $ sign
-						$array['base_price'] = str_replace('$', '', $line);
-					
-					$upc = str_replace(' ', '', $line);
-					if(is_numeric($upc) && strlen($upc) == 12) // only number with 12 digits
-						$array['upc'] = $upc;
-						
-					if(!preg_match("/[0-9]+/", $line) == TRUE) // no number
-						$title[] = $line;
-				}
-				
-				if(!empty($title))
-				{
-					foreach(array_reverse($title) AS $t)
-						$array['title'] .= $t." ";
-				}
+
 				break;
 			case "michael kors":
 				break;
