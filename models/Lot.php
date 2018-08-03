@@ -97,6 +97,9 @@ class Lot extends \yii\db\ActiveRecord
 	public function getUnitPrice($productId)
 	{
 		$lotRel = LotRel::findOne(['lot_id' => $this->lot_id, 'product_id'=>$productId]);
+		if(empty($lotRel))
+			return NULL;
+		
 		if(empty($lotRel->overwrite_total))
 			return Yii::$app->controller->priceDiscountCalculator($lotRel->price, $lotRel->discount_list_id);
 		else
