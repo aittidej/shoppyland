@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 
 use app\models\LoginForm;
 use app\models\Product;
+use app\components\EmailReader;
 
 class SiteController extends Controller
 {
@@ -62,14 +63,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-		Yii::$app->mailer->compose()
-					->setFrom('ettidej@gmail.com')
-					->setTo('ettidej@yahoo.com')
+		/*echo Yii::$app->mailer->compose()
+					->setTo('ettidej@gmail.com')
 					->setSubject('Message subject')
-					->setTextBody('Plain text content')
 					->setHtmlBody('<b>HTML content</b>')
-					->send();
-	 
+					->send();*/
+					
         return $this->render('index');
     }
 

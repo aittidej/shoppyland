@@ -8,7 +8,7 @@ Yii::setAlias('web', dirname(__DIR__) . '/web');
 
 $config = [
     'id' => 'basic',
-	'name' => 'Shoppyland by Honey',
+	'name' => 'ShoppyLand by Honey',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -33,32 +33,26 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+		'emailReader' => [
+            'class' => 'app\components\EmailReader',
         ],
-		
-		
-		'mail' => [
+		'mailer' => [
 			'class' => 'yii\swiftmailer\Mailer',
 			'viewPath' => '@app/mail',
-			'useFileTransport' => false,//set this property to false to send mails to real email addresses
+			'messageConfig' => [
+				'charset' => 'UTF-8',
+				'from' => ['info@shoppylandbyhoney.com' => 'ShoppyLand by Honey'],
+			],
 			//comment the following array to send mail using php's mail function
 			'transport' => [
 				'class' => 'Swift_SmtpTransport',
-				'host' => 'smtp.gmail.com',
-				'username' => 'username@gmail.com',
-				'password' => 'password',
-				'port' => '587',
-				'encryption' => 'tls',
+				'host' => 'smtpout.secureserver.net',
+				'username' => 'info@shoppylandbyhoney.com',
+				'password' => '12345678',
+				'port' => '25',
+				//'encryption' => 'tls',
 			]
 		],
-		
-		
-		
 		'urlManager' => [
 			'enablePrettyUrl' => true,
 			'rules' => [

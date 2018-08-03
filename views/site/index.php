@@ -67,8 +67,8 @@ $this->title = Yii::$app->name;
 				<?php 
 					$form = ActiveForm::begin(['method'=>'GET', 'action' => ['/product']]); 
 						echo Html::textInput('q', NULL, ['type'=>'search', 'class'=>'search'])."<br><br>";
-						echo Html::submitButton('Google Search', ['class' => 'button', 'value'=>'submit', 'id'=>'submit']);
-						echo Html::submitButton("I'm Feeling Lucky", ['class' => 'button', 'value'=>'lucky', 'id'=>'lucky']);
+						echo Html::submitButton('Google Search', ['class' => 'button']);
+						echo Html::submitButton("I'm Feeling Lucky", ['class' => 'button']);
 					 ActiveForm::end();
 				 ?>
 				<!--<form name="google" action="https://www.google.com/search" method="GET"><br>
