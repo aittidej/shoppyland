@@ -14,3 +14,851 @@
 [23-Jul-2018 16:30:23 UTC] PHP Fatal error:  require(): Failed opening required '/home/qazxnivkxh1s/public_html/shoppyland/config/db.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 4
 [23-Jul-2018 16:30:24 UTC] PHP Warning:  require(/home/qazxnivkxh1s/public_html/shoppyland/config/db.php): failed to open stream: No such file or directory in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 4
 [23-Jul-2018 16:30:24 UTC] PHP Fatal error:  require(): Failed opening required '/home/qazxnivkxh1s/public_html/shoppyland/config/db.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 4
+[07-Aug-2018 22:38:49 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting ']' in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 46
+[07-Aug-2018 22:39:57 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting ']' in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 46
+[08-Aug-2018 14:38:34 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 24. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 24. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=55f6081e2444d6a36c40f4de77797975; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2sAZbzgIljZ10ndxMqFGgAABYw',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '56758',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533739109.5391418933868408203125,
+    'REQUEST_TIME' => 1533739109,
+]
+[08-Aug-2018 14:51:38 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 26. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 26. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=ae3ca163899be31f5bbe7a9738342411; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2sDefZmnXm18tenWmMvBAAABlc',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '57088',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533739897.12283802032470703125,
+    'REQUEST_TIME' => 1533739897,
+]
+[08-Aug-2018 14:54:00 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 26. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 26. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_PRAGMA' => 'no-cache',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_CACHE_CONTROL' => 'no-cache',
+    'HTTP_DNT' => '1',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2sEB-ZmnXm18tenWmMv3AAABk0',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '57196',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533740039.4164149761199951171875,
+    'REQUEST_TIME' => 1533740039,
+]
+[08-Aug-2018 15:12:14 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 40. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 40. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=ae3ca163899be31f5bbe7a9738342411; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2sITNjCN4xdSXJr-Z8GCwAABcw',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '57717',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533741132.4901640415191650390625,
+    'REQUEST_TIME' => 1533741132,
+]
+[08-Aug-2018 16:38:21 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 119. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 119. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=1fb6b69ac39ab14ef4a8f0c8ddc84c2c; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2scfBzlzGIuv6nhbYMF8gAAB0w',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '61523',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533746300.1793949604034423828125,
+    'REQUEST_TIME' => 1533746300,
+]
+[08-Aug-2018 16:38:50 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 119. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 119. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=1fb6b69ac39ab14ef4a8f0c8ddc84c2c; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D; _tccl_visit=1fd05282-6234-4231-b069-06eaebce47ab',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2scmCCtXJkrqCfzx9wdlgAABhg',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '61537',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533746328.3996980190277099609375,
+    'REQUEST_TIME' => 1533746328,
+]
+[08-Aug-2018 16:38:57 UTC] PHP Warning:  Unterminated comment starting line 96 in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 96
+[08-Aug-2018 16:39:07 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 119. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 119. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=1fb6b69ac39ab14ef4a8f0c8ddc84c2c; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D; _tccl_visit=1fd05282-6234-4231-b069-06eaebce47ab',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2scqSbmfLRgEY9y4aL5fwAABwA',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '61547',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533746345.975840091705322265625,
+    'REQUEST_TIME' => 1533746345,
+]
+[08-Aug-2018 17:10:10 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 118. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 118. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=1fb6b69ac39ab14ef4a8f0c8ddc84c2c; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2sj8SCtXJkrqCfzx9wptAAABgM',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '62551',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533748209.06249904632568359375,
+    'REQUEST_TIME' => 1533748209,
+]
+[08-Aug-2018 17:12:52 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 121. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 121. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=1fb6b69ac39ab14ef4a8f0c8ddc84c2c; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2skk9880oKcD02a0rHOgAAABYo',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '37348',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533748371.5847508907318115234375,
+    'REQUEST_TIME' => 1533748371,
+]
+[08-Aug-2018 17:13:06 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 120. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 120. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=1fb6b69ac39ab14ef4a8f0c8ddc84c2c; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D; _tccl_visit=1fd05a99-6652-4b72-a4a2-0e8690e8810e',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2skoRzlzGIuv6nhbYMVCAAAB0U',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '62598',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533748385.136168003082275390625,
+    'REQUEST_TIME' => 1533748385,
+]
+[08-Aug-2018 17:59:53 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 121. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 121. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=1fb6b69ac39ab14ef4a8f0c8ddc84c2c; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2svlR6nruiVzZEvsTuy6QAAB1g',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '63958',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533751189.8766720294952392578125,
+    'REQUEST_TIME' => 1533751189,
+]
+[08-Aug-2018 18:01:03 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 135. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 135. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=d1d0a75f6131cce6ba620ad764ac7479; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D; _tccl_visit=1fd0659e-8141-494f-8331-0038c96471f0',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2sv3UHAetPNyk0dtSxwhAAABhA',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '63979',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533751261.6912519931793212890625,
+    'REQUEST_TIME' => 1533751261,
+]
+[08-Aug-2018 18:03:25 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 135. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 135. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=d1d0a75f6131cce6ba620ad764ac7479; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D; _tccl_visit=1fd0659e-8141-494f-8331-0038c96471f0',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2swa6w15SsALcWFd08-DQAABlY',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '64004',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533751403.744659900665283203125,
+    'REQUEST_TIME' => 1533751403,
+]
+[08-Aug-2018 19:32:05 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 135. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 135. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=d1d0a75f6131cce6ba620ad764ac7479; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2tFMM0Q1kWuOyY0yFw4NwAABY4',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '57696',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533756721.378037929534912109375,
+    'REQUEST_TIME' => 1533756721,
+]
+[08-Aug-2018 19:32:13 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 143. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/ReceiptController.php on line 143. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=1fbb2729-3303-40cf-b0f2-0096f5e44b09; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=696111fad42fda3555bc22bb857d3a5f; _csrf=a255d88414b931bfa22c4bb275f6f199673d597e9509e6ef6af303fe3345f275a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%224nawZXFqadhzs2LkiAUVSOjoGybrIvoO%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W2tFO80Q1kWuOyY0yFw4RAAABYg',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '57697',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/receipt/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/receipt/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/receipt/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1533756731.4754641056060791015625,
+    'REQUEST_TIME' => 1533756731,
+]

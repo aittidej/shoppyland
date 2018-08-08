@@ -49,7 +49,7 @@ $config = [
 				'host' => 'smtpout.secureserver.net',
 				'username' => 'info@shoppylandbyhoney.com',
 				'password' => '12345678',
-				'port' => '25',
+				'port' => '80',
 				//'encryption' => 'tls',
 			]
 		],

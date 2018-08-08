@@ -22,6 +22,9 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
     <h1><?= Html::encode($this->title) ?></h1>
 	<div class="clearfix"></div><br>
 	<div class='col-sm-12 col-md-2 col-lg-2'>
+		<div class='col-sm-12'>
+			<?= Html::a('Add by Image', ['/lot/select', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
+		</div>
 		<?php $form = ActiveForm::begin(); ?>
 			<strong>Price: $<span id="calculated-result"></span></strong>
 			<?= $form->field($model, 'discount_list_id')->label('Discount')->dropDownList($discountLists, ['prompt'=>'Select discount...', 'id'=>'discount', 'required'=>true]); ?>
@@ -38,9 +41,6 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 	</div>
 	
 	<div class='col-sm-12 col-md-10 col-lg-10'>
-		<div class='col-sm-12'>
-			<?= Html::a('Add by Image', ['/lot/select', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
-		</div>
 		<div class="clearfix"></div><br>
 		<?php foreach($lotRels AS $lotRel) { ?>
 				<div class='col-sm-12 col-md-2 col-lg-3'>

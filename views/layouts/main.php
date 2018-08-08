@@ -67,8 +67,8 @@ AppAsset::register($this);
 				'label' => 'Lots', 
 				'items' => [
 					['label' => 'Create New Lot','url' => ['/lot/create'], 'active' => ('/lot/create' == $this->context->id)],
-					['label' => 'Current Lot','url' => ['/lot/update'], 'active' => ('/lot/update' == $this->context->id)],
-					['label' => 'Lots History','url' => ['/lot'], 'active' => ('/lot' == $this->context->id)],
+					//['label' => 'Current Lot','url' => ['/lot/update'], 'active' => ('/lot/update' == $this->context->id)],
+					['label' => 'Existed Lots','url' => ['/lot'], 'active' => ('/lot' == $this->context->id)],
 					['label' => 'Discount Managment','url' => ['/discount'], 'active' => ('/lot' == $this->context->id)],
 				]
 			],

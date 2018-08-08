@@ -18,16 +18,55 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
+		//'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
             //'open_order_id',
             'lot.lot_number',
             'user.name',
-            'creation_datetime',
-            'number_of_box',
-            'total_weight',
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'creation_datetime',
+				//'filterType' => GridView::FILTER_DATE,
+				'filter' => false,
+				'value' => function ($model, $key, $index, $column) {
+					return date('M d, Y g:i A', strtotime($model->creation_datetime));
+				},
+				'label' => 'Date/Time',
+				'format' => 'raw',
+				'vAlign' => 'middle',
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'numberOfItems',
+				'label' => 'Number of Items',
+				'vAlign' => 'middle',
+				'filter' => false,
+				'format' => 'raw',
+				'hAlign' => 'center',
+				'pageSummary' => true,
+				'value' => function($data) {
+					return $data->numberOfItems;
+				},
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'number_of_box',
+				'vAlign' => 'middle',
+				'filter' => false,
+				'pageSummary' => true,
+				'hAlign' => 'center',
+				'format' => 'raw',
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'total_weight',
+				'vAlign' => 'middle',
+				'filter' => false,
+				'pageSummary' => true,
+				'format' => 'raw',
+			],
             //'total_usd',
             //'total_baht',
             //'status',
@@ -51,14 +90,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
         'id' => 'open-order-list',
-        'pjax' => false,
+        'pjax' => true,
         'toolbar' => [['content' => Html::a('Create Open Order', ['create'], ['class' => 'btn btn-success'])]],
         'bordered' => 0,
         'striped' => 1,
         'condensed' => 1,
         'responsive' => 1,
         'hover' => 1,
-        'showPageSummary' => false,
+        'showPageSummary' => true,
         'panel' => [
             'type' => GridView::TYPE_PRIMARY,
 			'heading' => '<span id="display-filter" style=\'cursor: pointer\'><span class="view-upload-files glyphicon glyphicon-menu-down"></span>  List of Open Orders</span>',

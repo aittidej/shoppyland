@@ -40,14 +40,26 @@ class EmailReader extends Component {
 		$this->conn = imap_open('{'.$this->server.':'.$this->port.'/pop3}', $this->user, $this->pass);
 	}
 
-	// move the message to a new folder
-	public function move($msg_index, $folder='INBOX.Processed') {
+	// move the message to a new folder - NOT WORKING WITH POP3
+	public function move($msg_index, $folder='INBOX.Processed')
+	{
 		// move on server
 		imap_mail_move($this->conn, $msg_index, $folder);
 		imap_expunge($this->conn);
 
 		// re-read the inbox
 		$this->inbox();
+	}
+	
+	public function delete($msg_index) {
+		// delete from server
+		imap_delete($this->conn, $msg_index);
+		$check = imap_mailboxmsginfo($this->conn);
+var_dump($check);exit;
+		imap_expunge($this->conn);
+
+		// re-read the inbox
+		$this->close();
 	}
 
 	// get a specific message (1 = first email, 2 = second email, etc.)
@@ -59,21 +71,21 @@ class EmailReader extends Component {
 
 		return $this->inbox[0];
 	}
-	
-	/*public function getAll()
+
+	public function getAll()
 	{
 		if (count($this->inbox) <= 0)
 			return [];
 		else
 			return $this->inbox;
-	}*/
+	}
 	
 	public function getLatest()
 	{
 		if (count($this->inbox) <= 0)
 			return [];
 		else
-			return $this->inbox[0];
+			return $this->inbox[(count($this->inbox)-1)];
 	}
 
 	// read the inbox

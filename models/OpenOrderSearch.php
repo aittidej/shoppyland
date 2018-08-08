@@ -42,12 +42,23 @@ class OpenOrderSearch extends OpenOrder
      */
     public function search($params)
     {
-        $query = OpenOrder::find();
+        $query = OpenOrder::find()->joinwith('user')->joinwith('lot');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+			'sort' => [
+			'defaultOrder' => ['lot.lot_number' => SORT_DESC, 'user.name' => SORT_ASC],
+			'attributes' => [
+				'user.name',
+				'number_of_box',
+				'total_weight',
+				'numberOfItems',
+				'creation_datetime',
+				'lot.lot_number',
+			]
+		],
         ]);
 
         $this->load($params);
@@ -63,12 +74,14 @@ class OpenOrderSearch extends OpenOrder
             'open_order_id' => $this->open_order_id,
             'lot_id' => $this->lot_id,
             'user_id' => $this->user_id,
-            'creation_datetime' => $this->creation_datetime,
             'number_of_box' => $this->number_of_box,
             'total_weight' => $this->total_weight,
             'shipping_cost' => $this->shipping_cost,
             'status' => $this->status,
         ]);
+		
+		if(!empty($this->creation_datetime))
+			$query->andFilterWhere(['=', 'DATE(creation_datetime)', date('Y-m-d', strtotime($this->creation_datetime))]);
 
         return $dataProvider;
     }

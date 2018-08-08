@@ -88,4 +88,9 @@ class OpenOrder extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OpenOrderRel::className(), ['open_order_id' => 'open_order_id']);
     }
+	
+	public function getNumberOfItems()
+	{
+		return $this->hasMany(OpenOrderRel::className(), ['open_order_id' => 'open_order_id'])->sum('qty');
+	}
 }
