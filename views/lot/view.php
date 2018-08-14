@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use kartik\detail\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Lot */
@@ -26,12 +26,22 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'lot_id',
-            'lot_number',
-            'creation_datetime',
-        ],
-    ]) ?>
+			'model'=>$model,
+			'condensed'=>true,
+			'hover'=>true,
+			'mode' => DetailView::MODE_EDIT,
+			'panel'=>[
+				'heading'=>'List of Lots',
+				'type'=>DetailView::TYPE_INFO,
+			],
+			'attributes'=>[
+				['attribute' => 'lot_id'],
+				['attribute' => 'lot_number'],
+				['attribute' => 'brand_id'],
+				['attribute'=>'start_date', 'type'=>DetailView::INPUT_DATE],
+				['attribute'=>'end_date', 'type'=>DetailView::INPUT_DATE],
+			]
+		]);
+	?>
 
 </div>

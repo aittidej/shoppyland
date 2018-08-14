@@ -60,8 +60,15 @@ class LotController extends \app\controllers\MainController
      */
     public function actionView($id)
     {
+		$model = $this->findModel($id);
+		
+		if ($model->load(Yii::$app->request->post()) && $model->save())
+		{
+			return $this->redirect(['view', 'id' => $model->lot_id]);
+		}
+		
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -156,7 +163,7 @@ class LotController extends \app\controllers\MainController
         ]);
     }
 	
-	public function actionSelect($id = 0)
+	public function actionSelect($id = 0, $brandid = 0)
     {
 		if(empty($id))
 		{
@@ -170,7 +177,7 @@ class LotController extends \app\controllers\MainController
 		$lotRels = $model->lotRels;
 		foreach($lotRels AS $lotRel)
 			$alreadyIn[] = $lotRel->product_id;
-		$products = Product::find()->where(['NOT IN', 'product_id', array_values($alreadyIn)])->andWhere(['brand_id'=>$model->brand_id])->orderby('model ASC')->all();
+		$products = Product::find()->where(['NOT IN', 'product_id', array_values($alreadyIn)])->andWhere(['brand_id'=>$brandid])->orderby('model ASC')->all();
 		
         if (Yii::$app->request->isPost)
 		{
@@ -256,7 +263,7 @@ class LotController extends \app\controllers\MainController
      */
     public function actionDelete($id)
     {
-		LotRel::deleteAll(['lot_id'=>$id->lot_id]);
+		LotRel::deleteAll(['lot_id'=>$id]);
         $this->findModel($id)->delete();
 
         return $this->redirect(['/']);
@@ -269,13 +276,18 @@ class LotController extends \app\controllers\MainController
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionLotRelDelete($id)
+    public function actionLotRelDelete()
     {
-		$lotRel = LotRel::findOne($id);
-		$lotId = $lotRel->lot_id;
-        $lotRel->delete();
-
-        return $this->redirect(['/lot/update', 'id'=>$lotId]);
+		if (Yii::$app->request->isAjax) 
+		{
+			if (!empty($_POST['lotRelId'])) 
+			{
+				//$lotRel = LotRel::findOne($_POST['lotRelId']);
+				//return $lotRel->delete();
+			}
+		}
+		
+		Yii::$app->end();
     }
 
     /**

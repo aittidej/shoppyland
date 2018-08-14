@@ -62,14 +62,7 @@ class SiteController extends Controller
      * @return string
      */
     public function actionIndex()
-    {
-		echo Yii::$app->mailer->compose()
-					//->setFrom(['info@shoppylandbyhoney.com' => 'ShoppyLand by Honey'])
-					->setTo('ettidej@gmail.com')
-					->setSubject('Message subject')
-					->setHtmlBody('<b>HTML content</b>')
-					->send();
-					
+    {					
         return $this->render('index');
     }
 

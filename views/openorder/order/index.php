@@ -1,5 +1,6 @@
 <?php
 
+use yii\web\View;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
@@ -22,8 +23,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            //'open_order_id',
-            'lot.lot_number',
+            'open_order_id',
+            //'lot.lot_number',
+			[
+        		//'attribute' => 'lot.lot_number',
+        		'vAlign' => 'middle',
+        		'hAlign' => 'left',
+        		'pageSummary' => true,
+        		'group'=>true,  // enable grouping,
+        		'groupedRow'=>true,                    // move grouped column to a single grouped row
+        		'groupOddCssClass'=>'kv-grouped-row',  // configure odd group cell css class
+        		'groupEvenCssClass'=>'kv-grouped-row', // configure even group cell css class
+				'value' => function ($model, $key, $index, $column) {
+					return "Lot #".$model->lot->lot_number;
+				},
+        	],
             'user.name',
 			[
 				'class' => 'kartik\grid\DataColumn',
@@ -73,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 			[
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{add-items} {view} {update} {delete}',
+				'template' => '{add-items} {load-price} {view} {update} {delete}',
 				'hAlign' => 'center', 
 				'vAlign' => 'middle',
 				'width' => '10%',
@@ -83,6 +97,12 @@ $this->params['breadcrumbs'][] = $this->title;
 							'<i class="glyphicon glyphicon-plus"></i>',
 							$url, [ 'title' => 'Add Items' ]
 						);
+					},
+					'load-price' => function ($url, $model) {
+						return "<span id='load-".$model->open_order_id."'>".Html::a(
+							'<i class="glyphicon glyphicon-download-alt"></i>',
+							'javascript:void(0);', [ 'title' => 'Load Price', 'class' => 'load-price', 'data-order_id' => $model->open_order_id ]
+						)."</span>";
 					}
 				],
 			],
@@ -91,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
         'id' => 'open-order-list',
         'pjax' => true,
-        'toolbar' => [['content' => Html::a('Create Open Order', ['create'], ['class' => 'btn btn-success'])]],
+        'toolbar' => [['content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Create Open Order', ['create'], ['class' => 'btn btn-success'])]],
         'bordered' => 0,
         'striped' => 1,
         'condensed' => 1,
@@ -107,3 +127,29 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	?>
 </div>
+
+<?php
+$this->registerJs("
+	$( '.load-price' ).click(function() {
+		var orderId = $(this).data('order_id');
+		$.ajax({
+			url: '".Yii::$app->getUrlManager()->createUrl('openorder/order/load-price')."',
+			type: 'POST',
+			data: { orderId: orderId },
+			beforeSend: function() {
+				$('#load-'+orderId).html(\"<img src='https://loading.io/spinners/hourglass/lg.sandglass-time-loading-gif.gif' width='14px' height='14px'>\");
+			},
+			success: function(result) {
+				console.log(result);
+				if(result)
+					$('#load-'+orderId).html(\"<i class='glyphicon glyphicon-ok' style='color: green;'></i>\");
+				
+			},
+			error: function(err) {
+				console.log(err);
+				$('#load-'+orderId).html(\"<i class='glyphicon glyphicon-remove' style='color: red;'></i>\");
+			}
+		});
+	});
+", View::POS_READY);
+?>

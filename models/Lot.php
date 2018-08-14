@@ -12,6 +12,8 @@ use Yii;
  * @property int $user_id
  * @property int $lot_number
  * @property string $creation_datetime
+ * @property string $start_date
+ * @property string $end_date
  *
  * @property LotRel[] $lotRels
  */
@@ -39,7 +41,7 @@ class Lot extends \yii\db\ActiveRecord
             [['lot_number', 'user_id', 'brand_id'], 'default', 'value' => null],
             [['lot_number', 'user_id', 'brand_id'], 'integer'],
             [['lot_number'], 'required'],
-            [['creation_datetime', 'buy_date'], 'safe'],
+            [['creation_datetime', 'start_date', 'end_date'], 'safe'],
 			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
 			[['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
         ];
@@ -57,6 +59,8 @@ class Lot extends \yii\db\ActiveRecord
             'lot_id' => 'Lot ID',
             'lot_number' => 'Lot Number',
             'creation_datetime' => 'Creation Datetime',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date',
         ];
     }
 
@@ -66,6 +70,14 @@ class Lot extends \yii\db\ActiveRecord
     public function getLotRels()
     {
         return $this->hasMany(LotRel::className(), ['lot_id' => 'lot_id']);
+    }
+	
+	public function getLotRelByProduct($product_id)
+    {
+		if(empty($product_id))
+			return NULL;
+		
+		return LotRel::find()->where(['lot_id' => $this->lot_id, 'product_id'=>$product_id])->all();
     }
 	
 	/**
@@ -106,4 +118,8 @@ class Lot extends \yii\db\ActiveRecord
 			return $lotRel->overwrite_total;
 	}
 	
+	public function getLotText()
+	{
+		return 'Lot #'.$this->lot_number.' ('.date('m/d/Y', strtotime($this->start_date)).' - '.date('m/d/Y', strtotime($this->end_date)).')';
+	}
 }

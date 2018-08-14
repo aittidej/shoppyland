@@ -51,6 +51,7 @@ class OpenOrderSearch extends OpenOrder
 			'sort' => [
 			'defaultOrder' => ['lot.lot_number' => SORT_DESC, 'user.name' => SORT_ASC],
 			'attributes' => [
+				'open_order_id',
 				'user.name',
 				'number_of_box',
 				'total_weight',

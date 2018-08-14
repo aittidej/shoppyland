@@ -19,7 +19,7 @@ class LotSearch extends Lot
     {
         return [
             [['lot_id', 'lot_number', 'user_id', 'brand_id'], 'integer'],
-            [['creation_datetime', 'buy_date'], 'safe'],
+            [['creation_datetime', 'start_date', 'end_date'], 'safe'],
         ];
     }
 
@@ -55,7 +55,8 @@ class LotSearch extends Lot
                     'user.name',
                     'brand.title',
                     'creation_datetime',
-                    'buy_date',
+                    'start_date',
+                    'end_date',
                 ]
             ],
         ]);
@@ -75,7 +76,8 @@ class LotSearch extends Lot
             'brand_id' => $this->brand_id,
             'user_id' => $this->user_id,
             'creation_datetime' => $this->creation_datetime,
-            'buy_date' => $this->buy_date,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
         ]);
 
         return $dataProvider;

@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'lot_id',
             'lot_number',
             'lotOwner',
-            'buy_date',
+           // 'buy_date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

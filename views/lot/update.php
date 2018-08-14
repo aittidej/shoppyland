@@ -43,15 +43,16 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 	<div class='col-sm-12 col-md-10 col-lg-10'>
 		<div class="clearfix"></div><br>
 		<?php foreach($lotRels AS $lotRel) { ?>
+			<div id='lot-rel-row-<?= $lotRel->lot_rel_id ?>'>
 				<div class='col-sm-12 col-md-2 col-lg-3'>
 					<?php  
 						$product = $lotRel['product'];
-						echo Html::img($product->firstImage, ['width'=>'100%']);
+						//echo Html::img($product->firstImage, ['width'=>'100%']);
 						echo "<br>$product->upc";
 						echo "<br># $product->model ";
-						echo Html::a(" <i class='glyphicon glyphicon-trash'></i>", ['/lot/lot-rel-delete', 'id'=>$lotRel->lot_rel_id, 'product_id'=>0], [
-													'data-confirm' => 'Are you sure you want to delete this?',
-													'data-method' => 'post',
+						echo Html::a(" <i class='glyphicon glyphicon-trash'></i>", 'javascript:void(0);', [
+													'data-lot_rel_id' => $lotRel->lot_rel_id,
+													'class' => 'delete',
 													'title' => 'Delete',
 													'style'=>'color: red;',
 												]);
@@ -75,14 +76,28 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 				<div class='col-sm-12 col-md-3 col-lg-2'>
 					<?= $form->field($lotRel, 'overwrite_total')->label('Overwrite Total')->textInput(['class'=>'form-control overwrite', 'id'=>'overwrite-'.$lotRel->lot_rel_id, 'data-lot_rel_id'=>$lotRel->lot_rel_id]) ?>
 				</div>
-				
-				
-			<div class="clearfix"></div><br>
+				<div class="clearfix"></div><br>
+			</div>
 		<?php } ?>
 	</div>
 </div>
 
 <?php $this->registerJs("
+
+	$('.delete').click(function (e) {
+		var lotRelId = $(this).data('lot_rel_id');
+		$.ajax({
+			url: '".Yii::$app->getUrlManager()->createUrl('lot/lot-rel-delete')."',
+			type: 'POST',
+			data: { lotRelId: lotRelId  },
+			success: function(result) {
+				$('#lot-rel-row-'+lotRelId).remove();
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+	});
 
 	$('#price').focusout(function (e) {
 		var price = $(this).val();

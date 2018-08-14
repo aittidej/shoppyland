@@ -49,17 +49,19 @@ $total = $subtotal = $totalQty = $tax = 0;
 			</tr>
 			<?php foreach($openOrderRels AS $index => $openOrderRel) { ?>
 				<?php 
+					$tempSub = $openOrderRel->unit_price*$openOrderRel->qty;
 					$product = $openOrderRel['product'];
 					$brand = $product->brand;
 					$totalQty += $openOrderRel->qty;
-					$subtotal += $openOrderRel->subtotal;
-					$tax += $openOrderRel->subtotal*0.1;
+					$subtotal += $tempSub;
+					$tax += $tempSub*0.1;
+					$brandTitle = empty($brand->title) ? '' : $brand->title.' - ';
 				?>
 				<tr>
-					<td width="40%"><?= $brand->title.' - '.$product->upc.' <strong>('.$product->model.')</strong>'; ?></td>
+					<td width="40%"><?= $brandTitle.$product->upc.' <strong>('.$product->model.')</strong>'; ?></td>
 					<td><?= $openOrderRel->qty ?></td>
 					<td>$<?= $openOrderRel->unit_price ?></td>
-					<td>$<?= $openOrderRel->subtotal ?></td>
+					<td>$<?= $tempSub ?></td>
 				</tr>
 			<?php } ?>
 			<tr>

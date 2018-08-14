@@ -11,14 +11,15 @@ use Yii;
  * @property int $open_order_id
  * @property int $product_id
  * @property string $unit_price
- * @property string $subtotal
  * @property int $qty
+ * @property int $need_attention
  *
  * @property OpenOrder $openOrder
  * @property Product $product
  */
 class OpenOrderRel extends \yii\db\ActiveRecord
 {
+	public $subtotal;
     /**
      * {@inheritdoc}
      */
@@ -34,8 +35,8 @@ class OpenOrderRel extends \yii\db\ActiveRecord
     {
         return [
             [['open_order_id', 'product_id', 'qty'], 'default', 'value' => null],
-            [['open_order_id', 'product_id', 'qty'], 'integer'],
-            [['unit_price', 'subtotal'], 'number'],
+            [['open_order_id', 'product_id', 'qty', 'need_attention'], 'integer'],
+            [['unit_price'], 'number'],
             [['open_order_id'], 'exist', 'skipOnError' => true, 'targetClass' => OpenOrder::className(), 'targetAttribute' => ['open_order_id' => 'open_order_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
         ];
@@ -51,8 +52,8 @@ class OpenOrderRel extends \yii\db\ActiveRecord
             'open_order_id' => 'Open Order ID',
             'product_id' => 'Product ID',
             'unit_price' => 'Unit Price',
-            'subtotal' => 'Subtotal',
             'qty' => 'Qty',
+            'need_attention' => 'Need Attention',
         ];
     }
 

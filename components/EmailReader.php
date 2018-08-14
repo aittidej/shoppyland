@@ -98,6 +98,7 @@ var_dump($check);exit;
 				'index'     => $i,
 				'header'    => imap_headerinfo($this->conn, $i),
 				'body'      => imap_body($this->conn, $i),
+				'fetchbody'      => trim( utf8_encode( quoted_printable_decode( imap_fetchbody($this->conn, $i, 2) ) ) ),
 				'structure' => imap_fetchstructure($this->conn, $i)
 			);
 		}

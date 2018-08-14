@@ -378,7 +378,7 @@ class ProductController extends \app\controllers\MainController
 			['file' => $fileData]
 		);
 		$response =  json_decode($r->getBody(),true);
-		if($response['ErrorMessage'] == "") {
+		if(empty($response['ErrorMessage'])) {
 			return $response;
 		} else {
 			header('HTTP/1.0 400 Forbidden');

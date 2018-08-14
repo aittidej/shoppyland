@@ -12,8 +12,10 @@ use Yii;
  * @property int $product_id
  * @property int $discount_list_id
  * @property string $price
+ * @property string $total
  * @property string $overwrite_total
  * @property string $creation_datetime
+ * @property string $bought_date
  *
  * @property DiscountList $discountList
  * @property Lot $lot
@@ -39,8 +41,8 @@ class LotRel extends \yii\db\ActiveRecord
         return [
             [['lot_id', 'product_id', 'discount_list_id'], 'default', 'value' => null],
             [['lot_id', 'product_id', 'discount_list_id'], 'integer'],
-            [['price', 'overwrite_total'], 'number'],
-			[['creation_datetime'], 'safe'],
+            [['price', 'overwrite_total', 'total'], 'number'],
+			[['creation_datetime', 'bought_date'], 'safe'],
             [['discount_list_id'], 'exist', 'skipOnError' => true, 'targetClass' => DiscountList::className(), 'targetAttribute' => ['discount_list_id' => 'discount_list_id']],
             [['lot_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lot::className(), 'targetAttribute' => ['lot_id' => 'lot_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
@@ -58,6 +60,7 @@ class LotRel extends \yii\db\ActiveRecord
             'product_id' => 'Product ID',
             'discount_list_id' => 'Discount List ID',
             'price' => 'Price',
+            'total' => 'Total',
         ];
     }
 
@@ -84,4 +87,12 @@ class LotRel extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Product::className(), ['product_id' => 'product_id']);
     }
+	
+	public function getUnitPrice()
+    {
+		if($this->overwrite_total)
+			return $this->overwrite_total;
+		
+		return Yii::$app->controller->priceDiscountCalculator($this->price, $this->discount_list_id);
+	}
 }

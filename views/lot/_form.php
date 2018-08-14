@@ -14,7 +14,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lot_number')->textInput() ?>
 
-    <?= $form->field($model, 'creation_datetime')->textInput() ?>
+    <?= $form->field($model, 'start_date')->textInput() ?>
+	
+    <?= $form->field($model, 'end_date')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -17,8 +17,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Lots', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $discountLists = ArrayHelper::map(DiscountList::find()->where(['status'=>1])->orderby('title ASC')->all(), 'discount_list_id', 'title');
-$users = ArrayHelper::map(User::find()->where(['role_id'=>2, 'status'=>1])->orderby('name ASC')->all(), 'user_id', 'name');
-$brands = ArrayHelper::map(Brand::find()->where(['status'=>1])->orderby('title ASC')->all(), 'brand_id', 'title');
+//$users = ArrayHelper::map(User::find()->where(['role_id'=>2, 'status'=>1])->orderby('name ASC')->all(), 'user_id', 'name');
+//$brands = ArrayHelper::map(Brand::find()->where(['status'=>1])->orderby('title ASC')->all(), 'brand_id', 'title');
 ?>
 <style>
 	table {
@@ -46,9 +46,15 @@ $brands = ArrayHelper::map(Brand::find()->where(['status'=>1])->orderby('title A
 		<div class='col-sm-12 col-md-6 col-lg-6'>
 			<?= $form->field($model, 'lot_number')->textInput(['required'=>true]) ?>
 			
-			<?= $form->field($model, 'user_id')->dropDownList($users, ['prompt'=>'(All buyer)']); ?>
+			<?php 
+				$model->start_date = date('Y-m-d');
+				echo $form->field($model, 'start_date')->textInput();
+				echo $form->field($model, 'end_date')->textInput();
+			?>
 			
-			<?= $form->field($model, 'brand_id')->dropDownList($brands, ['prompt'=>'Select brand...']); ?>
+			<?php //$form->field($model, 'user_id')->dropDownList($users, ['prompt'=>'(All buyer)']); ?>
+			
+			<?php //$form->field($model, 'brand_id')->dropDownList($brands, ['prompt'=>'Select brand...']); ?>
 
 			<?= $form->field($model, 'discount_list_id')->label('Discount')->dropDownList($discountLists, ['prompt'=>'Select discount...']); ?>
 
