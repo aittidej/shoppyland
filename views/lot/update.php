@@ -19,12 +19,16 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 ?>
 <div class="lot-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+	<div class='col-sm-10'>
+		<h1><?= Html::encode($this->title) ?></h1>
+	</div>
+	<div class='col-sm-2'>
+		<br><br>
+		<?= Html::a('Add by Image', ['/lot/select', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
+	</div>
+	
 	<div class="clearfix"></div><br>
 	<div class='col-sm-12 col-md-2 col-lg-2'>
-		<div class='col-sm-12'>
-			<?= Html::a('Add by Image', ['/lot/select', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
-		</div>
 		<?php $form = ActiveForm::begin(); ?>
 			<strong>Price: $<span id="calculated-result"></span></strong>
 			<?= $form->field($model, 'discount_list_id')->label('Discount')->dropDownList($discountLists, ['prompt'=>'Select discount...', 'id'=>'discount', 'required'=>true]); ?>
@@ -47,9 +51,16 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 				<div class='col-sm-12 col-md-2 col-lg-3'>
 					<?php  
 						$product = $lotRel['product'];
-						//echo Html::img($product->firstImage, ['width'=>'100%']);
+						echo Html::img($product->firstImage, ['width'=>'100%']);
 						echo "<br>$product->upc";
-						echo "<br># $product->model ";
+						echo "<br>".Html::a(" <i class='glyphicon glyphicon-copy'></i>", 'javascript:void(0);', [
+													'data-lot_rel_id' => $lotRel->lot_rel_id,
+													'data-product_id' => $product->product_id,
+													'class' => 'duplicate',
+													'title' => 'Duplicate',
+													'style'=>'color: green;',
+												]);
+						echo " # $product->model ";
 						echo Html::a(" <i class='glyphicon glyphicon-trash'></i>", 'javascript:void(0);', [
 													'data-lot_rel_id' => $lotRel->lot_rel_id,
 													'class' => 'delete',
@@ -67,10 +78,10 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 				<div class='col-sm-12 col-md-3 col-lg-2'>
 					<?php  
 						if(empty($lotRel->overwrite_total))
-							$lotRel->subtotal = Yii::$app->controller->priceDiscountCalculator($lotRel->price, $lotRel->discount_list_id);
+							$lotRel->total = Yii::$app->controller->priceDiscountCalculator($lotRel->price, $lotRel->discount_list_id);
 						else
-							$lotRel->subtotal = $lotRel->overwrite_total;
-						echo $form->field($lotRel, 'subtotal')->label('Total ($)')->textInput(['class'=>'form-control subtotal', 'id'=>'subtotal-'.$lotRel->lot_rel_id, 'data-lot_rel_id'=>$lotRel->lot_rel_id, 'readonly'=>'readonly']);
+							$lotRel->total = $lotRel->overwrite_total;
+						echo $form->field($lotRel, 'total')->label('Total ($)')->textInput(['class'=>'form-control total', 'id'=>'total-'.$lotRel->lot_rel_id, 'data-lot_rel_id'=>$lotRel->lot_rel_id, 'readonly'=>'readonly']);
 					?>
 				</div>
 				<div class='col-sm-12 col-md-3 col-lg-2'>
@@ -84,12 +95,22 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 
 <?php $this->registerJs("
 
+	$('.duplicate').click(function (e) {
+		var lotRelId = $(this).data('lot_rel_id');
+		alert(lotRelId);
+		
+		var priceText = \"\";
+	});
+	
 	$('.delete').click(function (e) {
 		var lotRelId = $(this).data('lot_rel_id');
 		$.ajax({
 			url: '".Yii::$app->getUrlManager()->createUrl('lot/lot-rel-delete')."',
 			type: 'POST',
 			data: { lotRelId: lotRelId  },
+			beforeSend: function() {
+				$('#lot-rel-row-'+lotRelId).css('background-color', '#d68380')
+			},
 			success: function(result) {
 				$('#lot-rel-row-'+lotRelId).remove();
 			},
@@ -168,7 +189,7 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 				if(result != overwrite)
 					$('#overwrite-'+lot_rel_id).val('');
 				
-				$('#subtotal-'+lot_rel_id).val(result);
+				$('#total-'+lot_rel_id).val(result);
 				
 			},
 			error: function(err) {

@@ -151,11 +151,11 @@ abstract class MainController extends Controller
 					}
 				//}
 			}
-			/*else
+			else
 			{
 				$product->status = 1;
 				$product->save(false);
-			}*/
+			}
 			
 			if(!empty($openOrderId) && !empty($product))
 			{

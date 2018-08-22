@@ -181,12 +181,26 @@ class OrderController extends \app\controllers\MainController
 	{
 		if (Yii::$app->request->isAjax) 
 		{
-			if(!empty($_POST['qty']) && !empty($_POST['price']) && !empty($_POST['openOrderRelId']))
+			if(isset($_POST['qty']) && isset($_POST['price']) && isset($_POST['openOrderRelId']))
 			{
 				$openOrderRel = OpenOrderRel::findOne($_POST['openOrderRelId']);
 				$openOrderRel->qty = $_POST['qty'];
 				$openOrderRel->unit_price = $_POST['price'];
 				$openOrderRel->save(false);
+				
+				if(empty($_POST['price']))
+					return 1;
+				
+				$openOrder = $openOrderRel->openOrder;
+				$lotRels = LotRel::find()->where(['lot_id'=>$openOrder->lot_id, 'product_id'=>$openOrderRel->product_id])->all();
+				if(empty($lotRels))
+				{
+					$lotRel = new LotRel();
+					$lotRel->lot_id = $openOrder->lot_id;
+					$lotRel->product_id = $openOrderRel->product_id;
+					$lotRel->overwrite_total = $_POST['price'];
+					$lotRel->save(false);
+				}
 				
 				return 1;
 			}
@@ -267,11 +281,14 @@ class OrderController extends \app\controllers\MainController
 						$openOrderRel->need_attention = 1;
 					
 					$lotRel = $lotRels[0];
-					$unitPrice = empty($lotRel->overwrite_total) ? (empty($lotRel->price) ? NULL : $lotRel->price) : $lotRel->overwrite_total;
-					if(empty($openOrderRel->unit_price))
-						$openOrderRel->unit_price = $unitPrice;
-					else if($openOrderRel->unit_price != $unitPrice)
-						$openOrderRel->need_attention = 1;
+					$unitPrice = $lotRel->unitPrice;
+					if(!empty($unitPrice))
+					{
+						if(empty($openOrderRel->unit_price))
+							$openOrderRel->unit_price = $unitPrice;
+						else if($openOrderRel->unit_price != $unitPrice)
+							$openOrderRel->need_attention = 1;
+					}
 					$openOrderRel->save(false);
 				}
 				

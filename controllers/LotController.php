@@ -116,7 +116,7 @@ class LotController extends \app\controllers\MainController
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id = 0)
+    public function actionUpdate($id = 0, $brandId = 0)
     {
 		if(empty($id))
 		{
@@ -129,8 +129,11 @@ class LotController extends \app\controllers\MainController
 		}
 		else
 			$model = $this->findModel($id);
-			
-		$lotRels = LotRel::find()->where(['lot_id'=>$model->lot_id])->with('product')->orderby('lot_rel_id DESC')->all();
+		
+		if(empty($brandId))
+			$lotRels = LotRel::find()->where(['lot_id'=>$model->lot_id])->joinWith('product')->orderby('product.brand_id ASC, product.category DESC')->all();
+		else	
+			$lotRels = LotRel::find()->joinWith('product')->where("lot_id=".$model->lot_id." AND product.brand_id=".$brandId)->orderby('product.brand_id ASC, product.category DESC')->all();
 
         if (Yii::$app->request->isPost)
 		{
@@ -141,9 +144,8 @@ class LotController extends \app\controllers\MainController
 			$products = Product::find()->where(['IN', 'upc', array_values($items)])->indexBy('product_id')->orderby('product_id ASC')->all();
 			foreach($products AS $product)
 			{
-				$lotRel = LotRel::findOne(['lot_id'=>$model->lot_id, 'product_id'=>$product->product_id]);
-				if(empty($lotRel))
-				{
+				//$lotRel = LotRel::findOne(['lot_id'=>$model->lot_id, 'product_id'=>$product->product_id]);
+				//if(empty($lotRel)){
 					$lotRel = New LotRel();
 					$lotRel->lot_id = $model->lot_id;
 					$lotRel->product_id = $product->product_id;
@@ -151,7 +153,7 @@ class LotController extends \app\controllers\MainController
 					$lotRel->price = empty($_POST['Lot']['price']) ? NULL : $_POST['Lot']['price'];
 					$lotRel->overwrite_total = empty($_POST['Lot']['overwrite_total']) ? NULL : $_POST['Lot']['overwrite_total'];
 					$lotRel->save(false);
-				}
+				//}
 			}
 			
             return $this->redirect(['update', 'id' => $model->lot_id]);
@@ -207,22 +209,21 @@ class LotController extends \app\controllers\MainController
 	{
 		if (Yii::$app->request->isAjax) 
 		{
-			if (!empty($_POST['price']) && !empty($_POST['discount_id'])) 
+			if(!empty($_POST['lot_rel_id']))
 			{
-				if(!empty($_POST['lot_rel_id']))
-				{
-					$lotRel = LotRel::findOne($_POST['lot_rel_id']);
-					$lotRel->price = $_POST['price'];
-					$lotRel->discount_list_id = $_POST['discount_id'];
-					$lotRel->overwrite_total = empty($_POST['overwrite']) ? NULL : $_POST['overwrite'];
-					$lotRel->save(false);
-				}
-				
-				if(empty($_POST['overwrite']))
-					echo $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
-				else
-					echo $_POST['overwrite'];
+				$lotRel = LotRel::findOne($_POST['lot_rel_id']);
+				$lotRel->price = empty($_POST['price']) ? NULL : $_POST['price'];
+				$lotRel->discount_list_id = empty($_POST['discount_id']) ? NULL : $_POST['discount_id'];
+				$lotRel->overwrite_total = empty($_POST['overwrite']) ? NULL : $_POST['overwrite'];
+				if(empty($lotRel->overwrite_total))
+					$lotRel->total = $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
+				$lotRel->save(false);
 			}
+			
+			if(empty($_POST['overwrite']))
+				echo $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
+			else
+				echo $_POST['overwrite'];
 		}
 		
 		Yii::$app->end();
@@ -246,6 +247,7 @@ class LotController extends \app\controllers\MainController
 					$lotRel->product_id = $_POST['product_id'];
 					$lotRel->discount_list_id = empty($_POST['discount_id']) ? NULL : $_POST['discount_id'];
 					$lotRel->price = empty($_POST['price']) ? NULL : $_POST['price'];
+					$lotRel->total = $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
 					$lotRel->save(false);
 				}
 			}
@@ -282,8 +284,8 @@ class LotController extends \app\controllers\MainController
 		{
 			if (!empty($_POST['lotRelId'])) 
 			{
-				//$lotRel = LotRel::findOne($_POST['lotRelId']);
-				//return $lotRel->delete();
+				$lotRel = LotRel::findOne($_POST['lotRelId']);
+				return $lotRel->delete();
 			}
 		}
 		

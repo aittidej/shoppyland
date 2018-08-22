@@ -22,11 +22,12 @@ $total = $totalQty = 0;
 </style>
 
 <div class="open-order-view">
-	<div class='col-sm-7'>
+	<div class='col-sm-6'>
 		<h1><?= Html::encode($this->title) ?></h1>
 	</div>
-	<div class='col-sm-5'><br>
+	<div class='col-sm-6'><br>
 		<?= Html::a('<i class="glyphicon glyphicon-plus"></i> Add More Items', ['/openorder/order/add-items', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-success']) ?> 
+		<?= Html::a('<i class="glyphicon glyphicon-book"></i> Lots', ['/lot/update', 'id'=>$openOrder->lot_id], ['class' => 'btn btn-default', 'target' => '_blank']) ?> 
 		<?= Html::a('<i class="glyphicon glyphicon-pencil"></i> Update Order', ['/openorder/order/update', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-warning']) ?> 
 		<?= Html::a('View Report', ['/openorder/report', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-info']) ?>
 	</div>

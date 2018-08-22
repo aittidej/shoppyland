@@ -122,8 +122,8 @@ class ReceiptController extends Controller
 				$product->save(false);
 				
 				$overwriteTotal = $this->roundIt($data['price']);
-				$lotRel = LotRel::findOne(['lot_id'=>$lot->lot_id, 'product_id'=>$product->product_id, 'overwrite_total'=>$overwriteTotal]);
-				$lotRel = LotRel::find()->where("lot_id=".$lot->lot_id." AND product_id=".$product->product_id." AND (total=".$overwriteTotal." OR overwrite_total=".$overwrite_total.")")->one();
+				//$lotRel = LotRel::findOne(['lot_id'=>$lot->lot_id, 'product_id'=>$product->product_id, 'overwrite_total'=>$overwriteTotal]);
+				$lotRel = LotRel::find()->where("lot_id=".$lot->lot_id." AND product_id=".$product->product_id." AND (total=".$overwriteTotal." OR overwrite_total=".$overwriteTotal.")")->one();
 				if(empty($lotRel))
 				{
 					$lotRel = New LotRel();

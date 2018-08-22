@@ -93,6 +93,7 @@ class LotRel extends \yii\db\ActiveRecord
 		if($this->overwrite_total)
 			return $this->overwrite_total;
 		
-		return Yii::$app->controller->priceDiscountCalculator($this->price, $this->discount_list_id);
+		//return Yii::$app->controller->priceDiscountCalculator($this->price, $this->discount_list_id);
+		return $this->total;
 	}
 }
