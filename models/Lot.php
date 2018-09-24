@@ -46,7 +46,21 @@ class Lot extends \yii\db\ActiveRecord
 			[['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
         ];
     }
-
+	
+	/*
+	public function beforeSave($insert) 
+	{
+        if (parent::beforeSave($insert)) 
+		{
+			$this->start_date = date('Y-m-d', strtotime($this->start_date));
+			$this->end_date = date('Y-m-d', strtotime($this->end_date));
+            return true;
+        } 
+		else 
+            return false;
+    }
+	*/
+	
     /**
      * {@inheritdoc}
      */

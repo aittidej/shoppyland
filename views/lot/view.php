@@ -38,8 +38,22 @@ $this->params['breadcrumbs'][] = $this->title;
 				['attribute' => 'lot_id'],
 				['attribute' => 'lot_number'],
 				['attribute' => 'brand_id'],
-				['attribute'=>'start_date', 'type'=>DetailView::INPUT_DATE],
-				['attribute'=>'end_date', 'type'=>DetailView::INPUT_DATE],
+				[
+					'attribute'=>'start_date', 
+					'format'=>'date',
+					'type'=>DetailView::INPUT_DATE,
+					'widgetOptions' => [
+						'pluginOptions'=>['format'=>'yyyy-mm-dd']
+					],
+				],
+				[
+					'attribute'=>'end_date', 
+					'format'=>'date',
+					'type'=>DetailView::INPUT_DATE,
+					'widgetOptions' => [
+						'pluginOptions'=>['format'=>'yyyy-mm-dd']
+					],
+				],
 			]
 		]);
 	?>

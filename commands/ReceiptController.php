@@ -33,6 +33,7 @@ class ReceiptController extends Controller
 		set_time_limit(0);
 		$all = Yii::$app->emailReader->getAll();
 		$isCapture = false;
+		$numberOfItems = 0;
 		foreach($all AS $latest)
 		{
 			$index = $latest['index'];
@@ -68,8 +69,9 @@ class ReceiptController extends Controller
 				$receipt->buy_date = $mailDate;
 				$receipt->msg_number = $index;
 				$receipt->message_id = $messageId;
-				$receipt->data = $capture;
+				$receipt->data = $capture['data'];
 				$receipt->udate = $udate;
+				$receipt->number_of_items = $capture['numberOfItems'];
 				$receipt->save(false);
 				
 				$isCapture = true;
@@ -88,6 +90,7 @@ class ReceiptController extends Controller
 		{
 			$buyDate = $receipt->buy_date;
 			$lot = Lot::find()->where("(end_date IS NULL OR end_date > '$buyDate') AND start_date <= '$buyDate'")->one();
+			//var_dump($lot);exit;
 			if(empty($lot))
 			{
 				$lastLot = Lot::find()->orderby("lot_id DESC")->one();
@@ -219,7 +222,7 @@ class ReceiptController extends Controller
 			];
 		}
 		
-		return $data;
+		return ['data'=>$data, 'numberOfItems'=>$itemNumber];
 	}
 	
 	private function parseMichaelKorsEmail($body)
@@ -287,7 +290,7 @@ class ReceiptController extends Controller
 			];
 		}
 
-		return $data;
+		return ['data'=>$data, 'numberOfItems'=>$itemNumber];
 	}
 	
 	private function parseKateSpadeEmail($body)
