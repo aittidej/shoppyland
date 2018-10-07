@@ -22,6 +22,8 @@ use yii\web\IdentityInterface;
  * @property string $payment_method
  * @property int $is_wholesale
  * @property string $exchange_rate
+ * @property string $labor_charge_json
+ * @property string $currency_base
  *
  * @property OpenOrder[] $openOrders
  * @property Role $role
@@ -30,6 +32,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     public $authKey;
     public $accessToken;
+    public $temp_password;
 	
     /**
      * {@inheritdoc}
@@ -47,8 +50,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             [['status', 'role_id', 'is_wholesale'], 'default', 'value' => null],
             [['status', 'role_id', 'is_wholesale'], 'integer'],
-            [['last_login', 'creation_datetime'], 'safe'],
-            [['address'], 'string'],
+            [['last_login', 'creation_datetime', 'labor_charge_json'], 'safe'],
+            [['address', 'currency_base'], 'string'],
             [['exchange_rate'], 'number'],
             [['name', 'username', 'password', 'email'], 'string', 'max' => 255],
             [['phone', 'payment_method'], 'string', 'max' => 100],

@@ -421,6 +421,15 @@ class ProductController extends \app\controllers\MainController
 		}
         return $this->redirect(['index']);
     }
+	
+	public function actionPickSize($id, $size)
+    {
+		$product = $this->findModel($id);
+		$product->size = $size;
+		echo $product->save(false);
+		
+		echo "<script>window.close();</script>";
+	}
 
     /**
      * Finds the Product model based on its primary key value.

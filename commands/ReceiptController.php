@@ -9,15 +9,64 @@ use app\models\Lot;
 use app\models\LotRel;
 use app\models\Product;
 use app\models\Receipt;
+use app\models\Stock;
 
 class ReceiptController extends Controller
 {
 	// /home/qazxnivkxh1s/www/shoppyland/yii receipt/test
 	public function actionTest()
 	{
-		$price = 86;
-		$lotRel = LotRel::findOne(['lot_id'=>10, 'product_id'=>164, 'overwrite_total'=>$price]);
-		var_dump($lotRel);
+		//$all = Yii::$app->emailReader->getAll();
+		//var_dump($all[0]);
+		
+		$attachment = "/home/qazxnivkxh1s/public_html/shoppyland/web/uploads/attachment/Customer_2018-09-24_173335934.pdf";
+		$parser = new \Smalot\PdfParser\Parser();
+		$pdf = $parser->parseFile($attachment);
+		$text = $pdf->getText();
+		
+		$capture = $this->parseKateSpadeEmail($text);
+		
+		var_dump($capture);
+		//echo $text;
+	}
+	
+	public function actionCheckStock()
+	{
+		$receipts = $lot = [];
+		//$receipts = Receipt::find()->where("receipt_id>=94 AND receipt_id<=108")->all();
+		//$lot = Lot::findOne(18);
+		foreach($receipts AS $receipt)
+		{
+			foreach($receipt->data AS $data)
+			{
+				if(empty($data['upc']))
+					continue;
+					
+				$product = Product::findOne(['upc'=>$data['upc']]);
+				if(empty($product))
+					continue;
+				
+				echo $data['upc']."\n";
+				
+				$stock = Stock::findOne(['lot_id'=>$lot->lot_id, 'product_id'=>$product->product_id]);
+				if(empty($stock))
+				{
+					$stock = New Stock();
+					$stock->lot_id = $lot->lot_id;
+					$stock->product_id = $product->product_id;
+					$stock->qty = 1;
+					$stock->current_qty = 1;
+					$stock->save(false);
+				}
+				else
+				{
+					$stock->qty++;
+					$stock->current_qty++;
+					$stock->save(false);
+				}
+			}
+		}
+		
 	}
 	
 	// /home/qazxnivkxh1s/www/shoppyland/yii receipt/map-price
@@ -36,6 +85,7 @@ class ReceiptController extends Controller
 		$numberOfItems = 0;
 		foreach($all AS $latest)
 		{
+			$tranId = NULL;
 			$index = $latest['index'];
 			$udate = trim($latest['header']->udate);
 			$messageId = str_replace("<", "", str_replace(">", "", trim($latest['header']->message_id)));
@@ -49,16 +99,39 @@ class ReceiptController extends Controller
 
 			$mailDate = $this->convertTime(trim($latest['header']->MailDate));
 			$fromaddress = trim($latest['header']->fromaddress);
-			$brandId = $this->brand($fromaddress);
+			$brandId = $this->brand($fromaddress, $subject);
 			switch ($brandId) {
 				case "1":
+					if(preg_match('/TRAN:\s\d{6}/', $latest['body'], $tranIdList)) 
+					{
+						if(!empty($tranIdList[0]))
+							$tranId = substr($tranIdList[0], -6);
+					}
 					$capture = $this->parseCoachEmail($latest['body']);
 					break;
 				case "2":
+					if(preg_match('/Trans\s\d{6}/', $latest['body'], $tranIdList)) 
+					{
+						if(!empty($tranIdList[0]))
+							$tranId = substr($tranIdList[0], -6);
+					}
 					$capture = $this->parseMichaelKorsEmail($latest['fetchbody']);
 					break;
 				case "3":
-					$capture = $this->parseKateSpadeEmail($latest['body']);
+					if(!empty($latest['attachment']))
+					{
+						$parser = new \Smalot\PdfParser\Parser();
+						$pdf = $parser->parseFile($latest['attachment']);
+						$text = $pdf->getText();
+						$capture = $this->parseKateSpadeEmail($text);
+						
+						$text = str_replace(chr(160), " ", str_replace(chr(194), "", $text));
+						if(preg_match('/Invoice:\s\d{5}/', $text, $tranIdList)) 
+						{
+							if(!empty($tranIdList[0]))
+								$tranId = substr($tranIdList[0], -5);
+						}
+					}
 					break;
 			}
 			
@@ -69,9 +142,11 @@ class ReceiptController extends Controller
 				$receipt->buy_date = $mailDate;
 				$receipt->msg_number = $index;
 				$receipt->message_id = $messageId;
-				$receipt->data = $capture['data'];
+				$receipt->data = $capture;
 				$receipt->udate = $udate;
+				$receipt->transaction_id = $tranId;
 				$receipt->number_of_items = $capture['numberOfItems'];
+				$receipt->total = empty($capture['total']) ? 0 : $capture['total'];
 				$receipt->save(false);
 				
 				$isCapture = true;
@@ -100,7 +175,8 @@ class ReceiptController extends Controller
 				$lot->save(false);
 			}
 			
-			foreach($receipt->data AS $index=>$data)
+			$array = $receipt->data;
+			foreach($array['data'] AS $index=>$data)
 			{
 				$product = Product::findOne(['upc'=>$data['upc']]);
 				if(empty($product))
@@ -124,17 +200,41 @@ class ReceiptController extends Controller
 				$product->model = $data['model'];
 				$product->save(false);
 				
-				$overwriteTotal = $this->roundIt($data['price']);
-				//$lotRel = LotRel::findOne(['lot_id'=>$lot->lot_id, 'product_id'=>$product->product_id, 'overwrite_total'=>$overwriteTotal]);
-				$lotRel = LotRel::find()->where("lot_id=".$lot->lot_id." AND product_id=".$product->product_id." AND (total=".$overwriteTotal." OR overwrite_total=".$overwriteTotal.")")->one();
+				$boughtPrice = $this->roundIt($data['price']);
+				//$lotRel = LotRel::findOne(['lot_id'=>$lot->lot_id, 'product_id'=>$product->product_id, 'boughtPrice'=>$boughtPrice]);
+				$lotRel = LotRel::find()->where("lot_id=".$lot->lot_id." AND product_id=".$product->product_id." AND (total=".$boughtPrice." OR overwrite_total=".$boughtPrice.")")->one();
 				if(empty($lotRel))
 				{
 					$lotRel = New LotRel();
 					$lotRel->lot_id = $lot->lot_id;
 					$lotRel->product_id = $product->product_id;
 					$lotRel->bought_date = $buyDate;
-					$lotRel->overwrite_total = $overwriteTotal;
+					$lotRel->bought_price = $boughtPrice;
+					$lotRel->overwrite_total = $boughtPrice;
 					$lotRel->save(false);
+				}
+				else if(empty($lotRel->bought_date))
+				{
+					$lotRel->bought_date = $buyDate;
+					$lotRel->bought_price = $boughtPrice;
+					$lotRel->save(false);
+				}
+				
+				$stock = Stock::findOne(['lot_id'=>$lot->lot_id, 'product_id'=>$product->product_id]);
+				if(empty($stock))
+				{
+					$stock = New Stock();
+					$stock->lot_id = $lot->lot_id;
+					$stock->product_id = $product->product_id;
+					$stock->qty = 1;
+					$stock->current_qty = 1;
+					$stock->save(false);
+				}
+				else
+				{
+					$stock->qty++;
+					$stock->current_qty++;
+					$stock->save(false);
 				}
 			}
 			
@@ -154,7 +254,7 @@ class ReceiptController extends Controller
 	
 	private function parseCoachEmail($body)
 	{
-		$itemNumber = 0;
+		$itemNumber = $total = 0;
 		$startCapture = false;
 		$bodyArray = array_map('trim', explode("\n", $body));
 		foreach($bodyArray AS $line)
@@ -205,14 +305,37 @@ class ReceiptController extends Controller
 			if (!$startCapture && strpos($line, '------------------------------------------') !== false)
 				$startCapture = true;
 			else if ($startCapture && strpos($line, 'SUBTOTAL') !== false)
+			{
+				$startCapture = false;
+				continue;
+			}
+			else if (strpos($line, 'TOTAL') !== false)
+			{
+				$inline = str_replace("TOTAL", "", $line);
+				$total = trim(str_replace("$", "", str_replace("T", "", str_replace(",", "", $inline))));
+				if ( strpos($line, '(') !== false && strpos($line, ')') !== false )
+					$total = trim(str_replace("(", "", str_replace(")", "", $total))*(-1));
 				break;
+				/*
+				$inline = array_map('trim', explode(" ", $line));
+				if(empty($inline[1]))
+					break;
+				
+				$total = str_replace("$", "", str_replace("T", "", str_replace(",", "", $inline[1])));
+				if ( strpos($line, '(') !== false && strpos($line, ')') !== false )
+					$total = str_replace("(", "", str_replace(")", "", $total))*(-1);
+				break;*/
+			}
 		}
-
+		
 		$data = [];
 		foreach($upc AS $i=>$barcode)
 		{
 			if(empty($barcode))
 				continue;
+				
+			if ( strpos($price[$i], '(') !== false && strpos($price[$i], ')') !== false )
+				$price[$i] = trim(str_replace("(", "", str_replace(")", "", $price[$i]))*(-1));
 			
 			$data[$i] = [
 				'upc' => $barcode,
@@ -222,16 +345,20 @@ class ReceiptController extends Controller
 			];
 		}
 		
-		return ['data'=>$data, 'numberOfItems'=>$itemNumber];
+		return ['data'=>$data, 'numberOfItems'=>$itemNumber, 'total' => number_format($total, 2, '.', '')];
 	}
 	
 	private function parseMichaelKorsEmail($body)
 	{
-		$itemNumber = 0;
+		$itemNumber = $total = 0;
 		$startCapture = false;
-		$bodyArray = array_map('trim', explode("\n", $body));
+		
+		$bodyArray = array_map('trim', explode("=0A", $body));
 		foreach($bodyArray AS $line)
-		{			
+		{
+			$line = str_replace('S=', '', $line);
+			$line = str_replace('=', '', $line);
+			$line = trim(preg_replace('/\s\s+/', ' ', $line));
 			if(empty($line))
 				continue;
 			
@@ -258,13 +385,18 @@ class ReceiptController extends Controller
 						$title[$itemNumber] = $textArray[1];
 					
 					if(!empty($textArray[2]))
-						$fullPrice[$itemNumber] = str_replace("$", "", str_replace("T", "", $textArray[2]));
+					{
+						if(!empty($textArray[3]))
+							$fullPrice[$itemNumber] = str_replace(" ", "", str_replace("$", "", str_replace("T", "", $textArray[2].$textArray[3])));
+						else
+							$fullPrice[$itemNumber] = str_replace("$", "", str_replace("T", "", $textArray[2]));
+					}
 				}
-				else if(strpos($line, 'Style') !== false)
+				else if(strpos(str_replace(' ', '', $line), 'Style') !== false)
 					$model[$itemNumber] = trim(str_replace("Style:", "", $line));
-				else if(strpos($line, 'New Price') !== false)
+				else if(strpos(str_replace(' ', '', $line), 'NewPrice') !== false)
 				{
-					$price[$itemNumber] = trim(str_replace("$", "", str_replace("New Price:", "", $line)));
+					$price[$itemNumber] = trim(str_replace("$", "", str_replace("NewPrice:", "", str_replace(' ', '', $line))));
 					$itemNumber++;
 				}
 			}
@@ -272,7 +404,26 @@ class ReceiptController extends Controller
 			if (!$startCapture && strpos($line, 'Salesperson') !== false)
 				$startCapture = true;
 			else if ($startCapture && strpos($line, 'SUBTOTAL') !== false)
+			{
+				$startCapture = false;
+				continue;
+			}
+			else if (strpos($line, 'TOTAL') !== false)
+			{
+				$inline = str_replace("TOTAL", "", str_replace(" ", "", $line));
+				$total = trim(str_replace("$", "", str_replace("T", "", str_replace(",", "", $inline))));
+				if ( strpos($line, '(') !== false && strpos($line, ')') !== false )
+					$total = trim(str_replace("(", "", str_replace(")", "", $total))*(-1));
 				break;
+				/*$inline = array_map('trim', explode(" ", $line));
+				if(empty($inline[1]))
+					break;
+				
+				$total = str_replace("$", "", str_replace("T", "", str_replace(",", "", $inline[1])));
+				if ( strpos($line, '(') !== false && strpos($line, ')') !== false )
+					$total = str_replace("(", "", str_replace(")", "", $total))*(-1);
+				break;*/
+			}
 		}
 		
 		$data = [];
@@ -280,6 +431,11 @@ class ReceiptController extends Controller
 		{
 			if(empty($barcode))
 				continue;
+				
+			if ( strpos($fullPrice[$i], '(') !== false && strpos($fullPrice[$i], ')') !== false )
+				$fullPrice[$i] = trim(str_replace("(", "", str_replace(")", "", $fullPrice[$i]))*(-1));
+			if ( strpos($price[$i], '(') !== false && strpos($price[$i], ')') !== false )
+				$price[$i] = trim(str_replace("(", "", str_replace(")", "", $price[$i]))*(-1));
 			
 			$data[$i] = [
 				'upc' => $barcode,
@@ -290,15 +446,86 @@ class ReceiptController extends Controller
 			];
 		}
 
-		return ['data'=>$data, 'numberOfItems'=>$itemNumber];
+		return ['data'=>$data, 'numberOfItems'=>$itemNumber, 'total' => number_format($total, 2, '.', '')];
 	}
 	
 	private function parseKateSpadeEmail($body)
 	{
-		return;
+		$itemNumber = 0;
+		$startCapture = false;
+		$bodyArray = array_map('trim', explode("\n", str_replace(chr(160), " ", str_replace(chr(194), "", $body))));
+		foreach($bodyArray AS $line)
+		{	
+			if(empty($line))
+				continue;
+			
+			if($startCapture)
+			{
+				$qty = 1;
+				if(empty($title[$itemNumber]))
+					$title[$itemNumber] = '';
+				if(empty($price[$itemNumber]))
+					$price[$itemNumber] = '';
+				if(empty($fullPrice[$itemNumber]))
+					$fullPrice[$itemNumber] = '';
+				if(empty($upc[$itemNumber]))
+					$upc[$itemNumber] = '';
+				if(empty($model[$itemNumber]))
+					$model[$itemNumber] = '';
+				
+				if(ctype_alpha(str_replace(' ', '', trim($line))) !== false)
+					$title[$itemNumber] = trim($line);
+				if(preg_match('/^\d{12}\s/', $line))
+				{
+					$lineArrays = array_values(array_filter(explode(" ", $line)));
+					if(!empty($lineArrays[0]) && strlen($lineArrays[0]) == 12 && is_numeric($lineArrays[0]))
+					{
+						$upc[$itemNumber] = $lineArrays[0];
+						$fullPrice[$itemNumber] = str_replace("$", "", $lineArrays[2]);
+						$price[$itemNumber] = str_replace("$", "", $lineArrays[3]);
+						$itemNumber += $lineArrays[1];
+					}
+				}
+			}
+			
+			if (!$startCapture && strpos($line, 'Item') !== false  && strpos($line, 'Qty') !== false  && strpos($line, 'Price') !== false  && strpos($line, 'Amount') !== false)
+				$startCapture = true;
+			else if (strpos($line, 'Total USD') !== false)
+			{
+				$inline = str_replace("Total USD", "", $line);
+				$total = trim(str_replace("$", "", str_replace("T", "", str_replace(",", "", $inline))));
+				if ( strpos($line, '(') !== false && strpos($line, ')') !== false )
+					$total = trim(str_replace("(", "", str_replace(")", "", $total))*(-1));
+				break;
+			}
+			else if ($startCapture && strpos($line, '________________________________________________') !== false)
+				break;
+		}
+		
+		$data = [];
+		foreach($upc AS $i=>$barcode)
+		{
+			if(empty($barcode))
+				continue;
+				
+			if ( strpos($fullPrice[$i], '(') !== false && strpos($fullPrice[$i], ')') !== false )
+				$fullPrice[$i] = trim(str_replace("(", "", str_replace(")", "", $fullPrice[$i]))*(-1));
+			if ( strpos($price[$i], '(') !== false && strpos($price[$i], ')') !== false )
+				$price[$i] = trim(str_replace("(", "", str_replace(")", "", $price[$i]))*(-1));
+			
+			$data[$i] = [
+				'upc' => $barcode,
+				'model' => $model[$i],
+				'title' => $title[$i],
+				'price' => $price[$i],
+				'fullPrice' => $fullPrice[$i],
+			];
+		}
+
+		return ['data'=>$data, 'numberOfItems'=>$itemNumber, 'total' => number_format($total, 2, '.', '')];
 	}
 	
-	private function brand($fromaddress)
+	private function brand($fromaddress, $subject = false)
 	{
 		if(strpos($fromaddress, 'Coach') !== false)
 			return 1;
@@ -306,6 +533,12 @@ class ReceiptController extends Controller
 			return 2;
 		else if(strpos($fromaddress, 'katespade') !== false)
 			return 3;
+		else if(strpos(strtolower($subject), 'coach') !== false && strpos(strtolower($subject), 'receipt') !== false)
+			return 1;
+		else if(strpos(strtolower($subject), 'kate spade') !== false && strpos(strtolower($subject), 'receipt') !== false)
+			return 3;
+			
+		return false;
 	}
 	
 	private function convertTime($time)

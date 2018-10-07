@@ -119,6 +119,12 @@ class Product extends \yii\db\ActiveRecord
         return $this->hasOne(Brand::className(), ['brand_id' => 'brand_id']);
     }
 	
+	public function getCleanTitle()
+	{
+		$wordList = ['NWT ', 'Coach ', 'New ', 'MICHAEL KORS ', 'Michael Kors ', '*NWT* ', 'COACH ', 'NEW ', ''];
+		return trim(str_replace($wordList, "", $this->title));
+	}
+	
 	public function getFirstImage()
     {
 		if(empty($this->image_path))

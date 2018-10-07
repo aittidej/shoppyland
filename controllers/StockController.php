@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Lot;
 use app\models\Stock;
 use app\models\StockSearch;
 use yii\web\Controller;
@@ -12,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * StockController implements the CRUD actions for Stock model.
  */
-class StockController extends Controller
+class StockController extends \app\controllers\MainController
 {
     /**
      * {@inheritdoc}
@@ -28,19 +29,21 @@ class StockController extends Controller
             ],
         ];
     }
-
-    /**
-     * Lists all Stock models.
-     * @return mixed
-     */
-    public function actionIndex()
+	
+    public function actionIndex($lot = NULL)
     {
+		$lots = Lot::find()->orderby('lot_number DESC')->all();
+		if(empty($lot))
+			$lot = $lots[0]->lot_number;
+			
         $searchModel = new StockSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $lot);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'lotNumber' => $lot,
+            'lots' => $lots,
         ]);
     }
 

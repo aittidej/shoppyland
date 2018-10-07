@@ -12,6 +12,8 @@ use app\models\Stock;
  */
 class StockSearch extends Stock
 {
+	public $test;
+	
     /**
      * {@inheritdoc}
      */
@@ -38,14 +40,28 @@ class StockSearch extends Stock
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $lotNumber)
     {
-        $query = Stock::find();
+        $query = Stock::find()->joinwith('lot')->with('product')->where(['lot.lot_number'=>$lotNumber]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+			'sort' => [
+				'defaultOrder' => ['qty' => SORT_DESC],
+				'attributes' => [
+					'lot_id',
+					'product_id',
+					'qty',
+					'current_qty',
+					'product.title',
+					'product.upc',
+				]
+			],
+			'pagination' => [
+				'pageSize' => 100,
+			],
         ]);
 
         $this->load($params);
@@ -55,7 +71,7 @@ class StockSearch extends Stock
             // $query->where('0=1');
             return $dataProvider;
         }
-
+		
         // grid filtering conditions
         $query->andFilterWhere([
             'stock_id' => $this->stock_id,

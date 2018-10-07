@@ -29,10 +29,21 @@ class OrderController extends \app\controllers\MainController
     {
         $searchModel = new OpenOrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
+		$lotsNumberOfItems = [];
+		$openOrders = OpenOrder::find()->with('openOrderRels')->all();
+		foreach($openOrders AS $openOrder)
+		{
+			if(empty($lotsNumberOfItems[$openOrder->lot_id]))
+				$lotsNumberOfItems[$openOrder->lot_id] = 0;
+			
+			$lotsNumberOfItems[$openOrder->lot_id] += $openOrder->numberOfItems;
+		}
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'lotsNumberOfItems' => $lotsNumberOfItems,
         ]);
     }
 
@@ -46,7 +57,7 @@ class OrderController extends \app\controllers\MainController
     {
         //$openOrder = $this->findModel($id);
         $openOrder = OpenOrder::find()->with('lot')->where(['open_order_id'=>$id])->one();
-		$openOrderRelModel = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith("product")->orderby("need_attention DESC, product_id ASC, product.model ASC")->asArray()->all(); // ->orderby('need_attention DESC, unit_price ASC, product.upc ASC, product.model ASC')
+		$openOrderRelModel = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith("product")->orderby("open_order_rel_id DESC")->asArray()->all(); // ->orderby("need_attention DESC, product_id ASC, product.model ASC")
 		$openOrderRels = [];
 		
 		foreach($openOrderRelModel AS $openOrderRel)
@@ -94,7 +105,11 @@ class OrderController extends \app\controllers\MainController
     {
         $model = new OpenOrder();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+		{
+			$model->token = Yii::$app->passwordhash->generateToken();
+			$model->save(false);
+			
             return $this->redirect(['add-items', 'id' => $model->open_order_id]);
         }
 
@@ -129,17 +144,16 @@ class OrderController extends \app\controllers\MainController
     {
         $model = OpenOrder::findOne($id);
 		$allProducts = Product::find()->orderby('brand_id ASC, product_id ASC')->all();
-
         if (Yii::$app->request->isPost)
 		{
 			set_time_limit(0);
 			$items = array_map('trim', explode("\n", $_POST['OpenOrder']['items']));
-			$notFoundList = $this->addItemsHelper($items, $id);
+			$notFoundList = $this->addItemsHelper($items, $model->open_order_id, [], true);
 			
 			if(empty($notFoundList))
 				return $this->redirect(['view', 'id' => $model->open_order_id]);
 			else
-				return $this->redirect(['product/add-products?id='.$id.'&'.http_build_query($notFoundList)]);
+				return $this->redirect(['product/add-products?id='.$model->open_order_id.'&'.http_build_query($notFoundList)]);
         }
 
         return $this->render('add-items', [
@@ -177,6 +191,23 @@ class OrderController extends \app\controllers\MainController
 		Yii::$app->end();
 	}
 	
+	public function actionApplyAll()
+	{
+		if (Yii::$app->request->isAjax) 
+		{
+			if(!empty($_POST['open_order_rel_id']))
+			{
+				$openOrderRel = OpenOrderRel::findOne($_POST['open_order_rel_id']);
+				
+				//$futureOpenOrderRels = OpenOrderRel::find()->where([''=>])->all();
+			}
+			
+			return 1;
+		}
+		
+		Yii::$app->end();
+	}
+	
 	public function actionChangePrimarySubtotal()
 	{
 		if (Yii::$app->request->isAjax) 
@@ -186,6 +217,7 @@ class OrderController extends \app\controllers\MainController
 				$openOrderRel = OpenOrderRel::findOne($_POST['openOrderRelId']);
 				$openOrderRel->qty = $_POST['qty'];
 				$openOrderRel->unit_price = $_POST['price'];
+				$openOrderRel->manually_set = 1;
 				$openOrderRel->save(false);
 				
 				if(empty($_POST['price']))
@@ -270,9 +302,17 @@ class OrderController extends \app\controllers\MainController
 			{
 				$needAttention = [];
 				$openOrder = OpenOrder::findOne($_POST['orderId']);
+				$user = $openOrder->user;
+				if($user->currency_base != "USD")
+					return 0;
+				
 				$openOrderRels = $openOrder->openOrderRels;
 				foreach($openOrderRels AS $openOrderRel)
 				{
+					// If already manually set, don't overwrited it
+					if($openOrderRel->manually_set)
+						continue;
+					
 					$lotRels = LotRel::find()->where(['lot_id'=>$openOrder->lot_id, 'product_id'=>$openOrderRel->product_id])->all();
 					if(empty($lotRels))
 						continue;

@@ -14,7 +14,7 @@ class EmailReader extends Component {
 
 	// email login credentials
 	private $server = 'pop.secureserver.net';
-	//private $user   = 'info@shoppylandbyhoney.com';
+	//private $user   = 'service@shoppylandbyhoney.com';
 	private $user   = 'shop@buchoo.com';
 	private $pass   = '12345678';
 	private $port   = 110;
@@ -88,19 +88,62 @@ var_dump($check);exit;
 			return $this->inbox[(count($this->inbox)-1)];
 	}
 
+	
+	private function getdecodevalue($message,$coding)
+	{
+        switch($coding) {
+            case 0:
+            case 1:
+                $message = imap_8bit($message);
+                break;
+            case 2:
+                $message = imap_binary($message);
+                break;
+            case 3:
+            case 5:
+            case 6:
+            case 7:
+                $message=imap_base64($message);
+                break;
+            case 4:
+                $message = imap_qprint($message);
+                break;
+        }
+        return $message;
+	} 
+		
 	// read the inbox
 	public function inbox() {
 		$this->msg_cnt = imap_num_msg($this->conn);
 
 		$in = [];
-		for($i = 1; $i <= $this->msg_cnt; $i++) {
-			$in[] = array(
-				'index'     => $i,
-				'header'    => imap_headerinfo($this->conn, $i),
-				'body'      => imap_body($this->conn, $i),
-				'fetchbody'      => trim( utf8_encode( quoted_printable_decode( imap_fetchbody($this->conn, $i, 2) ) ) ),
-				'structure' => imap_fetchstructure($this->conn, $i)
-			);
+		for($i = 1; $i <= $this->msg_cnt; $i++) 
+		{
+			$mege = imap_fetchbody($this->conn, $i, 2);
+			$structure = imap_fetchstructure($this->conn, $i);
+			if(!empty($structure->parts))
+			{
+				$parts = $structure->parts; 
+				$part = $parts[1];
+				if(!empty($part->disposition) && strtolower($part->disposition) == "attachment") 
+				{
+					$data = "";
+					$filename = \Yii::getAlias('@app')."/web/uploads/attachment/".$part->dparameters[0]->value;
+					$data = $this->getdecodevalue($mege, $part->type);
+					$fp = fopen($filename, 'w');
+					fputs($fp,$data);
+					fclose($fp);
+				}
+			}
+		
+			$in[] = [
+				'index'			=> $i,
+				'header'    	=> imap_headerinfo($this->conn, $i),
+				'body'      	=> imap_body($this->conn, $i),
+				'fetchbody'		=> trim( utf8_encode( quoted_printable_decode( $mege ) ) ),
+				'structure' 	=> $structure,
+				'attachment' 	=> empty($filename) ? false : $filename
+			];
 		}
 
 		$this->inbox = $in;

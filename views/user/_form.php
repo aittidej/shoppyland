@@ -21,7 +21,7 @@ $roles = ArrayHelper::map(Role::find()->orderby('title ASC')->all(), 'role_id', 
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'temp_password')->label('Password')->passwordInput(['maxlength' => true]) ?>
 
 	<?= $form->field($model, 'role_id')->dropDownList($roles, ['prompt'=>'Select Role...']); ?>
 

@@ -35,7 +35,7 @@ class OpenOrderRel extends \yii\db\ActiveRecord
     {
         return [
             [['open_order_id', 'product_id', 'qty'], 'default', 'value' => null],
-            [['open_order_id', 'product_id', 'qty', 'need_attention'], 'integer'],
+            [['open_order_id', 'product_id', 'qty', 'need_attention', 'manually_set'], 'integer'],
             [['unit_price'], 'number'],
             [['open_order_id'], 'exist', 'skipOnError' => true, 'targetClass' => OpenOrder::className(), 'targetAttribute' => ['open_order_id' => 'open_order_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
@@ -72,4 +72,9 @@ class OpenOrderRel extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Product::className(), ['product_id' => 'product_id']);
     }
+	
+	public function getLotRelRelated()
+    {
+		//$openOrder
+	}
 }

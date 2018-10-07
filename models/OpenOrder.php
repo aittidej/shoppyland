@@ -38,9 +38,10 @@ class OpenOrder extends \yii\db\ActiveRecord
     {
         return [
             [['lot_id', 'user_id', 'number_of_box', 'status'], 'default', 'value' => null],
-            [['lot_id', 'user_id', 'number_of_box', 'status'], 'integer'],
+            [['lot_id', 'user_id', 'number_of_box', 'status', 'invoice_sent'], 'integer'],
+            [['remark', 'note', 'shipping_explanation', 'token'], 'string'],
             [['creation_datetime'], 'safe'],
-            [['total_weight', 'shipping_cost', 'shipping_cost_usd', 'additional_cost'], 'number'],
+            [['total_weight', 'shipping_cost', 'shipping_cost_usd', 'additional_cost', 'labor_cost'], 'number'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
             [['lot_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lot::className(), 'targetAttribute' => ['lot_id' => 'lot_id']],
         ];
@@ -91,6 +92,9 @@ class OpenOrder extends \yii\db\ActiveRecord
 	
 	public function getNumberOfItems()
 	{
-		return $this->hasMany(OpenOrderRel::className(), ['open_order_id' => 'open_order_id'])->sum('qty');
+		$num = 0;
+		foreach($this->openOrderRels AS $openOrderRel)
+			$num += $openOrderRel->qty;
+		return $num;
 	}
 }

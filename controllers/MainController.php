@@ -18,6 +18,7 @@ use app\models\OpenOrderSearch;
 use app\models\Product;
 use app\models\UploadFile;
 use app\models\DiscountList;
+use app\models\Stock;
 
 /**
  * MainController is extended by other controllers in order to check permissions
@@ -55,7 +56,7 @@ abstract class MainController extends Controller
         if(Yii::$app->user->isGuest || !Yii::$app->user->identity->isAdmin)
 		{
 			Yii::$app->session->setFlash('danger', "You do not have sufficient permissions to view this page.");
-			return $this->redirect(['/']);
+			return $this->redirect(['/site/login']);
 		}
 
         if (parent::beforeAction($action)) {
@@ -65,18 +66,31 @@ abstract class MainController extends Controller
         return false;
     }
 	
-	protected function addItemsHelper($items, $openOrderId = FALSE, $data = [])
+	protected function addItemsHelper($items, $openOrderId = FALSE, $data = [], $deductStock = false)
 	{
-		$notFoundList = [];
+		if(!empty($openOrderId))
+			$openOrder = OpenOrder::findOne($openOrderId);
+		
+		$notFoundList = $lists = [];
 		foreach($items AS $item)
 		{
 			$barcode = str_replace(' ', '', trim($item));
 			if(empty($barcode) || !is_numeric($barcode) || strlen($barcode) != 12)
 				continue;
 			
+			if(empty($lists[$barcode]))
+				$lists[$barcode] = 1;
+			else
+				$lists[$barcode]++;
+		}
+		
+		if(empty($lists))
+			return false;
+			
+		foreach($lists AS $barcode=>$numberOfItems)
+		{
 			$invalidUPC = false;
 			$product = Product::findOne(['upc'=>$barcode]);
-			
 			// Take care of adding missing products
 			if(empty($product))
 			{
@@ -99,7 +113,6 @@ abstract class MainController extends Controller
 							$product->title = empty($item['title']) ? NULL : $item['title'];
 							$product->description = empty($item['description']) ? NULL : $item['description'];
 							$product->color = empty($item['color']) ? NULL : $item['color'];
-							$product->size = empty($item['size']) ? NULL : $item['size'];
 							$product->image_path = empty($item['images']) ? NULL : $item['images'];
 							$product->weight = !empty($item['weight']) && is_numeric($item['weight']) ? $item['weight'] : 0;
 							$product->dimension = empty($item['dimension']) ? 0 : $item['dimension'];
@@ -159,24 +172,34 @@ abstract class MainController extends Controller
 			
 			if(!empty($openOrderId) && !empty($product))
 			{
-				$openOrder = OpenOrder::findOne($openOrderId);
 				$openOrderRel = OpenOrderRel::findOne(['open_order_id'=>$openOrderId, 'product_id'=>$product->product_id]);
 				if(empty($openOrderRel))
 				{
 					$lot = $openOrder->lot;
+					$user = $openOrder->user;
 					$openOrderRel = New OpenOrderRel();
 					$openOrderRel->open_order_id = $openOrderId;
 					$openOrderRel->product_id = $product->product_id;
-					$openOrderRel->qty = 1;
-					$openOrderRel->unit_price = $lot->getUnitPrice($product->product_id);
-					$openOrderRel->subtotal = $openOrderRel->unit_price;
+					$openOrderRel->qty = $numberOfItems;
+					$openOrderRel->unit_price = $user->currency_base == "USD" ? $lot->getUnitPrice($product->product_id) : NULL;
+					//$openOrderRel->subtotal = $openOrderRel->unit_price;
 					$openOrderRel->save(false);
 				}
 				else
 				{
-					$openOrderRel->qty++;
-					$openOrderRel->subtotal = $openOrderRel->unit_price*$openOrderRel->qty;
+					$openOrderRel->qty += $numberOfItems;
+					//$openOrderRel->subtotal = $openOrderRel->unit_price*$openOrderRel->qty;
 					$openOrderRel->save(false);
+				}
+				
+				if($deductStock)
+				{
+					$stock = Stock::findOne(['lot_id'=>$openOrder->lot_id, 'product_id'=>$product->product_id]);
+					if(!empty($stock))
+					{
+						$stock->current_qty--;
+						$stock->save(false);
+					}
 				}
 			}
 		}

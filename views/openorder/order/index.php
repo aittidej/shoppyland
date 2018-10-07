@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Los_Angeles');
 
 use yii\web\View;
 use yii\helpers\Html;
@@ -10,6 +11,7 @@ use kartik\grid\GridView;
 
 $this->title = 'Open Orders';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="open-order-index">
 
@@ -24,9 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //['class' => 'yii\grid\SerialColumn'],
 
             'open_order_id',
-            //'lot.lot_number',
 			[
-        		//'attribute' => 'lot.lot_number',
         		'vAlign' => 'middle',
         		'hAlign' => 'left',
         		'pageSummary' => true,
@@ -34,12 +34,33 @@ $this->params['breadcrumbs'][] = $this->title;
         		'groupedRow'=>true,                    // move grouped column to a single grouped row
         		'groupOddCssClass'=>'kv-grouped-row',  // configure odd group cell css class
         		'groupEvenCssClass'=>'kv-grouped-row', // configure even group cell css class
-				'value' => function ($model, $key, $index, $column) {
-					return "Lot #".$model->lot->lot_number;
+				'value' => function ($model, $key, $index, $column) USE ($lotsNumberOfItems) {
+					$lot = $model->lot;
+					return $lot->lotText." ** (".$lotsNumberOfItems[$lot->lot_id]." items)";
 				},
         	],
-            'user.name',
 			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'user.name',
+				'label' => 'Name',
+				'format' => 'raw',
+				'vAlign' => 'middle',
+				'value' => function ($model, $key, $index, $column) {
+					//return Html::a($model->user->name, 'javasript:void(0);', ['class'=>'copy', 'data-link'=>'http://shoppylandbyhoney.com/index.php/openorder/client/preview?token='.$model->token]);
+					return "<a href='http://shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$model->token."' target='_blank'>".$model->user->name."</a>";
+				},
+			],
+			/*[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'labor_cost',
+				'label' => 'Labor',
+				'format' => 'raw',
+				'vAlign' => 'middle',
+				'value' => function ($model, $key, $index, $column) {
+					return empty($model->labor_cost) ? '$0.00' : '$'.number_format($model->labor_cost, 2);
+				},
+			],*/
+			/*[
 				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'creation_datetime',
 				//'filterType' => GridView::FILTER_DATE,
@@ -50,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Date/Time',
 				'format' => 'raw',
 				'vAlign' => 'middle',
-			],
+			],*/
 			[
 				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'numberOfItems',
@@ -81,17 +102,38 @@ $this->params['breadcrumbs'][] = $this->title;
 				'pageSummary' => true,
 				'format' => 'raw',
 			],
+			[
+				'class' => 'kartik\grid\BooleanColumn',
+				'attribute' => 'invoice_sent',
+				'label' => 'Sent', 
+				'falseLabel' => 'Disabled',
+				'hAlign' => 'center',
+				'vAlign' => 'middle',
+			],
+			
             //'total_usd',
             //'total_baht',
             //'status',
 
 			[
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{add-items} {load-price} {view} {update} {delete}',
+				'template' => '{add-items} {load-price} {view} {invoice} {update} {delete}',
 				'hAlign' => 'center', 
 				'vAlign' => 'middle',
-				'width' => '10%',
+				'width' => '25%',
 				'buttons' => [
+					'view' => function ($url, $model) {
+						return Html::a(
+							'<i class="glyphicon glyphicon-usd"></i>',
+							$url, [ 'title' => 'Pricing' ]
+						);
+					},
+					'invoice' => function ($url, $model) {
+						return Html::a(
+							'<i class="glyphicon glyphicon-print"></i>',
+							['openorder/report', 'id'=>$model->open_order_id], [ 'title' => 'Invoice' ]
+						);
+					},
 					'add-items' => function ($url, $model) {
 						return Html::a(
 							'<i class="glyphicon glyphicon-plus"></i>',
@@ -110,7 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
         'id' => 'open-order-list',
-        'pjax' => true,
+        'pjax' => false,
         'toolbar' => [['content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Create Open Order', ['create'], ['class' => 'btn btn-success'])]],
         'bordered' => 0,
         'striped' => 1,
@@ -141,15 +183,21 @@ $this->registerJs("
 			},
 			success: function(result) {
 				console.log(result);
-				if(result)
+				if(result == '1')
 					$('#load-'+orderId).html(\"<i class='glyphicon glyphicon-ok' style='color: green;'></i>\");
-				
+				else
+					$('#load-'+orderId).html(\"<i class='glyphicon glyphicon-remove' style='color: red;'></i>\");
 			},
 			error: function(err) {
 				console.log(err);
 				$('#load-'+orderId).html(\"<i class='glyphicon glyphicon-remove' style='color: red;'></i>\");
 			}
 		});
+	});
+	
+	$( '.copy' ).click(function() {
+		var copyText = $(this).data('link');
+		alert(copyText);
 	});
 ", View::POS_READY);
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\LotSearch */
@@ -30,7 +30,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'lotOwner',
            // 'buy_date',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '{view} {update} {delete}',
+				'width' => '8%',
+				'buttons' => [
+					'view' => function ($url, $model) {
+						return Html::a(
+							'<span class="glyphicon glyphicon-pencil"></span>',
+							$url, [ 'title' => 'Edit Lot Info' ]
+						);
+					},
+					'update' => function ($url, $model) {
+						return Html::a(
+							'<span class="glyphicon glyphicon-tag"></span>',
+							$url, [ 'title' => "Add & Modify Lot's Items" ]
+						);
+					},
+				],
+			],
         ],
     ]); ?>
 </div>

@@ -43,7 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'model',
 				'vAlign' => 'middle',
 			],
-
 			[
 				'attribute' => 'brand_id',
 				'value' => 'brand.title',
@@ -73,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{add-products-ocr} {view} {update} {delete}',
+				'template' => '{add-products-ocr} {view} {update} {delete} {temp}',
 				'width' => '8%',
 				'buttons' => [
 					'add-products-ocr' => function ($url, $model) {
@@ -81,6 +80,14 @@ $this->params['breadcrumbs'][] = $this->title;
 							'<span class="glyphicon glyphicon-tag"></span>',
 							$url, [ 'title' => 'Edit Product by Price Tags' ]
 						);
+					},
+					'temp' => function ($url, $model) {
+						if(empty($model->size))
+						{
+							return "<br>".Html::a('&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;', ['product/pick-size', 'id'=>$model->product_id, 'size'=>'S'], ['target'=>'_blank']).
+								Html::a('&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;', ['product/pick-size', 'id'=>$model->product_id, 'size'=>'M'], ['target'=>'_blank']).
+								Html::a('&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;', ['product/pick-size', 'id'=>$model->product_id, 'size'=>'L'], ['target'=>'_blank']);
+						}
 					},
 				],
 			],

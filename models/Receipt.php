@@ -36,7 +36,9 @@ class Receipt extends \yii\db\ActiveRecord
         return [
             [['brand_id', 'msg_number', 'udate'], 'default', 'value' => null],
             [['brand_id', 'msg_number', 'udate', 'unread', 'number_of_items'], 'integer'],
+			[['total'], 'number'],
             [['creation_datetime', 'buy_date', 'data'], 'safe'],
+            [['transaction_id'], 'string', 'max' => 100],
             [['message_id'], 'string', 'max' => 512],
             [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
         ];

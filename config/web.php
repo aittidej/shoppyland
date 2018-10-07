@@ -42,13 +42,13 @@ $config = [
 			'viewPath' => '@app/mail',
 			'messageConfig' => [
 				'charset' => 'UTF-8',
-				'from' => ['info@shoppylandbyhoney.com' => 'ShoppyLand by Honey'],
+				'from' => ['service@shoppylandbyhoney.com' => 'ShoppyLand by Honey'],
 			],
 			//comment the following array to send mail using php's mail function
 			'transport' => [
 				'class' => 'Swift_SmtpTransport',
 				'host' => 'smtpout.secureserver.net',
-				'username' => 'info@shoppylandbyhoney.com',
+				'username' => 'service@shoppylandbyhoney.com',
 				'password' => '12345678',
 				'port' => '80',
 				//'encryption' => 'tls',
@@ -106,6 +106,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
+		'allowedIPs' => ['*']
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
@@ -113,9 +114,12 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+		//'allowedIPs'=>'*'
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
+	
+	$config['modules']['debug']['allowedIPs'] = ['*'];
 }
 
 return $config;

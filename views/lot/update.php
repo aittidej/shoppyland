@@ -51,16 +51,18 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 				<div class='col-sm-12 col-md-2 col-lg-3'>
 					<?php  
 						$product = $lotRel['product'];
-						echo Html::img($product->firstImage, ['width'=>'100%']);
-						echo "<br>$product->upc";
-						echo "<br>".Html::a(" <i class='glyphicon glyphicon-copy'></i>", 'javascript:void(0);', [
-													'data-lot_rel_id' => $lotRel->lot_rel_id,
-													'data-product_id' => $product->product_id,
-													'class' => 'duplicate',
-													'title' => 'Duplicate',
-													'style'=>'color: green;',
-												]);
-						echo " # $product->model ";
+						echo "<a href='".Yii::$app->getUrlManager()->createUrl(['product/update', 'id'=>$product->product_id])."' target='_blank'>";
+							//echo Html::img($product->firstImage, ['width'=>'100%']);
+							echo "<br>$product->upc";
+							echo "<br>".Html::a(" <i class='glyphicon glyphicon-copy'></i>", 'javascript:void(0);', [
+														'data-lot_rel_id' => $lotRel->lot_rel_id,
+														'data-product_id' => $product->product_id,
+														'class' => 'duplicate',
+														'title' => 'Duplicate',
+														'style'=>'color: green;',
+													]);
+							echo " # $product->model (".date('m/d/Y', strtotime($lotRel->bought_date)).")";
+						echo "</a>";
 						echo Html::a(" <i class='glyphicon glyphicon-trash'></i>", 'javascript:void(0);', [
 													'data-lot_rel_id' => $lotRel->lot_rel_id,
 													'class' => 'delete',

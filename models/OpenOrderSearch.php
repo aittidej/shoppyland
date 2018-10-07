@@ -42,10 +42,9 @@ class OpenOrderSearch extends OpenOrder
      */
     public function search($params)
     {
-        $query = OpenOrder::find()->joinwith('user')->joinwith('lot');
-
+        $query = OpenOrder::find()->with('openOrderRels')->joinwith('user')->joinwith('lot');
+		
         // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
 			'sort' => [

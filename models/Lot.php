@@ -134,6 +134,16 @@ class Lot extends \yii\db\ActiveRecord
 	
 	public function getLotText()
 	{
-		return 'Lot #'.$this->lot_number.' ('.date('m/d/Y', strtotime($this->start_date)).' - '.date('m/d/Y', strtotime($this->end_date)).')';
+		//return 'Lot #'.$this->lot_number.' ('.date('m/d/Y', strtotime($this->start_date)).' - '.date('m/d/Y', strtotime($this->end_date)).')';
+		$endDate = empty($this->end_date) ? '' : date('m/d/Y', strtotime($this->end_date));
+		return "Lot #".$this->lot_number." ** ".date('m/d/Y', strtotime($this->start_date))." - ".$endDate;
+	}
+	
+	public function getAllReceipts()
+	{
+		if(empty($this->end_date))
+			return Receipt::find()->where("buy_date >= '$this->start_date'")->orderby("receipt_id ASC")->all();
+		else	
+			return Receipt::find()->where("buy_date >= '$this->start_date' AND buy_date <= '$this->end_date'")->orderby("receipt_id ASC")->all();
 	}
 }

@@ -64,8 +64,9 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index'], 'active' => ('/site/index' == $this->context->id)],
 			[
-				'label' => 'Lots', 
+				'label' => 'Lots & Stock', 
 				'items' => [
+					['label' => 'Stocks','url' => ['/stock'], 'active' => ('/stock' == $this->context->id)],
 					['label' => 'Create New Lot','url' => ['/lot/create'], 'active' => ('/lot/create' == $this->context->id)],
 					//['label' => 'Current Lot','url' => ['/lot/update'], 'active' => ('/lot/update' == $this->context->id)],
 					['label' => 'Existed Lots','url' => ['/lot'], 'active' => ('/lot' == $this->context->id)],
@@ -75,12 +76,18 @@ AppAsset::register($this);
 			[
 				'label' => 'Products', 
 				'items' => [
-					['label' => 'Add Product by Barcode','url' => ['/product/add-products-by-upc'], 'active' => ('/product/add-products-by-upc' == $this->context->id)],
-					['label' => 'Edit Unfinished Product','url' => ['/product/add-products'], 'active' => ('/product/add-products' == $this->context->id)],
 					['label' => 'Products List','url' => ['/product'], 'active' => ('/product' == $this->context->id)],
+					['label' => 'Add Product by Barcode','url' => ['/product/add-products-by-upc'], 'active' => ('/product/add-products-by-upc' == $this->context->id)],
+					//['label' => 'Edit Unfinished Product','url' => ['/product/add-products'], 'active' => ('/product/add-products' == $this->context->id)],
 				]
 			],
             ['label' => 'Orders', 'url' => ['/openorder/order']],
+			[
+				'label' => 'Report', 
+				'items' => [
+					['label' => 'Profit','url' => ['/report/profit'], 'active' => ('/report/profit' == $this->context->id)],
+				]
+			],
             ['label' => 'Users', 'url' => ['/user']], 
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => '']]

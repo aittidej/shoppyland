@@ -1752,3 +1752,524 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1534276648.374847888946533203125,
     'REQUEST_TIME' => 1534276648,
 ]
+[24-Sep-2018 20:06:59 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311
+[24-Sep-2018 20:06:59 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\ErrorException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\ErrorException))
+#4 {main}
+Previous exception:
+yii\base\ErrorException: Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php:311
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(311): yii\base\ErrorHandler->handleError(2, 'Invalid argumen...', '/home/qazxnivkx...', 311, Array)
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(291): yii\debug\Module->checkAccess()
+#2 [internal function]: yii\debug\Module->renderToolbar(Object(yii\base\Event))
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php(627): call_user_func(Array, Object(yii\base\Event))
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(158): yii\base\Component->trigger('endBody')
+#5 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(119): yii\web\View->endBody()
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#10 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#11 [internal function]: app\controllers\SiteController->actionIndex()
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#14 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#15 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#18 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=20090c6f-9416-45e4-922e-0c8911212365; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=d86d349c2b41bb2243f16a8beb2c2871; _csrf=875a9f4375ce687623bb413ad5281b0c092e0fd2f8a86ebf20329f97e388be70a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kM_IzXLFm29CBe_iv-KdhcgqJi5LSsBb%22%3B%7D; _tccl_visit=200e75bd-6988-4f67-952d-0a1ee3c2236d',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W6lD4uYn01Jy1DFlOgRtWgAAAIk',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '51405',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1537819618.436717987060546875,
+    'REQUEST_TIME' => 1537819618,
+]
+[24-Sep-2018 20:07:03 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311
+[24-Sep-2018 20:07:03 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\ErrorException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\ErrorException))
+#4 {main}
+Previous exception:
+yii\base\ErrorException: Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php:311
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(311): yii\base\ErrorHandler->handleError(2, 'Invalid argumen...', '/home/qazxnivkx...', 311, Array)
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(291): yii\debug\Module->checkAccess()
+#2 [internal function]: yii\debug\Module->renderToolbar(Object(yii\base\Event))
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php(627): call_user_func(Array, Object(yii\base\Event))
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(158): yii\base\Component->trigger('endBody')
+#5 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(119): yii\web\View->endBody()
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#10 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#11 [internal function]: app\controllers\SiteController->actionIndex()
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#14 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#15 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#18 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=20090c6f-9416-45e4-922e-0c8911212365; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=d86d349c2b41bb2243f16a8beb2c2871; _csrf=875a9f4375ce687623bb413ad5281b0c092e0fd2f8a86ebf20329f97e388be70a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kM_IzXLFm29CBe_iv-KdhcgqJi5LSsBb%22%3B%7D; _tccl_visit=200e75bd-6988-4f67-952d-0a1ee3c2236d',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W6lD55vFga6Xc7VB6h-faQAAAVA',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '51408',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1537819623.4718620777130126953125,
+    'REQUEST_TIME' => 1537819623,
+]
+[24-Sep-2018 20:07:19 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311
+[24-Sep-2018 20:07:19 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\ErrorException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\ErrorException))
+#4 {main}
+Previous exception:
+yii\base\ErrorException: Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php:311
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(311): yii\base\ErrorHandler->handleError(2, 'Invalid argumen...', '/home/qazxnivkx...', 311, Array)
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(291): yii\debug\Module->checkAccess()
+#2 [internal function]: yii\debug\Module->renderToolbar(Object(yii\base\Event))
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php(627): call_user_func(Array, Object(yii\base\Event))
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(158): yii\base\Component->trigger('endBody')
+#5 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(119): yii\web\View->endBody()
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#10 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#11 [internal function]: app\controllers\SiteController->actionIndex()
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#14 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#15 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#18 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=20090c6f-9416-45e4-922e-0c8911212365; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=d86d349c2b41bb2243f16a8beb2c2871; _csrf=875a9f4375ce687623bb413ad5281b0c092e0fd2f8a86ebf20329f97e388be70a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kM_IzXLFm29CBe_iv-KdhcgqJi5LSsBb%22%3B%7D; _tccl_visit=200e75bd-6988-4f67-952d-0a1ee3c2236d',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W6lD95vFga6Xc7VB6h-fewAAAUo',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '51410',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1537819639.2342369556427001953125,
+    'REQUEST_TIME' => 1537819639,
+]
+[24-Sep-2018 20:07:38 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311
+[24-Sep-2018 20:07:38 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\ErrorException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\ErrorException))
+#4 {main}
+Previous exception:
+yii\base\ErrorException: Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php:311
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(311): yii\base\ErrorHandler->handleError(2, 'Invalid argumen...', '/home/qazxnivkx...', 311, Array)
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(291): yii\debug\Module->checkAccess()
+#2 [internal function]: yii\debug\Module->renderToolbar(Object(yii\base\Event))
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php(627): call_user_func(Array, Object(yii\base\Event))
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(158): yii\base\Component->trigger('endBody')
+#5 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(119): yii\web\View->endBody()
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#10 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#11 [internal function]: app\controllers\SiteController->actionIndex()
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#14 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#15 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#18 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=20090c6f-9416-45e4-922e-0c8911212365; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=d86d349c2b41bb2243f16a8beb2c2871; _csrf=875a9f4375ce687623bb413ad5281b0c092e0fd2f8a86ebf20329f97e388be70a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kM_IzXLFm29CBe_iv-KdhcgqJi5LSsBb%22%3B%7D; _tccl_visit=200e75bd-6988-4f67-952d-0a1ee3c2236d',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W6lECZTvT3sojsl5gEtEpwAAAkQ',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '51415',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1537819657.6898319721221923828125,
+    'REQUEST_TIME' => 1537819657,
+]
+[24-Sep-2018 20:08:13 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311
+[24-Sep-2018 20:08:13 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php on line 311. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\ErrorException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\ErrorException))
+#4 {main}
+Previous exception:
+yii\base\ErrorException: Invalid argument supplied for foreach() in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php:311
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(311): yii\base\ErrorHandler->handleError(2, 'Invalid argumen...', '/home/qazxnivkx...', 311, Array)
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/Module.php(291): yii\debug\Module->checkAccess()
+#2 [internal function]: yii\debug\Module->renderToolbar(Object(yii\base\Event))
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php(627): call_user_func(Array, Object(yii\base\Event))
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(158): yii\base\Component->trigger('endBody')
+#5 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(119): yii\web\View->endBody()
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#10 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#11 [internal function]: app\controllers\SiteController->actionIndex()
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#14 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#15 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#18 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=20090c6f-9416-45e4-922e-0c8911212365; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=d86d349c2b41bb2243f16a8beb2c2871; _csrf=875a9f4375ce687623bb413ad5281b0c092e0fd2f8a86ebf20329f97e388be70a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kM_IzXLFm29CBe_iv-KdhcgqJi5LSsBb%22%3B%7D; _tccl_visit=200e75bd-6988-4f67-952d-0a1ee3c2236d',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W6lELZvFga6Xc7VB6h-f0wAAAU8',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '51421',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1537819693.1958529949188232421875,
+    'REQUEST_TIME' => 1537819693,
+]
+[25-Sep-2018 17:41:14 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/StockController.php on line 42. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/StockController.php on line 42. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=20090c6f-9416-45e4-922e-0c8911212365; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=37f2115d0d76aae7faa5e9d0ddf8077b; _csrf=875a9f4375ce687623bb413ad5281b0c092e0fd2f8a86ebf20329f97e388be70a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kM_IzXLFm29CBe_iv-KdhcgqJi5LSsBb%22%3B%7D; _tccl_visit=200fa747-5283-4de6-94f0-021c40de9244',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W6pzOaeMs4PV9KmLkxHbHQAAA0g',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '54025',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/stock/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/stock/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/stock/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1537897273.839315891265869140625,
+    'REQUEST_TIME' => 1537897273,
+]
+[25-Sep-2018 17:41:48 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/StockController.php on line 42. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/StockController.php on line 42. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=20090c6f-9416-45e4-922e-0c8911212365; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=37f2115d0d76aae7faa5e9d0ddf8077b; _csrf=875a9f4375ce687623bb413ad5281b0c092e0fd2f8a86ebf20329f97e388be70a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kM_IzXLFm29CBe_iv-KdhcgqJi5LSsBb%22%3B%7D; _tccl_visit=200fa747-5283-4de6-94f0-021c40de9244',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W6pzWqeMs4PV9KmLkxHbpAAAA0A',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '37926',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/stock/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/stock/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/stock/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1537897306.9931719303131103515625,
+    'REQUEST_TIME' => 1537897306,
+]
+[25-Sep-2018 17:42:13 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/StockController.php on line 44. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/qazxnivkxh1s/public_html/shoppyland/controllers/StockController.php on line 44. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=20090c6f-9416-45e4-922e-0c8911212365; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=37f2115d0d76aae7faa5e9d0ddf8077b; _csrf=875a9f4375ce687623bb413ad5281b0c092e0fd2f8a86ebf20329f97e388be70a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kM_IzXLFm29CBe_iv-KdhcgqJi5LSsBb%22%3B%7D; _tccl_visit=200fa747-5283-4de6-94f0-021c40de9244',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W6pzdbuxPCYzs946JGel6wAABII',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '54039',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/stock/test',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/stock/test',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/stock/test',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1537897333.23719310760498046875,
+    'REQUEST_TIME' => 1537897333,
+]
+[05-Oct-2018 20:54:29 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/qazxnivkxh1s/public_html/shoppyland/controllers/UserController.php on line 77

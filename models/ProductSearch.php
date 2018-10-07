@@ -44,9 +44,9 @@ class ProductSearch extends Product
     public function search($params, $q = NULL)
     {
 		if(empty($q))
-			$query = Product::find()->where(['status'=>1]);
+			$query = Product::find()->with('brand')->where(['status'=>1]);
 		else
-			$query = Product::find()->where("searchtext @@ to_tsquery('".$q."')");
+			$query = Product::find()->with('brand')->where("searchtext @@ to_tsquery('".$q."')");
 
         // add conditions that should always apply here
 
