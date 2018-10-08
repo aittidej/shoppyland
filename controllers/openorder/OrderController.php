@@ -57,7 +57,7 @@ class OrderController extends \app\controllers\MainController
     {
         //$openOrder = $this->findModel($id);
         $openOrder = OpenOrder::find()->with('lot')->where(['open_order_id'=>$id])->one();
-		$openOrderRelModel = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith("product")->orderby("open_order_rel_id DESC")->asArray()->all(); // ->orderby("need_attention DESC, product_id ASC, product.model ASC")
+		$openOrderRelModel = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith("product")->orderby("product.model ASC")->asArray()->all(); // open_order_rel_id DESC ->orderby("need_attention DESC, product_id ASC, product.model ASC")
 		$openOrderRels = [];
 		
 		foreach($openOrderRelModel AS $openOrderRel)

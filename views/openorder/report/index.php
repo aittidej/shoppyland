@@ -139,7 +139,7 @@ $link = "http://shoppylandbyhoney.com/index.php/openorder/client/preview?token="
 			<?php } ?>
 			<tr>
 				<th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
-					<?php if(!empty($laborCount)) { ?>
+					<?php if(!empty($laborCount) || !empty($openOrder->remark)) { ?>
 					<h4>Remark: </h4>
 					<?php
 						if(!empty($openOrder->remark))

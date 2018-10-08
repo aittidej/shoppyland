@@ -16,6 +16,15 @@ use app\models\Stock;
 class TempController extends Controller
 {
     public function actionIndex()
+	{
+		$attachment = "/home/qazxnivkxh1s/public_html/shoppyland/web/uploads/receipt/Document.pdf";
+		$parser = new \Smalot\PdfParser\Parser();
+		$pdf = $parser->parseFile($attachment);
+		$text = $pdf->getText();
+		var_dump($text);
+	}
+	
+    public function actionEmail()
     {
 		set_time_limit(0);
 		$all = Yii::$app->emailReader->getAll();
