@@ -196,7 +196,7 @@ class ReceiptController extends Controller
 					$product->title = $data['title'];
 				
 				if(empty($product->price))
-					$product->base_price = empty($data['fullPrice']) ? NULL : $data['fullPrice'];
+					$product->base_price = empty($data['fullPrice']) ? NULL : abs($data['fullPrice']);
 				$product->model = $data['model'];
 				$product->save(false);
 				

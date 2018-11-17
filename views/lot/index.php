@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{view} {update} {delete}',
+				'template' => '{view} {update} {select-by-image} {delete}',
 				'width' => '8%',
 				'buttons' => [
 					'view' => function ($url, $model) {
@@ -45,6 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
 						return Html::a(
 							'<span class="glyphicon glyphicon-tag"></span>',
 							$url, [ 'title' => "Add & Modify Lot's Items" ]
+						);
+					},
+					'select-by-image' => function ($url, $model) {
+						return Html::a(
+							'<span class="glyphicon glyphicon-plus"></span>',
+							$url, [ 'title' => "Select by Image" ]
 						);
 					},
 				],

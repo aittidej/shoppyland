@@ -242,3 +242,45 @@ Stack trace:
 #0 [internal function]: yii\base\ErrorHandler->handleError(8, 'Unknown: Warnin...', 'Unknown', 0, NULL)
 #1 {main}
   thrown in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 09:13:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 20:22:20 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[15-Oct-2018 20:22:20 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[16-Oct-2018 09:11:53 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[16-Oct-2018 09:11:53 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[16-Oct-2018 09:11:53 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[16-Oct-2018 09:11:53 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[16-Oct-2018 09:12:38 America/Los_Angeles] PHP Fatal error:  Uncaught yii\base\ErrorException: Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown:0
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'Unknown: Warnin...', 'Unknown', 0, NULL)
+#1 {main}
+  thrown in Unknown on line 0
+[16-Oct-2018 09:14:20 America/Los_Angeles] PHP Fatal error:  Uncaught yii\base\ErrorException: Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown:0
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'Unknown: Warnin...', 'Unknown', 0, NULL)
+#1 {main}
+  thrown in Unknown on line 0
+[04-Nov-2018 16:26:28 America/Los_Angeles] PHP Fatal error:  Uncaught yii\base\ErrorException: Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown:0
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'Unknown: Warnin...', 'Unknown', 0, NULL)
+#1 {main}
+  thrown in Unknown on line 0
+[05-Nov-2018 13:59:28 America/Los_Angeles] PHP Fatal error:  Uncaught yii\base\ErrorException: Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown:0
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'Unknown: Warnin...', 'Unknown', 0, NULL)
+#1 {main}
+  thrown in Unknown on line 0
+[06-Nov-2018 08:15:24 America/Los_Angeles] PHP Fatal error:  Uncaught yii\base\ErrorException: Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown:0
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'Unknown: Warnin...', 'Unknown', 0, NULL)
+#1 {main}
+  thrown in Unknown on line 0

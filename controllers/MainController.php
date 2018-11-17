@@ -182,6 +182,8 @@ abstract class MainController extends Controller
 					$openOrderRel->product_id = $product->product_id;
 					$openOrderRel->qty = $numberOfItems;
 					$openOrderRel->unit_price = $user->currency_base == "USD" ? $lot->getUnitPrice($product->product_id) : NULL;
+					$openOrderRel->currency = $user->currency_base;
+					$openOrderRel->modified_datetime = date('Y-m-d h:i:s');
 					//$openOrderRel->subtotal = $openOrderRel->unit_price;
 					$openOrderRel->save(false);
 				}
@@ -220,9 +222,15 @@ abstract class MainController extends Controller
 		return number_format((is_numeric($price) && $price > 0) ? $this->roundIt($price) : 0, 2);
 	}
 	
+	public function exchangeRate()
+	{
+		$rate = json_decode(file_get_contents('http://free.currencyconverterapi.com/api/v5/convert?q=USD_THB&compact=y'), 2);
+		return empty($rate['USD_THB']['val']) ? 0 : number_format($rate['USD_THB']['val'], 2);
+	}
+	
 	public function roundIt($number, $breakPoint = 0.1)
 	{
 		$fraction = $number - floor($number);
-		return ($fraction > $breakPoint) ? ceil($number) : floor($number);
+		return abs(($fraction > $breakPoint) ? ceil($number) : floor($number));
 	}
 }

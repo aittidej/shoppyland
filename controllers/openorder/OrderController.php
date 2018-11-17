@@ -57,7 +57,7 @@ class OrderController extends \app\controllers\MainController
     {
         //$openOrder = $this->findModel($id);
         $openOrder = OpenOrder::find()->with('lot')->where(['open_order_id'=>$id])->one();
-		$openOrderRelModel = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith("product")->orderby("product.model ASC")->asArray()->all(); // open_order_rel_id DESC ->orderby("need_attention DESC, product_id ASC, product.model ASC")
+		$openOrderRelModel = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith("product")->orderby("open_order_rel_id DESC")->asArray()->all(); // ->orderby("need_attention DESC, product_id ASC, product.model ASC")
 		$openOrderRels = [];
 		
 		foreach($openOrderRelModel AS $openOrderRel)
@@ -88,13 +88,26 @@ class OrderController extends \app\controllers\MainController
 			
             return $this->redirect(['/openorder/order/view', 'id' => $id]);
         }*/
-		
+
         return $this->render('view', [
             'openOrder' => $openOrder,
             'lot' => $openOrder['lot'],
+            'allLotRels' => $openOrder['lot']['lotRels'],
             'openOrderRels' => $openOrderRels,
         ]);
     }
+	
+	public function getLotRelByProduct($allLotRels, $productId)
+	{
+		$array = [];
+		foreach($allLotRels as $key => $lotRel)
+		{
+			if ( $lotRel['product_id'] === $productId )
+				$array[] = $lotRel;
+		}
+		
+		return $array;
+	}
 
     /**
      * Creates a new OpenOrder model.
@@ -108,6 +121,7 @@ class OrderController extends \app\controllers\MainController
         if ($model->load(Yii::$app->request->post()) && $model->save()) 
 		{
 			$model->token = Yii::$app->passwordhash->generateToken();
+			$model->status = 1;
 			$model->save(false);
 			
             return $this->redirect(['add-items', 'id' => $model->open_order_id]);
@@ -130,7 +144,8 @@ class OrderController extends \app\controllers\MainController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->open_order_id]);
+            //return $this->redirect(['view', 'id' => $model->open_order_id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -143,7 +158,7 @@ class OrderController extends \app\controllers\MainController
 	public function actionAddItems($id)
     {
         $model = OpenOrder::findOne($id);
-		$allProducts = Product::find()->orderby('brand_id ASC, product_id ASC')->all();
+		//$allProducts = Product::find()->orderby('brand_id ASC, product_id ASC')->all();
         if (Yii::$app->request->isPost)
 		{
 			set_time_limit(0);
@@ -168,14 +183,16 @@ class OrderController extends \app\controllers\MainController
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-	/*public function actionDelete($id)
+	public function actionDelete($id)
     {
-		$order = $this->findModel($id);
-		OpenOrderRel::deleteAll(['open_order_id'=>$order->open_order_id]);
-        $order->delete();
-
+		if (Yii::$app->request->isPost)
+		{
+			$order = $this->findModel($id);
+			OpenOrderRel::deleteAll(['open_order_id'=>$order->open_order_id]);
+			$order->delete();
+		}
         return $this->redirect(['index']);
-    }*/
+    }
 	
 	public function actionDeleteSingle()
 	{
@@ -193,16 +210,35 @@ class OrderController extends \app\controllers\MainController
 	
 	public function actionApplyAll()
 	{
-		if (Yii::$app->request->isAjax) 
+		if (Yii::$app->request->isAjax && !empty($_POST['open_order_rel_id'])) 
 		{
-			if(!empty($_POST['open_order_rel_id']))
+			$openOrderRel = OpenOrderRel::findOne($_POST['open_order_rel_id']);
+			$openOrder = $openOrderRel->openOrder;
+			$futureOpenOrders = OpenOrder::find()
+									->leftJoin('user AS u', 'u.user_id = open_order.user_id')
+									->where(['lot_id'=>$openOrder->lot_id, 'u.currency_base'=>'USD'])
+									->andWhere("invoice_sent = 0 AND open_order_id != ".$openOrder->open_order_id)
+									->asArray()
+									->all();
+			$openOrderslist = array_map(function ($entry) { return $entry['open_order_id']; }, $futureOpenOrders);
+			$futureOpenOrderRels = OpenOrderRel::find()
+										->with('openOrder')
+										->where(['product_id'=>$openOrderRel->product_id, 'manually_set'=>0])
+										->andFilterWhere(['IN', 'open_order_id', $openOrderslist])
+										->all();
+			
+			if(empty($futureOpenOrderRels))
+				return false;
+			
+			foreach($futureOpenOrderRels AS $futureOpenOrderRel)
 			{
-				$openOrderRel = OpenOrderRel::findOne($_POST['open_order_rel_id']);
-				
-				//$futureOpenOrderRels = OpenOrderRel::find()->where([''=>])->all();
+				$futureOpenOrderRel->manually_set = 1;
+				$futureOpenOrderRel->unit_price = $openOrderRel->unit_price;
+				$futureOpenOrderRel->save(false);
 			}
 			
-			return 1;
+			$openOrderRel->manually_set = 1;
+			return $openOrderRel->save(false);
 		}
 		
 		Yii::$app->end();
@@ -215,6 +251,9 @@ class OrderController extends \app\controllers\MainController
 			if(isset($_POST['qty']) && isset($_POST['price']) && isset($_POST['openOrderRelId']))
 			{
 				$openOrderRel = OpenOrderRel::findOne($_POST['openOrderRelId']);
+				$openOrder = $openOrderRel->openOrder;
+				$user = $openOrder->user;
+				
 				$openOrderRel->qty = $_POST['qty'];
 				$openOrderRel->unit_price = $_POST['price'];
 				$openOrderRel->manually_set = 1;
@@ -223,7 +262,7 @@ class OrderController extends \app\controllers\MainController
 				if(empty($_POST['price']))
 					return 1;
 				
-				$openOrder = $openOrderRel->openOrder;
+				
 				$lotRels = LotRel::find()->where(['lot_id'=>$openOrder->lot_id, 'product_id'=>$openOrderRel->product_id])->all();
 				if(empty($lotRels))
 				{
@@ -231,6 +270,7 @@ class OrderController extends \app\controllers\MainController
 					$lotRel->lot_id = $openOrder->lot_id;
 					$lotRel->product_id = $openOrderRel->product_id;
 					$lotRel->overwrite_total = $_POST['price'];
+					$lotRel->currency = $user->currency_base;
 					$lotRel->save(false);
 				}
 				

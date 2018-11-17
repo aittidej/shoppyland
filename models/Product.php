@@ -29,6 +29,7 @@ use yii\helpers\Url;
  */
 class Product extends \yii\db\ActiveRecord
 {
+	CONST DEFAULT_IMAGE = "http://www.topprintltd.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png";
 	public $items;
 	public $image;
 	public $imagPath;
@@ -128,7 +129,7 @@ class Product extends \yii\db\ActiveRecord
 	public function getFirstImage()
     {
 		if(empty($this->image_path))
-			return "http://www.topprintltd.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png";
+			return SELF::DEFAULT_IMAGE;
 			
 		$imagePath = $this->image_path;
         //return Yii::$app->request->BaseUrl . $imagePath[0];

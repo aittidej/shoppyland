@@ -9,7 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 
 use app\models\LoginForm;
-use app\models\Product;
+use app\models\User;
 use app\components\EmailReader;
 
 class SiteController extends Controller
@@ -74,7 +74,7 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+			return $this->goHome();
         }
 
         $model = new LoginForm();
@@ -98,6 +98,37 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+	
+	public function actionResetPassword($token)
+	{
+		$error = false;
+		$user = User::findOne(['token'=>$token]);
+        if(empty($user))
+			return $this->goHome();
+			
+		if (Yii::$app->request->isPost)
+		{
+			if($_POST['password'] != $_POST['confirm_password'])
+				$error = 'Password does not match the confirm password.';
+			else if(strlen($_POST['password']) < 6)
+				$error = 'Password cannot be less than 6 characters.';
+			else
+			{
+				$user->password = Yii::$app->passwordhash->create_hash($_POST["password"]);
+				$user->save(false);
+				
+				Yii::$app->session->setFlash('success', "Successfully reset password, please login now.");
+				return $this->redirect(['/site/login']);
+			}
+		}
+			
+		return $this->render('reset', [
+			'user' => $user,
+			'token' => $token,
+			'error' => $error,
+		]);
+		
     }
 
     /**

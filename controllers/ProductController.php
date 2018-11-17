@@ -424,11 +424,14 @@ class ProductController extends \app\controllers\MainController
 	
 	public function actionPickSize($id, $size)
     {
-		$product = $this->findModel($id);
-		$product->size = $size;
-		echo $product->save(false);
-		
-		echo "<script>window.close();</script>";
+		if (Yii::$app->request->isPost)
+		{
+			$product = $this->findModel($id);
+			$product->size = $size;
+			echo $product->save(false);
+			
+			echo "<script>window.close();</script>";
+		}
 	}
 
     /**

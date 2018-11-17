@@ -37,7 +37,7 @@ $discountLists = ArrayHelper::map(DiscountList::find()->where(['status'=>1])->or
 			<center>
 			<?= $form->field($model, 'items')->label(false)->checkboxList($products, [
 					'item' => function($index, $label, $name, $checked, $value) {
-						$print = Html::img($label->firstImage, ['style'=>'width: 100px; padding: 3px;cursor: pointer;', 'title'=>$label->title])."<br>".$label->upc."<br>".$label->model;
+						$print = Html::img($label->firstImage, ['style'=>'width: 100px; padding: 3px;cursor: pointer;', 'title'=>$label->title])."<br>".$label->upc."<br>[".$label->model."]";
 						echo "<span class='checkbox-".$label->product_id."'>".Html::checkbox($name, $checked, ['label' => $print, 'data-product_id'=>$label->product_id, 'style'=>'display:none;'])."</span>";
 					}]);
 			?>

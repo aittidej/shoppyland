@@ -40,13 +40,16 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 				<?php foreach($openOrderRels AS $productId => $openOrderRelArrays) { ?>
 					<?php 
 						$bgColorWarning = empty($openOrderRelArrays[0]['openOrderRel']['unit_price']) ? 'bgcolor="#FFEFA4"' : '';
-						$lotRels = $lot->getLotRelByProduct($productId);
 						$openOrderRelArray = $openOrderRelArrays[0];
 						$image = "http://www.topprintltd.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png";
 						$product = $openOrderRelArray['product']; 
 						$openOrderRel = $openOrderRelArray['openOrderRel']; 
 						$OpenOrderRelModel = $openOrderRelArray['OpenOrderRelModel'];
 						$openOrderRelId = $openOrderRel['open_order_rel_id']; // first open_order_rel_id
+						
+						
+						//$lotRels = $lot->getLotRelByProduct($productId);
+						$lotRels = Yii::$app->controller->getLotRelByProduct($allLotRels, $productId);
 					?>
 					<tr class='product-row-<?= $productId ?>'>
 						<td width="25%" rowspan="2">
@@ -68,14 +71,17 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 								echo "<h4><strong>".Html::a($product['title'], ['/product/update', 'id'=>$productId], ['target'=>'_blank'])."</strong><br>Model #".$product['model']."<br>UPC: ".$product['upc']."</h4>"; 
 								echo Html::a('Split', 'javascript:void(0);', ['class'=>'btn btn-info split', 'data-product_id'=>$productId, 'data-open_order_rel_id'=>$openOrderRelId, 'style'=>'width: 100%;']);
 								
-								if(!empty($lotRels))
+								if(!empty($lotRels) && !empty($openOrderRel['currency']))
 								{
-									echo "<h6>There are ".count($lotRels)." prices:</h6>";
+									//echo "<h6>There are ".count($lotRels)." price(s):</h6>";
 									foreach($lotRels AS $lotRel)
 									{
+										if($lotRel->currency != $openOrderRel['currency'])
+											continue;
+										
 										$unitPrice = $lotRel->unitPrice;
 										if(!empty($unitPrice))
-											echo "$".$unitPrice."<br>";
+											echo "<h5>$".$unitPrice."</h5>";
 									}
 								}
 							?>
@@ -104,8 +110,8 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 						<td width="25%" <?= $bgColorWarning ?>>
 							<?php 
 								$applyAll = '';
-								//if(count($openOrderRelArrays) == 1)
-									//$applyAll = Html::a(' {Apply to All}', 'javascript:void(0);', ['class'=>'apply-all', 'data-open_order_rel_id'=>$openOrderRelArrays[0]['openOrderRel']['open_order_rel_id']]);
+								if(count($openOrderRelArrays) == 1 && !empty($openOrderRelArrays[0]['openOrderRel']['unit_price']))
+									$applyAll = "<span class='apply-all-".$openOrderRelArrays[0]['openOrderRel']['open_order_rel_id']."'>".Html::a(' {Apply to All}', 'javascript:void(0);', ['class'=>'apply-all', 'data-open_order_rel_id'=>$openOrderRelArrays[0]['openOrderRel']['open_order_rel_id']])."</span>";
 								foreach($openOrderRelArrays AS $index => $eachOpenOrderRel) 
 								{
 									$showLabel = count($openOrderRelArrays) == 1 || (count($openOrderRelArrays) > 1 && $index == 0);
@@ -135,7 +141,7 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 									$totalQty += $openOrderRel['qty'];
 									$total += $OpenOrderRelModel->subtotal;
 									echo $form->field($OpenOrderRelModel, "subtotal")
-											->label($showLabel ? "Subtotal ($currencySymbol)" : false)
+											->label($showLabel ? "Subtotal ($currencySymbol)&nbsp;&nbsp;[Manually Set: ".($openOrderRel['manually_set'] ? "<i class='glyphicon glyphicon-ok' style='color:green'></i>" : "<i class='glyphicon glyphicon-remove' style='color:red;'></i>")."]" : false)
 											->textInput([
 												'maxlength' => true, 
 												'disabled'=>'disabled', 
@@ -174,36 +180,43 @@ $this->registerJs("
 var openOrderId = ".$openOrder->open_order_id.";
 
 $('.delete').click(function (e) {
-	var productId = $(this).data('product_id');
-	$.ajax({
-		url: '".Yii::$app->getUrlManager()->createUrl('openorder/order/delete-single')."',
-		type: 'POST',
-		data: { productId: productId, openOrderId: openOrderId  },
-		success: function(result) {
-			console.log(result);
-			$('.product-row-'+productId).remove();
-		},
-		error: function(err) {
-			console.log(err);
-		}
-	});
+	if (confirm('Are you sure?') == true) 
+	{
+		var productId = $(this).data('product_id');
+		$.ajax({
+			url: '".Yii::$app->getUrlManager()->createUrl('openorder/order/delete-single')."',
+			type: 'POST',
+			data: { productId: productId, openOrderId: openOrderId  },
+			success: function(result) {
+				console.log(result);
+				$('.product-row-'+productId).remove();
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+	}
 });
 
 $('.apply-all').click(function (e) {
-	var open_order_rel_id = $(this).data('open_order_rel_id');
-	$.ajax({
-		url: '".Yii::$app->getUrlManager()->createUrl('openorder/order/apply-all')."',
-		type: 'POST',
-		data: { open_order_rel_id: open_order_rel_id },
-		success: function(result) {
-			//console.log(result);
-			$(this).hide();
-		},
-		error: function(err) {
-			console.log(err);
-		}
-	});
-	
+	if (confirm('Are you sure?') == true) 
+	{
+		var open_order_rel_id = $(this).data('open_order_rel_id');
+		$.ajax({
+			url: '".Yii::$app->getUrlManager()->createUrl('openorder/order/apply-all')."',
+			type: 'POST',
+			data: { open_order_rel_id: open_order_rel_id },
+			beforeSend: function() {
+				$('.apply-all-'+open_order_rel_id).html(\" <img src='https://loading.io/spinners/hourglass/lg.sandglass-time-loading-gif.gif' width='25px' height='25px'>\");
+			},
+			success: function(result) {
+				$('.apply-all-'+open_order_rel_id).html(\" <span class='glyphicon glyphicon-ok' style='color:green;font-size: 16px;'></span>\");
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+	}
 });
 
 $('.split').click(function (e) {

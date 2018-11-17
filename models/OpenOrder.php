@@ -38,6 +38,7 @@ class OpenOrder extends \yii\db\ActiveRecord
     {
         return [
             [['lot_id', 'user_id', 'number_of_box', 'status'], 'default', 'value' => null],
+			[['lot_id', 'user_id'], 'required'],
             [['lot_id', 'user_id', 'number_of_box', 'status', 'invoice_sent'], 'integer'],
             [['remark', 'note', 'shipping_explanation', 'token'], 'string'],
             [['creation_datetime'], 'safe'],
@@ -79,7 +80,7 @@ class OpenOrder extends \yii\db\ActiveRecord
      */
     public function getLot()
     {
-        return $this->hasOne(Lot::className(), ['lot_id' => 'lot_id']);
+        return $this->hasOne(Lot::className(), ['lot_id' => 'lot_id'])->with('lotRels');
     }
 
     /**

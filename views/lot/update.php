@@ -24,7 +24,7 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 	</div>
 	<div class='col-sm-2'>
 		<br><br>
-		<?= Html::a('Add by Image', ['/lot/select', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Add by Image', ['/lot/select-by-image', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
 	</div>
 	
 	<div class="clearfix"></div><br>
@@ -52,7 +52,7 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 					<?php  
 						$product = $lotRel['product'];
 						echo "<a href='".Yii::$app->getUrlManager()->createUrl(['product/update', 'id'=>$product->product_id])."' target='_blank'>";
-							//echo Html::img($product->firstImage, ['width'=>'100%']);
+							echo Html::img($product->firstImage, ['width'=>'100%']);
 							echo "<br>$product->upc";
 							echo "<br>".Html::a(" <i class='glyphicon glyphicon-copy'></i>", 'javascript:void(0);', [
 														'data-lot_rel_id' => $lotRel->lot_rel_id,
@@ -61,7 +61,10 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 														'title' => 'Duplicate',
 														'style'=>'color: green;',
 													]);
-							echo " # $product->model (".date('m/d/Y', strtotime($lotRel->bought_date)).")";
+							if(empty($lotRel->bought_date))
+								echo " # ".$product->model;
+							else
+								echo " # $product->model (".date('m/d/Y', strtotime($lotRel->bought_date)).")";
 						echo "</a>";
 						echo Html::a(" <i class='glyphicon glyphicon-trash'></i>", 'javascript:void(0);', [
 													'data-lot_rel_id' => $lotRel->lot_rel_id,

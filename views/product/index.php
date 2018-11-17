@@ -23,6 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
 			[
 				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'product_id',
+				'vAlign' => 'middle',
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'image_path',
 				'label' => '',
 				'vAlign' => 'middle',
@@ -100,7 +105,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'toolbar' => [
 			[
 				'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Add Product Manually', ['create'], ['class' => 'btn btn-danger']).' '.
-							Html::a('<i class="glyphicon glyphicon-plus"></i> Add Product using UPC', ['add-products-by-upc'], ['class' => 'btn btn-success'])
+							Html::a('<i class="glyphicon glyphicon-plus"></i> Add Product using UPC', ['add-products-by-upc'], ['class' => 'btn btn-success']).' '.
+							Html::a('<i class="glyphicon glyphicon-refresh"></i> Reset', ['/product'], ['class' => 'btn btn-default'])
 			]
 		],
         'bootstrap' => 1,

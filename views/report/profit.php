@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use dosamigos\chartjs\ChartJs;
 use kartik\range\RangeInput;
+use yii\helpers\Url;
 
 $this->title = 'Profit Report';
 
@@ -17,24 +18,32 @@ foreach($receipts AS $receipt)
 }
 
 $baseRate = 34;
-$exchangeRate = 31.8;
-$laborFee = 6;
 $tax = 7.75;
 $ccCashBack = 0.01;
+$bahtProfitPercentage = 0.12;
 
-$laborCost = number_format($numberOfItems*$laborFee, 2, '.', '');
-$totalCollectibleWithTax = $totalCollectible*(1+$tax/100);
 $totalCollectibleWithTaxOnlyWithExchange = $totalCollectibleOnlyWithExchange*(1+$tax/100);
-
+$bahtClientProfit = ($totalCollectibleInBaht*$bahtProfitPercentage)/$exchangeRate;
 $rate = (1-($exchangeRate/$baseRate))+$ccCashBack;
 $exchangeRateIncome = number_format($totalCollectibleWithTaxOnlyWithExchange*$rate,2, '.', '');
 $weightProfitInUSD = number_format($weightProfitInBaht/$exchangeRate,2, '.', '');
+
+
 ?>
 <style>
 
 </style>
 <div class='col-sm-12'>
-	<h1>Lot #<?= $lot->lot_number ?> - Profit Report</h1>
+	<?php $form = ActiveForm::begin(['method' => 'GET', 'action' => 'profit']); ?>
+		<h1>
+			Lot # <?= Html::dropDownList(
+				'lotNumber', //name
+				$lotNumber,  //select
+				ArrayHelper::map($lots, 'lot_number', 'lot_number'), //items
+				['onchange'=>'this.form.submit();'] //options
+			  ); ?> - Profit Report
+		</h1>
+	<?php ActiveForm::end(); ?>
 </div>
 
 
@@ -66,76 +75,165 @@ $weightProfitInUSD = number_format($weightProfitInBaht/$exchangeRate,2, '.', '')
 
 <div class='col-sm-12'><hr></div>
 
-<div class='col-sm-5'>
-	
-	<h4><?= "Number of Items: ".$numberOfItems ?></h4>
-	<h4><?= "Total Purchased: $".number_format($totalPurchaseWithTax, 2) ?></h4>
-	<h4><?= "Total Collectible with Tax: $".number_format($totalCollectibleWithTax, 2) ?></h4>
-	<hr>
-	<h4><?= "Labor Cost: $".number_format($laborCost, 2) ?></h4>
-	<h4><?= "Weight Profit: $<span id='weightProfit'></span>" ?></h4>
-	<h4><?= "Exchange Rate Profit: $<span id='exchangeRateIncome'></span>" ?></h4>
-	<hr>
-	<h4><?= "Net Income: $<span id='netIncome'></span>" ?></h4>
+<div class='col-sm-12'>
+	<div class='col-sm-5'>
+		
+		<h4><?= "Number of Items: ".$numberOfItems ?></h4>
+		<h4><?= "Number of Boxes: ".$numberOfBox ?></h4>
+		<h4><?= "Total Weight: ".$totalWeightKg." kg" ?></h4>
+		<h4><?= "Total Purchased: $".number_format($totalPurchaseWithTax, 2) ?></h4>
+		<h4><?= "Total Collectible from client with Tax: $<span id='totalCollectibleWithTax'></span>" ?></h4>
+		<hr>
+		<h4><?= "Labor Cost: $".number_format($laborCost, 2) ?></h4>
+		<h4><?= "Weight Profit: $<span id='weightProfit'></span>" ?></h4>
+		<h4><?= "Exchange Rate Profit: $<span id='exchangeRateIncome'></span>" ?></h4>
+		<h4><?= "Baht Client Profit: $<span id='bahtClientProfit'></span>" ?></h4>
+		<hr>
+		<h4><?= "Net Income: $<span id='netIncome'></span>" ?></h4>
 
-</div>
-<div class='col-sm-7'>
+	</div>
+	<div class='col-sm-7'>
 
-	<?php echo ChartJs::widget([
-			'type' => 'pie',
-			'id' => 'structurePie',
-			'options' => [
-				'id' => 'profit_pie',
-				//'height' => 200,
-				//'width' => '100%',
-			],
-			'data' => [
-				'radius' =>  "90%",
-				'labels' => ['Labor Cost', 'Weight Profit', 'Exchange Rate Profit'], // Your labels
-				'datasets' => [
-					[
-						'data' => [$laborCost, $weightProfitInUSD, $exchangeRateIncome], // Your dataset
-						'label' => '',
-						'backgroundColor' => ['#ADC3FF', '#FF9A9A', '#5FBA7D'],
-						'borderColor' =>  ['#fff', '#fff', '#fff'],
-						'borderWidth' => 1,
-						'hoverBorderColor'=>["#999", "#999", "#999"],                
+		<?= ChartJs::widget([
+				'type' => 'pie',
+				'id' => 'structurePie',
+				'options' => ['id' => 'profit_pie'],
+				'data' => [
+					'radius' =>  "90%",
+					'labels' => ['Labor Cost', 'Weight Profit', 'Exchange Rate Profit', 'Baht Client Profit'], // Your labels
+					'datasets' => [
+						[
+							'data' => [$laborCost, $weightProfitInUSD, $exchangeRateIncome, $bahtClientProfit], // Your dataset
+							'label' => '',
+							'backgroundColor' => ['#ADC3FF', '#FF9A9A', '#5FBA7D', '#AF7AC5'],
+							'borderColor' =>  ['#fff', '#fff', '#fff', '#fff'],
+							'borderWidth' => 1,
+							'hoverBorderColor'=>["#999", "#999", "#999", "#999"],                
+						]
 					]
+				],
+				'clientOptions' => [
+					'legend' => [
+						'display' => true,
+						'position' => 'bottom',
+						'labels' => [
+							'fontSize' => 14,
+							'fontColor' => "#425062",
+						]
+					],
+					'tooltips' => [
+						'enabled' => true,
+						'intersect' => true
+					],
+					'hover' => [
+						'mode' => false
+					],
+					'maintainAspectRatio' => true,
 				]
-			],
-			'clientOptions' => [
-				'legend' => [
-					'display' => true,
-					'position' => 'bottom',
-					'labels' => [
-						'fontSize' => 14,
-						'fontColor' => "#425062",
-					]
-				],
-				'tooltips' => [
-					'enabled' => true,
-					'intersect' => true
-				],
-				'hover' => [
-					'mode' => false
-				],
-				'maintainAspectRatio' => true,
-			]
-		]);
-	?>
+			]);
+		?>
 
+	</div>
 </div>
-
+<div class='col-sm-12'><hr></div>
+<div class='col-sm-12'>
+	<div class='col-sm-6'>
+		<h1>Top 10 Most Sold Products</h1>
+		<table class="table table-striped top-ten">
+			<thead>
+				<tr>
+					<th scope="col" style='vertical-align: middle;text-align: center;'>#</th>
+					<th scope="col"></th>
+					<th scope="col" style='vertical-align: middle;text-align: center;'>Qty</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+					usort($productsStats, function($a, $b) {
+						return $b['qty'] <=> $a['qty'];
+					});
+					$count = 1;
+					foreach($productsStats AS $product_id=>$productsStat)
+					{
+						if($count == 11) break;
+						$qty = $productsStat['qty'];
+						$product = $productsStat['product'];
+						$imagePath = json_decode($product['image_path'], 2);
+						$image = "http://www.topprintltd.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png";
+						if(!empty($imagePath[0]))
+						{
+							if (strpos($imagePath[0], 'http') !== false)
+								$image = $imagePath[0];
+							else
+								$image = Url::base(true) .'/'. $imagePath[0];
+						}
+						
+						echo "<tr><th scope='row' width='100px' style='vertical-align: middle;text-align: center;'>$count</th><td style='vertical-align: middle;text-align: center;'>".Html::img($image, ['width'=>'150px'])."</td><td width='200px' style='vertical-align: middle;text-align: center;'>$qty</td></tr>";
+						$count++;
+					}
+				?>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class='col-sm-6'>
+		<h1>Top 10 Profitable Products</h1>
+		<table class="table table-striped top-ten">
+			<thead>
+				<tr>
+					<th scope="col" style='vertical-align: middle;text-align: center;'>#</th>
+					<th scope="col"></th>
+					<th scope="col" style='vertical-align: middle;text-align: center;'>Cost</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+					usort($productsStats, function($a, $b) {
+						return $b['cost'] <=> $a['cost'];
+					});
+					$count = 1;
+					foreach($productsStats AS $product_id=>$productsStat)
+					{
+						if($count == 11) break;
+						$qty = $productsStat['qty'];
+						$cost = $productsStat['cost'];
+						$product = $productsStat['product'];
+						$imagePath = json_decode($product['image_path'], 2);
+						$image = "http://www.topprintltd.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png";
+						if(!empty($imagePath[0]))
+						{
+							if (strpos($imagePath[0], 'http') !== false)
+								$image = $imagePath[0];
+							else
+								$image = Url::base(true) .'/'. $imagePath[0];
+						}
+						
+						echo "<tr><th scope='row' width='100px' style='vertical-align: middle;text-align: center;'>$count</th><td style='vertical-align: middle;text-align: center;'>".Html::img($image, ['width'=>'150px'])."</td><td width='350px' style='vertical-align: middle;text-align: center;'>$".number_format($cost, 2)."<br>(with $qty items)</td></tr>";
+						$count++;
+					}
+				?>
+			</tbody>
+		</table>
+		
+	
+	
+	
+	</div>
+</div>
+	
 <?php 
+
 $this->registerJs("
 	var baseRate = parseFloat(".$baseRate.");
 	var exchangeRate = parseFloat(".$exchangeRate.");
-	var laborFee = parseFloat(".$laborFee.");
+	var bahtProfitPercentage = parseFloat(".$bahtProfitPercentage.");
 	var laborCost = parseFloat(".$laborCost.");
 	var tax = parseFloat(".$tax.");
 	var ccCashBack = parseFloat(".$ccCashBack.");
 	var numberOfItems = parseFloat(".$numberOfItems.");
+	var totalCollectible = parseFloat(".$totalCollectible.");
 	var totalCollectibleWithTaxOnlyWithExchange = parseFloat(".$totalCollectibleWithTaxOnlyWithExchange.");
+	var totalCollectibleInBaht = parseFloat(".$totalCollectibleInBaht.");
 	var weightProfitInBaht = parseFloat(".$weightProfitInBaht.");
 	
 	calculate(baseRate, exchangeRate);
@@ -155,15 +253,20 @@ $this->registerJs("
 	function calculate(base, sell)
 	{
 		var rate = (1-(sell/base))+ccCashBack;
+		var totalCollectibleWithTax = totalCollectible*(1+tax/100)+(totalCollectibleInBaht/base);
+		var bahtClientProfit = (totalCollectibleInBaht*bahtProfitPercentage)/sell;
 		var exchangeRateIncome = totalCollectibleWithTaxOnlyWithExchange*rate;
 		var weightProfitInUSD = weightProfitInBaht/sell;
 		
+		$('#totalCollectibleWithTax').html(totalCollectibleWithTax.toFixed(2));
 		$('#weightProfit').html(weightProfitInUSD.toFixed(2));
 		$('#exchangeRateIncome').html(exchangeRateIncome.toFixed(2));
-		$('#netIncome').html((laborCost+exchangeRateIncome+weightProfitInUSD).toFixed(2));
+		$('#bahtClientProfit').html(bahtClientProfit.toFixed(2));
+		$('#netIncome').html((laborCost+exchangeRateIncome+bahtClientProfit+weightProfitInUSD).toFixed(2));
 		
 		chartJS_profit_pie.data.datasets[0].data[1] = weightProfitInUSD.toFixed(2);
 		chartJS_profit_pie.data.datasets[0].data[2] = exchangeRateIncome.toFixed(2);
+		chartJS_profit_pie.data.datasets[0].data[3] = bahtClientProfit.toFixed(2);
 		chartJS_profit_pie.update();
 	}
 

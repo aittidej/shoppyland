@@ -38,6 +38,18 @@ class ReportController extends \app\controllers\MainController
         ]);
     }
 	
+	public function actionFreeLabor($open_order_rel_id, $free)
+	{
+		if (Yii::$app->request->isPost)
+		{
+			$openOrderRel = OpenOrderRel::findOne($open_order_rel_id);
+			$openOrderRel->free_labor = $free;
+			$openOrderRel->save(false);
+			
+			echo "<script>window.close();</script>";
+		}
+	}
+	
 	public function actionPrint($id)
     {
         $openOrder = $this->findModel($id);
@@ -80,9 +92,8 @@ class ReportController extends \app\controllers\MainController
         $pdf->render();*/
 		
 		$sent = Yii::$app->mailer->compose()
-					//->setTo($user->email, "yuwatida85@gmail.com")
-					->setTo("yuwatida85@gmail.com")
-					->setCc (["ettidej@gmail.com", "billing@shoppylandbyhoney.com"])
+					->setTo($user->email)
+					->setCc (["yuwatida85@gmail.com", "ettidej@gmail.com", "billing@shoppylandbyhoney.com"])
 					->setSubject($user->name."'s Invoice - Lot #".$openOrder->lot->lot_number)
 					->setHtmlBody($body)
 					//->attach($filename)
@@ -106,7 +117,7 @@ class ReportController extends \app\controllers\MainController
      */
     protected function findModel($id)
     {
-        if (($model = OpenOrder::findOne($id)) !== null) {
+        if (($model = OpenOrder::find()->with('user')->with('lot')->where(['open_order_id'=>$id])->one()) !== null) {
             return $model;
         }
 

@@ -6,6 +6,7 @@ use Yii;
 use app\models\Brand;
 use app\models\OpenOrder;
 use app\models\OpenOrderRel;
+use app\models\OpenOrderSearch;
 use app\models\Product;
 
 use yii\web\Controller;
@@ -34,6 +35,31 @@ class ClientController extends Controller
             'openOrderRels' => $openOrderRels,
             'print' => true,
             'client' => true,
+        ]);
+    }
+	
+	public function actionOrderHistory()
+	{
+		if (Yii::$app->user->isGuest)
+            return $this->goHome();
+        
+        $searchModel = new OpenOrderSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
+		$lotsNumberOfItems = [];
+		$openOrders = OpenOrder::find()->with('openOrderRels')->all();
+		foreach($openOrders AS $openOrder)
+		{
+			if(empty($lotsNumberOfItems[$openOrder->lot_id]))
+				$lotsNumberOfItems[$openOrder->lot_id] = 0;
+			
+			$lotsNumberOfItems[$openOrder->lot_id] += $openOrder->numberOfItems;
+		}
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'lotsNumberOfItems' => $lotsNumberOfItems,
         ]);
     }
 }

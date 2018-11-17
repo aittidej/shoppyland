@@ -29,13 +29,13 @@ $config = [
 			'viewPath' => '@app/mail',
 			'messageConfig' => [
 				'charset' => 'UTF-8',
-				'from' => ['info@shoppylandbyhoney.com' => 'ShoppyLand by Honey'],
+				'from' => ['service@shoppylandbyhoney.com' => 'ShoppyLand by Honey'],
 			],
 			//comment the following array to send mail using php's mail function
 			'transport' => [
 				'class' => 'Swift_SmtpTransport',
 				'host' => 'smtpout.secureserver.net',
-				'username' => 'info@shoppylandbyhoney.com',
+				'username' => 'service@shoppylandbyhoney.com',
 				'password' => '12345678',
 				'port' => '80',
 				//'encryption' => 'tls',

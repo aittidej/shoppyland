@@ -8,38 +8,45 @@ use yii\helpers\Html;
 /* @var $openOrder app\models\OpenOrder */
 
 $taxRate = 0.08;
-$user = $openOrder->user;
+$user = $openOrder['user'];
+$lot = $openOrder['lot'];
 $isUsd = $user->currency_base == "USD";
+$link = "http://shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$openOrder->token;
 $laborChargePrice = empty($user->labor_charge_json) ? [] : $user->labor_charge_json;
 $shippingChargePrice = empty($user->shipping_charge_json) ? [] : $user->shipping_charge_json;
-$lot = $openOrder->lot;
 $this->title = $user->name."'s Invoice - Lot #".$lot->lot_number;
 if(!$print) {
 	$this->params['breadcrumbs'][] = ['label' => 'Open Orders', 'url' => ['/openorder/order/index']];
 	$this->params['breadcrumbs'][] = $this->title;
 }
-$laborCount = [];
+$laborCount[0] = 0;
 foreach($laborChargePrice AS $price)
 	$laborCount[$price] = 0;
-$total = $subtotal = $totalQty = $tax = $laborCost = 0;
-
+	
+$total = $subtotal = $totalQty = $tax = $laborCost = $shippingTier = $count = 0;
 $shippingText = '';
 $shippingCost = $openOrder->shipping_cost;
+$shippingCostUsd = $openOrder->shipping_cost_usd;
 if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->total_weight))
 {
-	if(empty($shippingChargePrice['cut_of_kg']) || $openOrder->total_weight >= $shippingChargePrice['cut_of_kg'])
-	{
-		$shippingCost = $openOrder->total_weight*$shippingChargePrice['tier'][1]+$openOrder->number_of_box*$shippingChargePrice['thai_shipping_cost'];
-		$shippingText = "(".$openOrder->total_weight." kg x ".$shippingChargePrice['tier'][1].") + (".$openOrder->number_of_box." x ".$shippingChargePrice['thai_shipping_cost'].") = ".number_format($shippingCost, 2)." ฿";
-	}
+	if(empty($shippingChargePrice['cut_of_kg']))
+		$shippingTier = $shippingChargePrice['tier'][1];
 	else
 	{
-		$shippingCost = $openOrder->total_weight*$shippingChargePrice['tier'][2]+$openOrder->number_of_box*$shippingChargePrice['thai_shipping_cost'];
-		$shippingText = "(".$openOrder->total_weight." kg x ".$shippingChargePrice['tier'][2].") + (".$openOrder->number_of_box." x ".$shippingChargePrice['thai_shipping_cost'].") = ".number_format($shippingCost, 2)." ฿";
+		foreach($shippingChargePrice['cut_of_kg'] AS $i=>$cut_of_kg)
+		{
+			if($cut_of_kg > $openOrder->total_weight)
+				$shippingTier = $shippingChargePrice['tier'][count($shippingChargePrice['tier'])-$count];
+			$count++;
+		}
+		
+		if(empty($shippingTier))
+			$shippingTier = $shippingChargePrice['tier'][1];
 	}
+	
+	$shippingCost = $openOrder->total_weight*$shippingTier+$openOrder->number_of_box*$shippingChargePrice['thai_shipping_cost'];
+	$shippingText = "(".$openOrder->total_weight." kg x ".$shippingTier.") + (".$openOrder->number_of_box." x ".$shippingChargePrice['thai_shipping_cost'].") = ".number_format($shippingCost, 2)." &#3647;";
 }
-
-$link = "http://shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$openOrder->token;
 ?>
 <div class="open-order-view">
 	<div class='col-sm-6'>
@@ -83,23 +90,18 @@ $link = "http://shoppylandbyhoney.com/index.php/openorder/client/preview?token="
 					
 					if(!empty($product->size) && !empty($laborChargePrice[$product->size]))
 					{
-						$laborCost += $laborChargePrice[$product->size]*$openOrderRel->qty;
-						$laborCount[$laborChargePrice[$product->size]] += $openOrderRel->qty;
+						if($openOrderRel->free_labor)
+							$laborCount[0] += $openOrderRel->qty;
+						else
+						{
+							$laborCost += $laborChargePrice[$product->size]*$openOrderRel->qty;
+							$laborCount[$laborChargePrice[$product->size]] += $openOrderRel->qty;
+						}
 					}
 				?>
 				<tr style='<?= empty($index%2) ? "background-color: #dee7e8;" : "" ?>'>
 					<td width="15%" style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
-						<?php
-							$imagePath = $product->image_path;
-							if(!empty($imagePath[0]))
-							{
-								if (strpos($imagePath[0], 'http') !== false)
-									$image = $imagePath[0];
-								else
-									$image = Url::base(true) .'/'. $imagePath[0];
-							}
-							echo Html::img($image, ['width'=>'100%']);
-						?>
+						<?= Html::img($product->firstImage, ['width'=>'100%']); ?>
 					</td>
 					<td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
 						<?php 
@@ -111,10 +113,17 @@ $link = "http://shoppylandbyhoney.com/index.php/openorder/client/preview?token="
 							echo $headerText;
 							if(!$print && $isUsd)
 							{
-								echo "<br>".Html::a(' &nbsp;&nbsp;&nbsp;$4&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'S'], ['target'=>'_blank']).
-									Html::a(' &nbsp;&nbsp;&nbsp;$5&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'M'], ['target'=>'_blank']).
-									Html::a(' &nbsp;&nbsp;&nbsp;$6&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'L'], ['target'=>'_blank']).
-									Html::a(' &nbsp;&nbsp;&nbsp;$10&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XL'], ['target'=>'_blank']);
+								if($openOrderRel->free_labor)
+									echo "<br>".Html::a(' &nbsp;&nbsp;&nbsp;Not Free&nbsp;&nbsp;&nbsp; ', ['free-labor', 'open_order_rel_id'=>$openOrderRel->open_order_rel_id, 'free'=>false], ['target'=>'_blank', 'data-method'=>'POST']);
+								else
+									echo "<br>".Html::a(' &nbsp;&nbsp;&nbsp;Free&nbsp;&nbsp;&nbsp; ', ['free-labor', 'open_order_rel_id'=>$openOrderRel->open_order_rel_id, 'free'=>true], ['target'=>'_blank', 'data-method'=>'POST']);
+									
+								echo 
+									Html::a(' &nbsp;&nbsp;&nbsp;$3&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XS'], ['target'=>'_blank', 'data-method'=>'POST']).
+									Html::a(' &nbsp;&nbsp;&nbsp;$4&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'S'], ['target'=>'_blank', 'data-method'=>'POST']).
+										Html::a(' &nbsp;&nbsp;&nbsp;$5&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'M'], ['target'=>'_blank', 'data-method'=>'POST']).
+										Html::a(' &nbsp;&nbsp;&nbsp;$6&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'L'], ['target'=>'_blank', 'data-method'=>'POST']).
+										Html::a(' &nbsp;&nbsp;&nbsp;$10&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XL'], ['target'=>'_blank', 'data-method'=>'POST']);
 							}
 						?>
 					</td>
@@ -156,64 +165,86 @@ $link = "http://shoppylandbyhoney.com/index.php/openorder/client/preview?token="
 					?>
 				</th>
 				<th colspan="2" style="text-align: right;border: 1px solid #dddddd;padding: 8px;">
-					Total Items: <?= $totalQty ?><br>
-					<p><?= $shippingText //$openOrder->shipping_explanation ?></p>
+					# of Items: <?= $totalQty ?><br>
+					<p><?= $shippingText ?></p>
+					<?= $openOrder->shipping_explanation ?>
 				</th>
 
 				<?php if($isUsd) { ?>
+					<?php 
+						$labor = empty($openOrder->labor_cost) ? $laborCost : $openOrder->labor_cost;
+						$additionalCost = empty($openOrder->additional_cost) ? 0 : $openOrder->additional_cost;
+						$total = $subtotal+$tax+$labor+$additionalCost; 
+					?>
 					<?php if($print) { ?>
 						<th colspan="2" style="text-align: left;border: 1px solid #dddddd;padding: 8px;">
-							<?php 
-								$labor = empty($openOrder->additional_cost) ? $laborCost : $openOrder->additional_cost;
-								$total = $subtotal+$tax+$labor; 
-							?>
-							<p><i>Subtotal:</i> $<?= number_format($subtotal, 2) ?></p>
+							<p><i>Items Total:</i> $<?= number_format($subtotal, 2) ?></p>
 							<p><i>Tax:</u> $<?= number_format($tax, 2) ?></p>
 							<p><i>Labor:</u> $<?= number_format($labor, 2) ?></p>
-							<p><i>Total ($):</u> $<?= number_format($total, 2) ?></p>
+							<?php
+								if(!empty($additionalCost))
+									echo "<p><i>Additional Cost:</u> $".number_format($additionalCost, 2)."</p>";
+							?>
+							<p><i>Subtotal ($):</u> $<?= number_format($total, 2) ?></p>
 							<?php 
 							if($user->payment_method == 'Baht') 
-								echo "<p><i>Subtotal (x ".number_format($user->exchange_rate)."):</u> ".number_format($total*$user->exchange_rate, 2)."&#3647;</p><hr>"; 
-							?>
-							<p><i>Shipping Cost:</u> <?= number_format($shippingCost, 2) ?>&#3647;</p>
-							<?php 
+								echo "<p><i>Subtotal (x ".number_format($user->exchange_rate)."):</u> ".number_format($total*$user->exchange_rate, 2)."&#3647;</p>"; 
+							?><hr>
+							
+							
+							<?php
+								if(!empty($shippingCostUsd))
+									echo "<p><i>Shipping Cost:</u> $".number_format($shippingCostUsd, 2)."<p>";
+								else
+									echo "<p><i>Shipping Cost:</u> ".number_format($shippingCost, 2)."&#3647;</p>";
+									
 								if($user->payment_method == 'Baht')
 								{
 									echo "<p style='color:green;'><i>Total (&#3647;):</i> ".number_format($total*$user->exchange_rate+$shippingCost, 2)."&#3647;</p>";
 									echo "<p style='color:red;'>Deposit (50%): $".number_format(($total*$user->exchange_rate+$shippingCost)/2, 2)."&#3647;</p>";
 								}
+								else
+									echo "Total: $".number_format($total+$shippingCostUsd, 2)."<br>";
 							?> 
 						</th>
 					<?php } else { ?>
 						<th style="text-align: right;border: 1px solid #dddddd;padding: 8px;">
-							Subtotal:<br>
+							Items Total:<br>
 							Tax:<br>
 							Labor:<br>
-							Total ($): <br>
-							<?php if($user->payment_method == 'Baht') echo "Subtotal (x ".number_format($user->exchange_rate)."):<hr>"; ?>
+							<?php
+								if(!empty($additionalCost))
+									echo "Additional Cost<br>";
+							?>
+							Subtotal ($): <br>
+							<?php if($user->payment_method == 'Baht') echo "Subtotal (x ".number_format($user->exchange_rate)."):"; ?><hr>
 							Shipping Cost:<br>
-							<?php if($user->payment_method == 'Baht') echo "Total (&#3647;): <br>"; ?>
-							<span style="color:red;">Deposit (50%):</span>
+							<?= ($user->payment_method == 'Baht') ? "Total (&#3647;): " :  "Total ($): "; ?><br>
+							<?= ($user->payment_method == 'Baht') ? "<span style='color:red;'>Deposit (50%):</span><br>" :  ""; ?>
 						</th>
 						<th style="text-align: left;border: 1px solid #dddddd;padding: 8px;">
-							<?php 
-								$labor = empty($openOrder->additional_cost) ? $laborCost : $openOrder->additional_cost;
-								$total = $subtotal+$tax+$labor; 
-							?>
 							$<?= number_format($subtotal, 2) ?><br>
 							$<?= number_format($tax, 2) ?><br>
 							$<?= number_format($labor, 2) ?><br>
+							<?php
+								if(!empty($additionalCost))
+									echo "$".number_format($additionalCost, 2)."<br>";
+							?>
 							$<?= number_format($total, 2) ?><br>
-							<?php if($user->payment_method == 'Baht') echo number_format($total*$user->exchange_rate, 2)."&#3647;<hr>";  ?>
-							<?= number_format($shippingCost, 2) ?>&#3647;<br>
+							<?php if($user->payment_method == 'Baht') echo number_format($total*$user->exchange_rate, 2)."&#3647;";  ?><hr>
 							<?php 
+								if(!empty($shippingCostUsd))
+									echo "$".number_format($shippingCostUsd, 2)."<br>";
+								else
+									echo number_format($shippingCost, 2)."&#3647;<br>";
+								
 								if($user->payment_method == 'Baht')
 								{
 									echo number_format($total*$user->exchange_rate+$shippingCost, 2)."&#3647;<br>";
-									echo '<span style="color:red;">$'.number_format(($total*$user->exchange_rate+$shippingCost)/2, 2)."&#3647;</span>";
+									echo '<span style="color:red;">'.number_format(($total*$user->exchange_rate+$shippingCost)/2, 2)."&#3647;</span>";
 								}
 								else
-									echo '<span style="color:red;">$0.00</span>';
+									echo "$".number_format($total+$shippingCostUsd, 2)."<br>";
 							?> 
 						</th>
 					<?php } ?>
@@ -224,7 +255,7 @@ $link = "http://shoppylandbyhoney.com/index.php/openorder/client/preview?token="
 					</th>
 					<th style="text-align: left;border: 1px solid #dddddd;padding: 8px;">
 						<p><?= number_format($subtotal, 2) ?>&#3647;</p>
-						<p><?= '<span style="color:red;">$'.number_format($subtotal/2, 2)."&#3647;</span>" ?></p>
+						<p><?= '<span style="color:red;">'.number_format($subtotal/2, 2)."&#3647;</span>" ?></p>
 					</th>
 				<?php } ?>
 			</tr>

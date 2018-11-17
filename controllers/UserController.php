@@ -3,6 +3,9 @@
 namespace app\controllers;
 
 use Yii;
+
+use yii\helpers\Html;
+use yii\helpers\Url;
 use app\models\User;
 use app\models\UserSearch;
 use yii\web\Controller;
@@ -53,8 +56,10 @@ class UserController extends \app\controllers\MainController
 
         if ($model->load(Yii::$app->request->post())) 
 		{
-			$model->password = Yii::$app->passwordhash->create_hash($_POST["User"]['password']);
+			$model->token = Yii::$app->passwordhash->generateToken();
+			$model->password = Yii::$app->passwordhash->create_hash($_POST["User"]['temp_password']);
 			$model->save(false);
+			
             return $this->redirect(['view', 'id' => $model->user_id]);
         }
 
@@ -102,6 +107,29 @@ class UserController extends \app\controllers\MainController
 
         return $this->redirect(['index']);
     }
+	
+	public function actionSendLoginInfo($id)
+	{
+		// $user->name."'s Invoice - Lot #".$openOrder->lot->lot_number
+		$user = $this->findModel($id);
+		$body  = "Hi, ".$user->name."!";
+		$body .= "<br>";
+		$body .= "<br>Thank you for signing up with Shoppyland by Honey. You're one step closer to completing the setup. For security purposes, please double check your login info below and reset your password.<br>";
+		$body .= "<br>Login page: ".Html::a(Url::to(['/site/login'], true), Url::to(['/site/login'], true));
+		$body .= "<br><b>Your Username is:</b> ".$user->username;
+		$body .= "<br>".Html::a('Click Here', Url::to(['/site/reset-password', 'token'=>$user->token], true))." to reset your password.";
+		$body .= "<br>";
+		$body .= "<br>Shoppyland by Honey Team";
+		
+		$sent = Yii::$app->mailer->compose()
+					->setTo($user->email)
+					->setBcc (["ettidej@gmail.com"])
+					->setSubject("Welcome to Shoppyland by Honey!")
+					->setHtmlBody($body)
+					->send();
+		
+		echo "<script>window.close();</script>";
+	}
 
     /**
      * Finds the User model based on its primary key value.

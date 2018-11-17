@@ -9,6 +9,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -52,16 +53,36 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         //'brandLabel' => Yii::$app->name,
-        'brandLabel' => Html::img('https://cdn.iconscout.com/public/images/icon/free/png-256/google-logo-39642b4be634b363-256x256.png', ['height'=>'50px', 'alt'=>Yii::$app->name, 'title'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
+        //'brandLabel' => Html::img(Url::base(true) .'/images/logo-100x100.png', ['height'=>'50px', 'alt'=>Yii::$app->name, 'title'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
+		'brandLabel' => Html::img('https://cdn.iconscout.com/public/images/icon/free/png-256/google-logo-39642b4be634b363-256x256.png', ['height'=>'50px', 'alt'=>Yii::$app->name, 'title'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
 		'brandOptions' => ['class' => 'brandclass'],//options of the brand
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top', //my-navbar 
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
+	
+	if (Yii::$app->user->isGuest) 
+	{
+		$items = [
+            ['label' => 'Home', 'url' => ['/site/index'], 'active' => ('/site/index' == $this->context->id)],
+            Yii::$app->user->isGuest ? (
+                ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => '']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->name . ')',
+                    ['class' => 'btn btn-link logout', 'style' => '']
+                )
+                . Html::endForm()
+                . '</li>'
+            )
+        ];
+	}
+	else if(Yii::$app->user->identity->isAdmin)
+	{
+		$items = [
             ['label' => 'Home', 'url' => ['/site/index'], 'active' => ('/site/index' == $this->context->id)],
 			[
 				'label' => 'Lots & Stock', 
@@ -101,7 +122,31 @@ AppAsset::register($this);
                 . Html::endForm()
                 . '</li>'
             )
-        ],
+        ];
+	}
+	else
+	{
+		$items = [
+            ['label' => 'Home', 'url' => ['/site/index'], 'active' => ('/site/index' == $this->context->id)],
+            ['label' => 'Order History', 'url' => ['/openorder/client/order-history'], 'active' => ('/openorder/client/order-history' == $this->context->id)],
+            Yii::$app->user->isGuest ? (
+                ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => '']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->name . ')',
+                    ['class' => 'btn btn-link logout', 'style' => '']
+                )
+                . Html::endForm()
+                . '</li>'
+            )
+        ];
+	}
+	
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => $items,
     ]);
     NavBar::end();
     ?>

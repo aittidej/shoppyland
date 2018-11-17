@@ -38,6 +38,8 @@ class eBaySearch extends Component {
 	
 	public function getDataByBarcode ($barcode)
 	{
+		return false; // disable eBay search for now
+		
 		$apiEndpoint = $this->endpoint."&keywords=".$barcode;
 		return $this->get($apiEndpoint);
 	}

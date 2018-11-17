@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             'user_id',
 			'name',
@@ -32,20 +32,34 @@ $this->params['breadcrumbs'][] = $this->title;
 			'email:email',
 			'last_login',
 			'payment_method',
-            'is_wholesale',
-            'exchange_rate',
+            //'is_wholesale',
+            //'exchange_rate',
             
             
             //'phone',
             //'address:ntext',
-            //'last_login',
             //'creation_datetime',
             //'payment_method',
             //'is_wholesale',
             //'exchange_rate',
             //'status',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
+			[
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '{send-login-info} {view} {update} {delete}',
+				'hAlign' => 'center', 
+				'vAlign' => 'middle',
+				'width' => '25%',
+				'buttons' => [
+					'send-login-info' => function ($url, $model) {
+						return Html::a(
+							'<i class="glyphicon glyphicon-send"></i>',
+							$url, [ 'title' => 'Send Login Info', 'target'=>'_blank' ]
+						);
+					},
+				],
+			],
         ],
     ]); ?>
 </div>

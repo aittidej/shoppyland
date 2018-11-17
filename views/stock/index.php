@@ -77,10 +77,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			],*/
 			[
 				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'image_path',
+				'label' => '',
+				'vAlign' => 'middle',
+				'filter' => false,
+				'format' => 'raw',
+				'width' => '15%',
+				'value' => function($model) {
+					return Html::img($model['product']->firstImage, ['width'=>'90%']);
+				},
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
 				'label' => 'UPC',
 				'format' => 'raw',
 				'value' => function($model) {
-					return Html::a($model['product']->upc, ['product/view', 'id'=>$model->product_id], ['target'=>'_blank']);
+					return Html::a($model['product']->upc, ['product/update', 'id'=>$model->product_id], ['target'=>'_blank']);
 				},
 			],
 			[

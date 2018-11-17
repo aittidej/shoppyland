@@ -36,7 +36,8 @@
 		"yiisoft/yii2-imagine": "*",
 		"guzzlehttp/guzzle": "^6.3",
 		"smalot/pdfparser": "*",
-		"2amigos/yii2-chartjs-widget" : "dev-master"
+		"2amigos/yii2-chartjs-widget" : "dev-master",
+		"2amigos/yii2-ckeditor-widget" : "~2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

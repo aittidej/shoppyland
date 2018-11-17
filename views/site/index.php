@@ -8,19 +8,19 @@ $this->title = Yii::$app->name;
 ?>
 <style>
 .search {
-	width: 52.5%;
+	width: 100%;
 	height: 44px;
 	border-top: 1px solid #bdbdbd;
 	border-bottom: 1px solid #d3d3d3;
 	border-right: 1px solid #d3d3d3;
 	border-left: 1px solid #d3d3d3;
-	padding-right: 30px;
 	font: 16px arial, sans-serif;
 	text-indent:5px;
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACrElEQVR42u2Xz2sTQRSAX8VSb1K8iNqKooJH2Ux6Ksn+iPQqxZMIehJB0do/IMhmQWsvHr2KSEGk0tSLIoWIYNUKij20F2/N7iaUZnYT0kYzzhMKs0HDJiTdLcwHDwKZSd63781LBiQSSW9JZdkhzfKm1Rz9mjZp/W9YdEU3vXv4HsQZ40FtNG36q5rls//Ej4tmbSS2T15Mvp3ExOPmEMQNbBtMMEyoljcFcQN7PqyAlqNfIG7gYQ0tYNIaxA1MrJPY3wImbUqBKAXSFv0tBSIVMOkvKRDtGKWN/T6FdqRAxFNoWwpEPIXqUqBT6ALU/UVgu8GW4GD3f6f9TRDYNJTDrk7YbtiqUumHwIYoUJuHERDAS0r4CvgFECgbY+cFAR7KT+g1POmCKFDNw6WggHc3fBtVb4CAoyauBgXIG+g1Xh5mRAGah6cggBd11fK/h7lOprIs0H6uRl6KAo5O7kOv4QmPiwJ4Jqqv4FiwCtXjvD2+tRmfK6kZ/ygI2HritK0rDVGgrClJ6DWMwYC/AGuCBMYcIC2V0CzvjmbRz3j3xUjn6CfeYreUJ2wQkGD75INPX1mFfsEFrrcIYCvdhC4paWQakxajpJMr0C9YFg54i7AsClRmh9/xnr0NHcInzZStk2aLwAcGMAD9pPIazvFKVDD5rdnhJeHLX5RTyRPQHpz5o66emMc9wdlPtvA8wF7Aq2BUHh1525qEo5JtR1WeOXpickO9cJIpyuD6xJmhYiZ5ytWSl3mlnuOaf+2zDaLDXmJrSgZ/MYVEugo+gSh+FkSBa4yd5Ul87DZ5XpFl/AyIEjzYjkau8WqshU2cr13HPbgX4gJOD97n465GZlyVvC9mSKloKI2iTnbwNT+gBX54H+IaXAtxJzE3ycSAFqSAFJACUkAikXD+AHj5/wx2o5osAAAAAElFTkSuQmCC) no-repeat -3px 0;
-	background-repeat:no-repeat;
-	background-position:536px 10px;
-	background-size:18px 23px;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACrElEQVR42u2Xz2sTQRSAX8VSb1K8iNqKooJH2Ux6Ksn+iPQqxZMIehJB0do/IMhmQWsvHr2KSEGk0tSLIoWIYNUKij20F2/N7iaUZnYT0kYzzhMKs0HDJiTdLcwHDwKZSd63781LBiQSSW9JZdkhzfKm1Rz9mjZp/W9YdEU3vXv4HsQZ40FtNG36q5rls//Ej4tmbSS2T15Mvp3ExOPmEMQNbBtMMEyoljcFcQN7PqyAlqNfIG7gYQ0tYNIaxA1MrJPY3wImbUqBKAXSFv0tBSIVMOkvKRDtGKWN/T6FdqRAxFNoWwpEPIXqUqBT6ALU/UVgu8GW4GD3f6f9TRDYNJTDrk7YbtiqUumHwIYoUJuHERDAS0r4CvgFECgbY+cFAR7KT+g1POmCKFDNw6WggHc3fBtVb4CAoyauBgXIG+g1Xh5mRAGah6cggBd11fK/h7lOprIs0H6uRl6KAo5O7kOv4QmPiwJ4Jqqv4FiwCtXjvD2+tRmfK6kZ/ygI2HritK0rDVGgrClJ6DWMwYC/AGuCBMYcIC2V0CzvjmbRz3j3xUjn6CfeYreUJ2wQkGD75INPX1mFfsEFrrcIYCvdhC4paWQakxajpJMr0C9YFg54i7AsClRmh9/xnr0NHcInzZStk2aLwAcGMAD9pPIazvFKVDD5rdnhJeHLX5RTyRPQHpz5o66emMc9wdlPtvA8wF7Aq2BUHh1525qEo5JtR1WeOXpickO9cJIpyuD6xJmhYiZ5ytWSl3mlnuOaf+2zDaLDXmJrSgZ/MYVEugo+gSh+FkSBa4yd5Ul87DZ5XpFl/AyIEjzYjkau8WqshU2cr13HPbgX4gJOD97n465GZlyVvC9mSKloKI2iTnbwNT+gBX54H+IaXAtxJzE3ycSAFqSAFJACUkAikXD+AHj5/wx2o5osAAAAAElFTkSuQmCC) no-repeat 0 0;
+	background-repeat: no-repeat;
+	background-position: 98% center;
+	background-size: 18px 23px;
+	background-origin: content-box;
 }
 
 .button {
@@ -60,10 +60,10 @@ $this->title = Yii::$app->name;
 	<center>
 		<div class='col-sm-12' style='margin-top: 14%;'>
 			<div class='col-sm-12'>
-				<?= Html::a(Html::img('https://www.google.com/images/srpr/logo11w.png', ['style'=>'width:270px;height:95px;margin:5px;']), ['/']); ?>
+				<?= Html::a(Html::img('https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png', ['style'=>'width:270px;height:95px;margin:5px;']), ['/']); ?>
 			</div>
 			<div class='col-sm-12'><br></div>
-			<div class='col-sm-12'>
+			<div class='col-sm-12 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6'>
 				<?php 
 					$form = ActiveForm::begin(['method'=>'GET', 'action' => ['/product']]); 
 						echo Html::textInput('q', NULL, ['type'=>'search', 'class'=>'search'])."<br><br>";
@@ -71,11 +71,6 @@ $this->title = Yii::$app->name;
 						echo Html::submitButton("I'm Feeling Lucky", ['class' => 'button']);
 					 ActiveForm::end();
 				 ?>
-				<!--<form name="google" action="https://www.google.com/search" method="GET"><br>
-					<input type="search" name='q' class="search"><br><br>
-					<input type="submit" class="button" name="submit" value="Google Search">
-					<input type="submit" class="button" name="lucky" value="I'm Feeling Lucky">
-				</form>-->
 			</div>
 		</div>
 	</center>

@@ -42,23 +42,38 @@ class OpenOrderSearch extends OpenOrder
      */
     public function search($params)
     {
-        $query = OpenOrder::find()->with('openOrderRels')->joinwith('user')->joinwith('lot');
+		if(Yii::$app->user->identity->isAdmin)
+		{
+			$query = OpenOrder::find()
+							->with('openOrderRels')
+							->joinwith('user')
+							->joinwith('lot')
+							->where(['open_order.status'=>1]);
+		}
+		else
+		{
+			$query = OpenOrder::find()
+							->with('openOrderRels')
+							->joinwith('user')
+							->joinwith('lot')
+							->where(['open_order.user_id'=>Yii::$app->user->identity->user_id, 'open_order.status'=>1]);
+		}
 		
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-			'sort' => [
-			'defaultOrder' => ['lot.lot_number' => SORT_DESC, 'user.name' => SORT_ASC],
-			'attributes' => [
-				'open_order_id',
-				'user.name',
-				'number_of_box',
-				'total_weight',
-				'numberOfItems',
-				'creation_datetime',
-				'lot.lot_number',
-			]
-		],
+				'query' => $query,
+				'sort' => [
+					'defaultOrder' => ['lot.lot_number' => SORT_DESC, 'user.name' => SORT_ASC],
+					'attributes' => [
+						'open_order_id',
+						'user.name',
+						'number_of_box',
+						'total_weight',
+						'numberOfItems',
+						'creation_datetime',
+						'lot.lot_number',
+					]
+				],
         ]);
 
         $this->load($params);

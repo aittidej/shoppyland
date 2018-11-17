@@ -8,7 +8,7 @@ Yii::setAlias('web', dirname(__DIR__) . '/web');
 
 $config = [
     'id' => 'basic',
-	'name' => 'ShoppyLand by Honey',
+	'name' => 'Shoppyland by Honey',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -42,7 +42,7 @@ $config = [
 			'viewPath' => '@app/mail',
 			'messageConfig' => [
 				'charset' => 'UTF-8',
-				'from' => ['service@shoppylandbyhoney.com' => 'ShoppyLand by Honey'],
+				'from' => ['service@shoppylandbyhoney.com' => 'Shoppyland by Honey'],
 			],
 			//comment the following array to send mail using php's mail function
 			'transport' => [
