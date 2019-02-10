@@ -284,3 +284,76 @@ Stack trace:
 #0 [internal function]: yii\base\ErrorHandler->handleError(8, 'Unknown: Warnin...', 'Unknown', 0, NULL)
 #1 {main}
   thrown in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:46 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:49:52 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:52:02 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:54:36 America/Los_Angeles] PHP Notice:  Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown on line 0
+[23-Nov-2018 19:58:18 America/Los_Angeles] PHP Fatal error:  Uncaught yii\base\ErrorException: Unknown: Warning: MIME header encountered in non-MIME message (errflg=3) in Unknown:0
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'Unknown: Warnin...', 'Unknown', 0, NULL)
+#1 {main}
+  thrown in Unknown on line 0

@@ -115,7 +115,7 @@ class ReceiptController extends Controller
 						if(!empty($tranIdList[0]))
 							$tranId = substr($tranIdList[0], -6);
 					}
-					$capture = $this->parseMichaelKorsEmail($latest['fetchbody']);
+					//$capture = $this->parseMichaelKorsEmail($latest['fetchbody']);
 					break;
 				case "3":
 					if(!empty($latest['attachment']))

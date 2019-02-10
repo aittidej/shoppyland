@@ -68,7 +68,7 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 						</td>
 						<td colspan="3" <?= $bgColorWarning ?>>
 							<?php 
-								echo "<h4><strong>".Html::a($product['title'], ['/product/update', 'id'=>$productId], ['target'=>'_blank'])."</strong><br>Model #".$product['model']."<br>UPC: ".$product['upc']."</h4>"; 
+								echo "<h4><strong>".$product['title']."</strong><br>Model #".$product['model']."<br>UPC: ".Html::a($product['upc'], ['/product/update', 'id'=>$productId], ['target'=>'_blank'])."</h4>"; 
 								echo Html::a('Split', 'javascript:void(0);', ['class'=>'btn btn-info split', 'data-product_id'=>$productId, 'data-open_order_rel_id'=>$openOrderRelId, 'style'=>'width: 100%;']);
 								
 								if(!empty($lotRels) && !empty($openOrderRel['currency']))

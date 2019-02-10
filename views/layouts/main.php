@@ -54,7 +54,7 @@ AppAsset::register($this);
     NavBar::begin([
         //'brandLabel' => Yii::$app->name,
         //'brandLabel' => Html::img(Url::base(true) .'/images/logo-100x100.png', ['height'=>'50px', 'alt'=>Yii::$app->name, 'title'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
-		'brandLabel' => Html::img('https://cdn.iconscout.com/public/images/icon/free/png-256/google-logo-39642b4be634b363-256x256.png', ['height'=>'50px', 'alt'=>Yii::$app->name, 'title'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
+		'brandLabel' => Html::img(Url::base(true) .'/images/aya.png', ['height'=>'50px', 'alt'=>Yii::$app->name, 'title'=>Yii::$app->name, 'style' => 'margin-top:-12px;']),
 		'brandOptions' => ['class' => 'brandclass'],//options of the brand
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
@@ -65,7 +65,7 @@ AppAsset::register($this);
 	if (Yii::$app->user->isGuest) 
 	{
 		$items = [
-            ['label' => 'Home', 'url' => ['/site/index'], 'active' => ('/site/index' == $this->context->id)],
+            ['label' => 'Home', 'url' => ['/site/dashboard'], 'active' => ('/site/dashboard' == $this->context->id)],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => '']]
             ) : (
@@ -83,7 +83,7 @@ AppAsset::register($this);
 	else if(Yii::$app->user->identity->isAdmin)
 	{
 		$items = [
-            ['label' => 'Home', 'url' => ['/site/index'], 'active' => ('/site/index' == $this->context->id)],
+            ['label' => 'Home', 'url' => ['/site/dashboard'], 'active' => ('/site/dashboard' == $this->context->id)],
 			[
 				'label' => 'Lots & Stock', 
 				'items' => [
@@ -127,7 +127,7 @@ AppAsset::register($this);
 	else
 	{
 		$items = [
-            ['label' => 'Home', 'url' => ['/site/index'], 'active' => ('/site/index' == $this->context->id)],
+            ['label' => 'Profile', 'url' => ['/site/dashboard'], 'active' => ('/site/dashboard' == $this->context->id)],
             ['label' => 'Order History', 'url' => ['/openorder/client/order-history'], 'active' => ('/openorder/client/order-history' == $this->context->id)],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => '']]
@@ -162,7 +162,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Buchoo <?= date('Y') ?></p>
+        <p class="pull-left">
+			Copyright&copy; <?= date('Y') ?> All rights reserved | Shoppyland by Honey 
+		</p>
 
         <!--<p class="pull-right"><?= Yii::powered() ?></p>-->
     </div>

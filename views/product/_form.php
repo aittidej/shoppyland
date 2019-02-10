@@ -22,37 +22,55 @@ $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title
 		</div>
 		
 		<div class='col-sm-3'>
+			<?= $form->field($model, 'brand_id')->dropDownList($brands, ['prompt'=>'Select Brand...']); ?>
+		</div>
+		<div class='col-sm-3'>
 			<?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
 		</div>
-		<div class='col-sm-9'>
+		<div class='col-sm-6'>
 			<?= $form->field($model, 'upc')->label('Barcode (UPC)')->textInput(['maxlength' => true]) ?>
 		</div>
 		
-		<div class='col-sm-6'>
-			<?= $form->field($model, 'brand_id')->dropDownList($brands, ['prompt'=>'Select Brand...']); ?>
+		<div class='col-sm-1'>
+			<?= $form->field($model, 'size')->dropDownList(['XXS'=>'XXS', 'XS'=>'XS', 'S'=>'S', 'M'=>'M', 'L'=>'L', 'XL'=>'XL', 'XXL'=>'XXL', 'XXXL'=>'XXXL'], ['prompt'=>'Select Brand...']); ?>
 		</div>
-		<div class='col-sm-6'>
+		<div class='col-sm-3'>
+			<?= $form->field($model, 'color')->textInput() ?>
+		</div>
+		<div class='col-sm-3'>
 			<?= $form->field($model, 'base_price')->textInput() ?>
 		</div>
-		
-		<div class='col-sm-8'>
-			<?= $form->field($model, 'imagPath')->label('Image URL')->textInput(); ?>
-		</div>
-		<div class='col-sm-1'><center><h2>OR</h2></center></div>
 		<div class='col-sm-3'>
-			<?= $form->field($upload, "image[]")->fileInput(['multiple' => true]); ?>
+			<?= $form->field($model, 'dimension')->textInput() ?>
 		</div>
-			<?php //$form->field($model, 'weight')->textInput() ?>
-			
-			<?php //$form->field($model, 'category')->textInput() ?>
+		<div class='col-sm-2'>
+			<?= $form->field($model, 'weight')->textInput() ?>
+		</div>
+		
+		<div class='col-sm-12'>
+			<?php //$form->field($upload, "image[]")->fileInput(['multiple' => true]); ?>
+			<?= $form->field($upload, 'image[]')->widget(FileInput::classname(), [
+																'options' => ['accept' => 'image/*', 'multiple' => true],
+																'pluginOptions' => [
+																	//'showPreview' => false,
+																	//'showCaption' => true,
+																	//'showRemove' => true,
+																	'showUpload' => false
+																]
+															]); ?>
+		</div>
+		
+		<?php //$form->field($model, 'weight')->textInput() ?>
+		
+		<?php //$form->field($model, 'category')->textInput() ?>
 
-			<?php //$form->field($model, 'description')->textarea(['rows' => 6]) ?>
+		<?php //$form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-			<?php //$form->field($model, 'color')->textInput(['maxlength' => true]) ?>
+		<?php //$form->field($model, 'color')->textInput(['maxlength' => true]) ?>
 
-			<?php //$form->field($model, 'size')->textInput(['maxlength' => true]) ?>
+		<?php //$form->field($model, 'size')->textInput(['maxlength' => true]) ?>
 
-			<?php //$form->field($model, 'dimension')->textInput(['maxlength' => true]) ?>
+		<?php //$form->field($model, 'dimension')->textInput(['maxlength' => true]) ?>
 		
     <div class="col-sm-12 form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

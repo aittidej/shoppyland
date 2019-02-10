@@ -27,8 +27,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'lot_id',
             'lot_number',
-            'lotOwner',
-           // 'buy_date',
+            //'lotOwner',
+			'start_date:date',
+			'end_date:date',
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'label' => '# of days',
+				'format' => 'raw',
+				'vAlign' => 'middle',
+				'value' => function ($model) {
+					$date1 = date_create($model->start_date);
+					$date2 = date_create($model->end_date);
+					$diff = date_diff($date1, $date2);
+					return $diff->format("%a");
+				},
+			],
+			
+			'shipped_date:date',
 
             [
 				'class' => 'kartik\grid\ActionColumn',

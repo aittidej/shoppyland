@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 
 use app\models\LoginForm;
+use app\models\SellingList;
+use app\models\Product;
 use app\models\User;
 use app\components\EmailReader;
 
@@ -61,9 +63,40 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
-    {					
-        return $this->render('index');
+    public function actionDashboard()
+    {
+		if (Yii::$app->user->isGuest) {
+			//return $this->goHome();
+			return $this->redirect(['/site/login']);
+        }
+		
+		$user = Yii::$app->user->identity;
+		
+		if ($user->load(Yii::$app->request->post()) && $user->save()) 
+		{
+			return $this->redirect(['dashboard']);
+		}
+		
+        return $this->render('dashboard', ['user'=>$user]);
+    }
+	
+	public function actionIndex()
+    {
+		$this->layout = "website";
+		
+		if (Yii::$app->request->isPost)
+		{
+			Yii::$app->mailer->compose()
+					->setTo('service@shoppylandbyhoney.com')
+					->setSubject('[Website] Contact Us Form')
+					->setHtmlBody($_POST['name']."<br>".$_POST['email']."<br>".$_POST['phone']."<br><br>".$_POST['message'])
+					->send();
+		}
+		
+		$hightlightProducts = Product::find()->where("highlight=1 AND image_path IS NOT NULL")->orderby('random()')->limit('3')->all();
+		$sellingLists = SellingList::find()->where(['status'=>1])->with('product')->orderby('selling_list_id DESC')->limit('12')->all();
+		
+        return $this->render('index', ['hightlightProducts'=>$hightlightProducts, 'sellingLists'=>$sellingLists]);
     }
 
     /**
@@ -74,12 +107,16 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-			return $this->goHome();
+			//return $this->goHome();
+			return $this->redirect(['/site/dashboard']);
         }
+		
+		$this->layout = "login";
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+			//return $this->goBack();
+			return $this->redirect(['/site/dashboard']);
         }
 
         $model->password = '';
@@ -102,10 +139,12 @@ class SiteController extends Controller
 	
 	public function actionResetPassword($token)
 	{
+		$this->layout = "login";
+		
 		$error = false;
 		$user = User::findOne(['token'=>$token]);
         if(empty($user))
-			return $this->goHome();
+			return $this->redirect(['/site/dashboard']);
 			
 		if (Yii::$app->request->isPost)
 		{
@@ -129,15 +168,5 @@ class SiteController extends Controller
 			'error' => $error,
 		]);
 		
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }

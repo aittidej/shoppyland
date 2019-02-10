@@ -7,11 +7,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $openOrder app\models\OpenOrder */
 
+$missingSomething = false;
 $taxRate = 0.08;
 $user = $openOrder['user'];
 $lot = $openOrder['lot'];
 $isUsd = $user->currency_base == "USD";
-$link = "http://shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$openOrder->token;
+$link = "https://shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$openOrder->token;
 $laborChargePrice = empty($user->labor_charge_json) ? [] : $user->labor_charge_json;
 $shippingChargePrice = empty($user->shipping_charge_json) ? [] : $user->shipping_charge_json;
 $this->title = $user->name."'s Invoice - Lot #".$lot->lot_number;
@@ -20,8 +21,8 @@ if(!$print) {
 	$this->params['breadcrumbs'][] = $this->title;
 }
 $laborCount[0] = 0;
-foreach($laborChargePrice AS $price)
-	$laborCount[$price] = 0;
+/*foreach($laborChargePrice AS $price)
+	$laborCount[$price] = 0;*/
 	
 $total = $subtotal = $totalQty = $tax = $laborCost = $shippingTier = $count = 0;
 $shippingText = '';
@@ -58,9 +59,8 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 	<div class='col-sm-6'>
 		<?php if(!$print) { ?>
 			<br>
-			<?= Html::a('Print', 'javascript:void(0);', ['class' => 'btn btn-primary', 'id'=>'print', 'style'=>'float: right;']) ?> 
-			<?= Html::a('Email', ['/openorder/report/email', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-default', 'target'=>'_blank', 'style'=>'float: right;']) ?> 
-			<?= Html::a('Edit Pricing', ['/openorder/order/view', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-info', 'style'=>'float: right;']) ?> 
+			<?= Html::a("<i class='glyphicon glyphicon-print'></i> Print", 'javascript:void(0);', ['class' => 'btn btn-primary', 'id'=>'print', 'style'=>'float: right;']) ?> 
+			<?= Html::a("<i class='glyphicon glyphicon-usd'></i> Edit Pricing", ['/openorder/order/view', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-info', 'style'=>'float: right;']) ?> 
 			<?= Html::a('<i class="glyphicon glyphicon-pencil"></i> Update Order', ['/openorder/order/update', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-warning', 'style'=>'float: right;']) ?> 
 			<?= Html::a('<i class="glyphicon glyphicon-plus"></i> Add More Items', ['/openorder/order/add-items', 'id'=>$openOrder->open_order_id], ['class' => 'btn btn-success', 'style'=>'float: right;']) ?> 
 		<?php } ?>
@@ -87,16 +87,28 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 					$subtotal += $tempSub;
 					$tax += $tempSub*$taxRate;
 					$brandTitle = empty($brand->title) ? '' : $brand->title.' - ';
-					
-					if(!empty($product->size) && !empty($laborChargePrice[$product->size]))
+					if($openOrderRel->free_labor)
+						$laborFee = 0;
+					else if(!empty($openOrderRel->overwrite_labor))
+						$laborFee = $openOrderRel->overwrite_labor;
+					else if(!empty($laborChargePrice[$product->size]))
+						$laborFee = $laborChargePrice[$product->size];
+					else
 					{
-						if($openOrderRel->free_labor)
-							$laborCount[0] += $openOrderRel->qty;
-						else
-						{
-							$laborCost += $laborChargePrice[$product->size]*$openOrderRel->qty;
-							$laborCount[$laborChargePrice[$product->size]] += $openOrderRel->qty;
-						}
+						$laborFee = NULL;
+						//$missingSomething = true;
+					}
+					
+					// remark display - product count
+					if($openOrderRel->free_labor)
+						$laborCount[0] += $openOrderRel->qty;
+					else if(!empty($product->size) && !empty($laborFee))
+					{
+						if(!isset($laborCount[$laborFee]))
+							$laborCount[$laborFee] = 0;
+							
+						$laborCost += $laborFee*$openOrderRel->qty;
+						$laborCount[$laborFee] += $openOrderRel->qty;
 					}
 				?>
 				<tr style='<?= empty($index%2) ? "background-color: #dee7e8;" : "" ?>'>
@@ -108,28 +120,41 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 							$headerText = $brandTitle;
 							$headerText .= $print ? $product->upc : Html::a($product->upc, ['/product/update', 'id'=>$product->product_id], ['target'=>'_blank']);
 							$headerText .= empty($product->model) ? '' : ' <strong>('.$product->model.')</strong> ';
-							$headerText .= (isset($laborChargePrice[$product->size]) ? " [$".$laborChargePrice[$product->size]."]" : '');
+							$headerText .= "<span id='labor-fee-text-".$openOrderRel->open_order_rel_id."'>";
+							$headerText .= (!empty($laborFee) ? " [$".$laborFee."]" : ($openOrderRel->free_labor ? '[FREE]' : ''));
+							$headerText .= "</span>";
 							$headerText .= '<br>'.$product->cleanTitle;
 							echo $headerText;
 							if(!$print && $isUsd)
 							{
-								if($openOrderRel->free_labor)
+								/*if($openOrderRel->free_labor)
 									echo "<br>".Html::a(' &nbsp;&nbsp;&nbsp;Not Free&nbsp;&nbsp;&nbsp; ', ['free-labor', 'open_order_rel_id'=>$openOrderRel->open_order_rel_id, 'free'=>false], ['target'=>'_blank', 'data-method'=>'POST']);
 								else
 									echo "<br>".Html::a(' &nbsp;&nbsp;&nbsp;Free&nbsp;&nbsp;&nbsp; ', ['free-labor', 'open_order_rel_id'=>$openOrderRel->open_order_rel_id, 'free'=>true], ['target'=>'_blank', 'data-method'=>'POST']);
-									
-								echo 
-									Html::a(' &nbsp;&nbsp;&nbsp;$3&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XS'], ['target'=>'_blank', 'data-method'=>'POST']).
+								*/
+								echo "<br><br><label>Labor Cost ($): </label>";
+								echo Html::dropDownList('labor_cost', $laborFee, ['Free','$1','$2','$3','$4','$5','$6','$7','$8','$9','$10'], 
+																[
+																	'placeholder'=>'-- Select One --', 
+																	'class'=>'form-control labor-cost-setting', 
+																	'data-product_id'=>$product->product_id,
+																	'data-open_order_rel_id'=>$openOrderRel->open_order_rel_id,
+																]);
+								/*echo Html::a(' &nbsp;&nbsp;&nbsp;$3&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XS'], ['target'=>'_blank', 'data-method'=>'POST']).
 									Html::a(' &nbsp;&nbsp;&nbsp;$4&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'S'], ['target'=>'_blank', 'data-method'=>'POST']).
 										Html::a(' &nbsp;&nbsp;&nbsp;$5&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'M'], ['target'=>'_blank', 'data-method'=>'POST']).
 										Html::a(' &nbsp;&nbsp;&nbsp;$6&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'L'], ['target'=>'_blank', 'data-method'=>'POST']).
-										Html::a(' &nbsp;&nbsp;&nbsp;$10&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XL'], ['target'=>'_blank', 'data-method'=>'POST']);
+										Html::a(' &nbsp;&nbsp;&nbsp;$8&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XL'], ['target'=>'_blank', 'data-method'=>'POST']).
+										Html::a(' &nbsp;&nbsp;&nbsp;$10&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XXL'], ['target'=>'_blank', 'data-method'=>'POST']);*/
 							}
 						?>
 					</td>
 					<td style="border: 1px solid #dddddd;text-align: left;padding: 8px;"><?= $openOrderRel->qty ?></td>
 					<td width="175px" style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
 						<?php
+							if($openOrderRel->unit_price == NULL)
+								$missingSomething = true;
+							
 							if($isUsd)
 								echo "$".(empty($openOrderRel->unit_price) ? '0.00' : $openOrderRel->unit_price);
 							else
@@ -155,6 +180,7 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 							echo $openOrder->remark;
 						else
 						{
+							asort($laborCount);
 							foreach($laborCount AS $price=>$itemNumb)
 							{
 								if(!empty($itemNumb))
@@ -261,6 +287,25 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 			</tr>
 		</table>
 	</div>
+	
+	<div class='col-sm-12'><br>
+		<center>
+			<?php if(!$print && !$missingSomething) { ?>
+					<?= Html::a(
+							"<i class='glyphicon glyphicon-send'></i> " . (empty($openOrder->invoice_sent) ? 'Submit & Email Invoice' : 'Resend Email Invoice'), 
+							['/openorder/report/email', 'id'=>$openOrder->open_order_id], 
+							[
+								'class' => empty($openOrder->invoice_sent) ? 'btn btn-success' : 'btn btn-info', 
+								'data' => [
+									'confirm' => 'Are you sure you want to submit now?',
+									'method' => 'POST',
+								]
+					]); ?> 
+			<?php } else if($missingSomething) { ?>
+				<h3 style='color:red'>* Cannot submit at this time. Something is missing. Please double check.</h3>
+			<?php } ?>
+		</center>
+	</div>
 </div>
 
 <?php 
@@ -269,9 +314,37 @@ if($print && empty($client))
 else
 {
 	$this->registerJs("
+		var id = ".$openOrder->open_order_id.";
 		$('#print').click(function (e) {
 			var myWindow = window.open('".Yii::$app->getUrlManager()->createUrl(['openorder/report/print', 'id'=>$openOrder->open_order_id])."', '', 'width=600, height=600, scrollbars=1');
 		});
+		
+		$('.labor-cost-setting').change(function (e) {
+			var product_id = $(this).data('product_id');
+			var open_order_rel_id = $(this).data('open_order_rel_id');
+			var fee = parseInt($(this).val());
+			$.ajax({
+				url: '" . Yii::$app->getUrlManager()->createUrl(['product/pick-size']) . "',
+				type: 'POST',
+				beforeSend: function(xhr, opts) {
+					if(fee == 0)
+						$('#labor-fee-text-'+open_order_rel_id).html(' [FREE]');
+					else
+						$('#labor-fee-text-'+open_order_rel_id).html(' [$'+fee+']');
+				},
+				data: { id:id, fee:fee, product_id:product_id, open_order_rel_id:open_order_rel_id },
+				success: function(result) {
+					if(!result) {
+						$('#labor-fee-text-'+open_order_rel_id).html(' ');
+					}
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			});
+		});
+		
+		
 	", View::POS_READY);
 }
 ?>

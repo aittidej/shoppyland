@@ -12,7 +12,7 @@ use dosamigos\ckeditor\CKEditor;
 /* @var $form yii\widgets\ActiveForm */
 
 $lots = ArrayHelper::map(Lot::find()->orderby('lot_number DESC')->all(), 'lot_id', 'lotOwnerText');
-$users = ArrayHelper::map(User::find()->where(['role_id'=>2, 'status'=>'1'])->orderby('name ASC')->all(), 'user_id', 'name');
+$users = ArrayHelper::map(User::find()->where("status=1 AND role_id != 1")->orderby('name ASC')->all(), 'user_id', 'name');
 ?>
 
 <div class="open-order-form">

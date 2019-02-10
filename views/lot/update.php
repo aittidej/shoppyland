@@ -17,6 +17,9 @@ $this->params['breadcrumbs'][] = 'Update';
 $discountListModel = DiscountList::find()->where(['status'=>'1'])->orderby('title ASC')->all();
 $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title');
 ?>
+<style>
+hr {  border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)); }
+</style>
 <div class="lot-update">
 
 	<div class='col-sm-10'>
@@ -24,11 +27,12 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 	</div>
 	<div class='col-sm-2'>
 		<br><br>
+		<?= Html::a('Add by UPC', ['/lot/select-by-image', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
 		<?= Html::a('Add by Image', ['/lot/select-by-image', 'id'=>$model->lot_id], ['class' => 'btn btn-success']) ?>
 	</div>
 	
 	<div class="clearfix"></div><br>
-	<div class='col-sm-12 col-md-2 col-lg-2'>
+	<!--<div class='col-sm-12 col-md-2 col-lg-2'>
 		<?php $form = ActiveForm::begin(); ?>
 			<strong>Price: $<span id="calculated-result"></span></strong>
 			<?= $form->field($model, 'discount_list_id')->label('Discount')->dropDownList($discountLists, ['prompt'=>'Select discount...', 'id'=>'discount', 'required'=>true]); ?>
@@ -44,7 +48,8 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 		<?php ActiveForm::end(); ?>
 	</div>
 	
-	<div class='col-sm-12 col-md-10 col-lg-10'>
+	<div class='col-sm-12 col-md-10 col-lg-10'>-->
+	<div class='col-sm-12 col-md-12 col-lg-12'>
 		<div class="clearfix"></div><br>
 		<?php foreach($lotRels AS $lotRel) { ?>
 			<div id='lot-rel-row-<?= $lotRel->lot_rel_id ?>'>
@@ -74,6 +79,11 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 												]);
 					?>
 				</div>
+				
+				
+				
+				
+				
 				<div class='col-sm-12 col-md-3 col-lg-2'>
 					<?= $form->field($lotRel, 'price')->label('Price ($)')->textInput(['class'=>'form-control price', 'id'=>'price-'.$lotRel->lot_rel_id, 'data-lot_rel_id'=>$lotRel->lot_rel_id]) ?>
 				</div>
@@ -92,7 +102,11 @@ $discountLists = ArrayHelper::map($discountListModel, 'discount_list_id', 'title
 				<div class='col-sm-12 col-md-3 col-lg-2'>
 					<?= $form->field($lotRel, 'overwrite_total')->label('Overwrite Total')->textInput(['class'=>'form-control overwrite', 'id'=>'overwrite-'.$lotRel->lot_rel_id, 'data-lot_rel_id'=>$lotRel->lot_rel_id]) ?>
 				</div>
-				<div class="clearfix"></div><br>
+				
+				
+				
+				
+				<div class="clearfix"></div><br><hr><br>
 			</div>
 		<?php } ?>
 	</div>

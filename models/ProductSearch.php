@@ -49,6 +49,8 @@ class ProductSearch extends Product
 			$query = Product::find()->with('brand')->where("searchtext @@ to_tsquery('".$q."')");
 
         // add conditions that should always apply here
+		if(!empty($_GET['nopicture']))
+			$query->andWhere("image_path IS NULL");
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

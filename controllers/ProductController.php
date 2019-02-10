@@ -26,6 +26,7 @@ use app\components\UpcItemDB;
 class ProductController extends \app\controllers\MainController
 {
 	public $wontInclude = ['mfsrp', 'usd', 'cad', 'our price', 'ns'];
+	public $standardSizeFee = ['XS' => 3, 'S' => 4, 'M' => 5, 'L' => 6, 'XL' => 8, 'XXL' => 10];
 	
 	public function actionTest()
 	{
@@ -106,7 +107,8 @@ class ProductController extends \app\controllers\MainController
         $model = $this->findModel($id);
 		$upload = new UploadFile();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+		{
 			$model->status = 1;
 			$upload->image = UploadedFile::getInstances($upload, "image");
 			if(!empty($upload->image))
@@ -294,6 +296,44 @@ class ProductController extends \app\controllers\MainController
         ]);
     }
 	
+	public function actionPickSize()
+	{
+		if (Yii::$app->request->isAjax) 
+		{
+			$saveOne = $saveTwo = false;
+			$openOrder = OpenOrder::findOne($_POST['id']);
+			$user = $openOrder->user;
+			$product = $this->findModel($_POST['product_id']);
+			//$openOrderRels = OpenOrderRel::find()->where(['open_order_id'=>$openOrder->open_order_id, 'product_id'=>$product->product_id])->all();
+			$openOrderRel = OpenOrderRel::findone($_POST['open_order_rel_id']);
+			
+			$laborChargePrice = $user->labor_charge_json;
+			$standardSize = array_search($_POST['fee'], $this->standardSizeFee); 
+			$personalizeSize = array_search($_POST['fee'], $laborChargePrice); 
+			
+			if(empty($product->size) && !empty($_POST['fee'])) 
+			{
+				$product->size = !empty($personalizeSize) ? $personalizeSize : (!empty($standardSize) ? $standardSize : NULL);
+				$saveOne = $product->save(false);
+			}
+			else
+			{
+				//foreach($openOrderRels AS $openOrderRel){
+				if(!empty($personalizeSize) && $personalizeSize == $product->size) // no overwrite, back to personalize size
+					$openOrderRel->overwrite_labor = NULL;
+				else 
+					$openOrderRel->overwrite_labor = $_POST['fee'];
+				
+				$openOrderRel->free_labor = empty($_POST['fee']) ? 1 : 0;
+				$saveTwo = $openOrderRel->save(false);
+				//}
+			}
+			
+			return $saveOne || $saveTwo;
+		}
+
+		Yii::$app->end();
+	}
 	
 	function parseCleanUp($text, $brand = 'coach')
 	{
@@ -421,18 +461,6 @@ class ProductController extends \app\controllers\MainController
 		}
         return $this->redirect(['index']);
     }
-	
-	public function actionPickSize($id, $size)
-    {
-		if (Yii::$app->request->isPost)
-		{
-			$product = $this->findModel($id);
-			$product->size = $size;
-			echo $product->save(false);
-			
-			echo "<script>window.close();</script>";
-		}
-	}
 
     /**
      * Finds the Product model based on its primary key value.

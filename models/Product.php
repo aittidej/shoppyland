@@ -50,7 +50,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             [['brand_id', 'status'], 'default', 'value' => null],
-            [['brand_id', 'status'], 'integer'],
+            [['brand_id', 'status', 'highlight'], 'integer'],
             [['base_price', 'weight'], 'number'],
             [['description', 'searchtext'], 'string'],
             [['image_path', 'json_data', 'creation_datetime', 'modify_datetime'], 'safe'],
@@ -73,13 +73,13 @@ class Product extends \yii\db\ActiveRecord
             'base_price' => 'Base Price ($)',
             'category' => 'Category',
             'title' => 'Title',
-            'weight' => 'Weight',
+            'weight' => 'Weight (kg)',
             'status' => 'Status',
             'description' => 'Description',
             'color' => 'Color',
             'size' => 'Size',
-            'dimension' => 'Dimension',
-            'image_path' => 'Image Path',
+            'dimension' => 'Dimension (W x L x H)',
+            'image_path' => 'Image',
         ];
     }
    

@@ -32,6 +32,8 @@ $roles = ArrayHelper::map(Role::find()->orderby('title ASC')->all(), 'role_id', 
     <?= $form->field($model, 'address')->textarea(['rows' => 6]) ?>
 
 	<?= $form->field($model, 'payment_method')->dropDownList(['Baht'=>'Baht', 'USD'=>'USD']); ?>
+	
+	<?= $form->field($model, 'currency_base')->dropDownList(['Baht'=>'Baht', 'USD'=>'USD']); ?>
 
 	<?= $form->field($model, 'is_wholesale')->label('Wholesale')->widget(SwitchInput::classname(), [
 						'pluginOptions' => [

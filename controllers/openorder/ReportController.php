@@ -64,47 +64,51 @@ class ReportController extends \app\controllers\MainController
 	
 	public function actionEmail($id)
     {
-        $openOrder = $this->findModel($id);
-		$lot = $openOrder->lot;
-		$user = $openOrder->user;
-		if(empty($user->email))
-			return "No email";
-		
-		$openOrderRels = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith('product')->orderby('product.model ASC')->all();
-		$body = $this->renderPartial('index', ['openOrder' => $openOrder,'openOrderRels' => $openOrderRels,'print' => true]);
-		/*
-		$filename = \Yii::getAlias('@app')."/web/uploads/invoice/".$user->name."_".$lot->lot_number.".pdf";
-		$pdf = new Pdf([
-				'mode' => Pdf::MODE_BLANK,
-				'format' => Pdf::FORMAT_LETTER,
-				'orientation' => Pdf::ORIENT_PORTRAIT,
-				'destination' => Pdf::DEST_FILE,
-				'filename' => $filename,
-				'content' => $body,
-				//'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
-				'cssInline' => 'td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}table {font-family: arial, sans-serif;font-size: 11px;border-collapse: collapse;width: 100%;}tr:nth-child(even) { background-color: #dddddd; }',
-				'options' => ['title' => $user->name."'s Invoice - Lot #".$lot->lot_number],
-				'methods' => [
-					'SetHeader' => [$user->name."'s Invoice - Lot #".$lot->lot_number . '||' . date('l jS \of F Y h:i A')],
-					//'SetFooter' => [ date('l jS \of F Y h:i A')],
-				]
-			]);
-        $pdf->render();*/
-		
-		$sent = Yii::$app->mailer->compose()
-					->setTo($user->email)
-					->setCc (["yuwatida85@gmail.com", "ettidej@gmail.com", "billing@shoppylandbyhoney.com"])
-					->setSubject($user->name."'s Invoice - Lot #".$openOrder->lot->lot_number)
-					->setHtmlBody($body)
-					//->attach($filename)
-					->send();
-		
-		if($sent == 1)
+		if (Yii::$app->request->isPost)
 		{
-			$openOrder->invoice_sent = 1;
-			$openOrder->save(false);
-		
-			echo "<script>window.close();</script>";
+			$openOrder = $this->findModel($id);
+			$lot = $openOrder->lot;
+			$user = $openOrder->user;
+			if(empty($user->email))
+				return "No email";
+			
+			$openOrderRels = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith('product')->orderby('product.model ASC')->all();
+			$body = $this->renderPartial('index', ['openOrder' => $openOrder,'openOrderRels' => $openOrderRels,'print' => true]);
+			/*
+			$filename = \Yii::getAlias('@app')."/web/uploads/invoice/".$user->name."_".$lot->lot_number.".pdf";
+			$pdf = new Pdf([
+					'mode' => Pdf::MODE_BLANK,
+					'format' => Pdf::FORMAT_LETTER,
+					'orientation' => Pdf::ORIENT_PORTRAIT,
+					'destination' => Pdf::DEST_FILE,
+					'filename' => $filename,
+					'content' => $body,
+					//'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+					'cssInline' => 'td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}table {font-family: arial, sans-serif;font-size: 11px;border-collapse: collapse;width: 100%;}tr:nth-child(even) { background-color: #dddddd; }',
+					'options' => ['title' => $user->name."'s Invoice - Lot #".$lot->lot_number],
+					'methods' => [
+						'SetHeader' => [$user->name."'s Invoice - Lot #".$lot->lot_number . '||' . date('l jS \of F Y h:i A')],
+						//'SetFooter' => [ date('l jS \of F Y h:i A')],
+					]
+				]);
+			$pdf->render();*/
+			
+			$sent = Yii::$app->mailer->compose()
+						->setTo($user->email)
+						->setCc (["yuwatida85@gmail.com", "ettidej@gmail.com", "billing@shoppylandbyhoney.com"])
+						->setSubject($user->name."'s Invoice - Lot #".$openOrder->lot->lot_number)
+						->setHtmlBody($body)
+						//->attach($filename)
+						->send();
+			
+			if($sent == 1)
+			{
+				$openOrder->invoice_sent = 1;
+				$openOrder->save(false);
+			
+				//echo "<script>window.close();</script>";
+				return $this->redirect(['/openorder/order/index']);
+			}
 		}
     }
 	

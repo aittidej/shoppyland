@@ -41,7 +41,7 @@ class Lot extends \yii\db\ActiveRecord
             [['lot_number', 'user_id', 'brand_id'], 'default', 'value' => null],
             [['lot_number', 'user_id', 'brand_id'], 'integer'],
             [['lot_number'], 'required'],
-            [['creation_datetime', 'start_date', 'end_date'], 'safe'],
+            [['creation_datetime', 'start_date', 'end_date', 'shipped_date'], 'safe'],
 			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
 			[['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
         ];

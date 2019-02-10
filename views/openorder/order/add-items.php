@@ -25,10 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 		
 		<div class='col-sm-12 col-md-8 col-lg-8'>
-			<span id="result"></span>
-			<?php
-				
-			?>
+			<h3>Number of items: <span id="number-of-item">0</span></h3>
 		</div>
 
 		<div class="form-group col-sm-12">
@@ -43,11 +40,24 @@ document.getElementById('items-field').focus();
 </script>
 <?php 
 	$this->registerJs("
-		$('#items-field').keypress(function (e) {
-			var keycode = event.keyCode || event.which;
-			if(keycode == '13') {
-				//alert($(this).val());    
+		$('#items-field').bind('keypress keyup keydown', function (event) {
+			var count = 0;
+			var value = $(this).val();
+			var lines = value.split('\\n');
+			for( var i = 0; i < lines.length; i++)
+			{
+				if ( lines[i].length !== 0 ) {
+					count++;
+				}
 			}
+			$('#number-of-item').text(count);
+			
+			/*var keycode = event.keyCode || event.which;
+			if(keycode == '13') {
+				var lines = $(this).val().split('\\n').length;
+				$('#number-of-item').text(lines);
+			}*/
+			
 		});
 		
 		

@@ -124,6 +124,9 @@ var_dump($check);exit;
 			if(!empty($structure->parts))
 			{
 				$parts = $structure->parts; 
+				if(empty($parts[1]))
+					continue;
+				
 				$part = $parts[1];
 				if(!empty($part->disposition) && strtolower($part->disposition) == "attachment") 
 				{

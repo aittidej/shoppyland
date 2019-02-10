@@ -19,7 +19,7 @@ class LotSearch extends Lot
     {
         return [
             [['lot_id', 'lot_number', 'user_id', 'brand_id'], 'integer'],
-            [['creation_datetime', 'start_date', 'end_date'], 'safe'],
+            [['creation_datetime', 'start_date', 'end_date', 'shipped_date'], 'safe'],
         ];
     }
 
@@ -57,6 +57,7 @@ class LotSearch extends Lot
                     'creation_datetime',
                     'start_date',
                     'end_date',
+                    'shipped_date',
                 ]
             ],
         ]);

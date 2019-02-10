@@ -2330,3 +2330,421 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1541523160.3084619045257568359375,
     'REQUEST_TIME' => 1541523160,
 ]
+[24-Nov-2018 02:16:58 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 44134400 bytes) in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/src/LogTarget.php on line 67
+[24-Nov-2018 02:18:17 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 44134400 bytes) in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2-debug/src/LogTarget.php on line 67
+[28-Nov-2018 18:48:15 UTC] PHP Warning:  require(/home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/autoload_real.php on line 66
+[28-Nov-2018 18:48:15 UTC] PHP Fatal error:  require(): Failed opening required '/home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/autoload_real.php on line 66
+[28-Nov-2018 18:48:18 UTC] PHP Warning:  require(/home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/autoload_real.php on line 66
+[28-Nov-2018 18:48:18 UTC] PHP Fatal error:  require(): Failed opening required '/home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/autoload_real.php on line 66
+[28-Nov-2018 19:16:30 UTC] PHP Warning:  require(/home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/autoload_real.php on line 66
+[28-Nov-2018 19:16:30 UTC] PHP Fatal error:  require(): Failed opening required '/home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/autoload_real.php on line 66
+[28-Nov-2018 19:16:33 UTC] PHP Warning:  require(/home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/autoload_real.php on line 66
+[28-Nov-2018 19:16:33 UTC] PHP Fatal error:  require(): Failed opening required '/home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/qazxnivkxh1s/public_html/shoppyland/vendor/composer/autoload_real.php on line 66
+[28-Nov-2018 19:42:22 UTC] An Error occurred while handling another error:
+yii\base\InvalidConfigException: A circular dependency is detected for bundle 'app\assets\AppAsset'. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php:295
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(14): yii\web\AssetBundle::register(Object(yii\web\View))
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<div class="sit...')
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(139): yii\base\Controller->render('error', Array)
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(118): yii\web\ErrorAction->renderHtmlResponse()
+#8 [internal function]: yii\web\ErrorAction->run()
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Action.php(94): call_user_func_array(Array, Array)
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\Action->runWithParams(Array)
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('error', Array)
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(ReflectionException))
+#14 [internal function]: yii\base\ErrorHandler->handleException(Object(ReflectionException))
+#15 {main}
+Previous exception:
+ReflectionException: Class yii\bootstrap4\BootstrapAsset does not exist in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php:428
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(428): ReflectionClass->__construct('yii\\bootstrap4\\...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(364): yii\di\Container->getDependencies('yii\\bootstrap4\\...')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('yii\\bootstrap4\\...', Array, Array)
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(349): yii\di\Container->get('yii\\bootstrap4\\...', Array, Array)
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetManager.php(266): yii\BaseYii::createObject(Array)
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetManager.php(239): yii\web\AssetManager->loadBundle('yii\\bootstrap4\\...', Array, true)
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(286): yii\web\AssetManager->getBundle('yii\\bootstrap4\\...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(291): yii\web\View->registerAssetBundle('yii\\bootstrap4\\...', NULL)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#9 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(14): yii\web\AssetBundle::register(Object(yii\web\View))
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#14 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#15 [internal function]: app\controllers\SiteController->actionIndex()
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#17 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#18 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#19 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#20 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#21 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#22 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => 'PHPSESSID=939afd5dcffdf2d2b0a3e04dcbfcff28; _csrf=e8869015b4473241bc440bdd7f16332403daa93441b62ff486736585ae28e474a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22scezsqSUtBfnFjbLZFIs9hxkFU3aNY5e%22%3B%7D; _tccl_visitor=20640572-6088-4def-a9a5-0b7fd0e7bec3; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W-7vm-sUBoPwiJHEZ9-QSgAAAEM',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '54111',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1543434139.8402080535888671875,
+    'REQUEST_TIME' => 1543434139,
+]
+[28-Nov-2018 19:42:25 UTC] An Error occurred while handling another error:
+yii\base\InvalidConfigException: A circular dependency is detected for bundle 'app\assets\AppAsset'. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php:295
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(14): yii\web\AssetBundle::register(Object(yii\web\View))
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<div class="sit...')
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(139): yii\base\Controller->render('error', Array)
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(118): yii\web\ErrorAction->renderHtmlResponse()
+#8 [internal function]: yii\web\ErrorAction->run()
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Action.php(94): call_user_func_array(Array, Array)
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\Action->runWithParams(Array)
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('error', Array)
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(ReflectionException))
+#14 [internal function]: yii\base\ErrorHandler->handleException(Object(ReflectionException))
+#15 {main}
+Previous exception:
+ReflectionException: Class yii\bootstrap4\BootstrapAsset does not exist in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php:428
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(428): ReflectionClass->__construct('yii\\bootstrap4\\...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(364): yii\di\Container->getDependencies('yii\\bootstrap4\\...')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('yii\\bootstrap4\\...', Array, Array)
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(349): yii\di\Container->get('yii\\bootstrap4\\...', Array, Array)
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetManager.php(266): yii\BaseYii::createObject(Array)
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetManager.php(239): yii\web\AssetManager->loadBundle('yii\\bootstrap4\\...', Array, true)
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(286): yii\web\AssetManager->getBundle('yii\\bootstrap4\\...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(291): yii\web\View->registerAssetBundle('yii\\bootstrap4\\...', NULL)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#9 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(14): yii\web\AssetBundle::register(Object(yii\web\View))
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#14 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#15 [internal function]: app\controllers\SiteController->actionIndex()
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#17 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#18 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#19 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#20 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#21 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#22 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => 'PHPSESSID=939afd5dcffdf2d2b0a3e04dcbfcff28; _csrf=e8869015b4473241bc440bdd7f16332403daa93441b62ff486736585ae28e474a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22scezsqSUtBfnFjbLZFIs9hxkFU3aNY5e%22%3B%7D; _tccl_visitor=20640572-6088-4def-a9a5-0b7fd0e7bec3; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_PRAGMA' => 'no-cache',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0',
+    'HTTP_CACHE_CONTROL' => 'no-cache',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W-7voZv@NU9JdBdhgkz-lAAAAlI',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '54113',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1543434145.0479929447174072265625,
+    'REQUEST_TIME' => 1543434145,
+]
+[28-Nov-2018 19:42:43 UTC] An Error occurred while handling another error:
+yii\base\InvalidConfigException: A circular dependency is detected for bundle 'app\assets\AppAsset'. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php:295
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(14): yii\web\AssetBundle::register(Object(yii\web\View))
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<div class="sit...')
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(139): yii\base\Controller->render('error', Array)
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(118): yii\web\ErrorAction->renderHtmlResponse()
+#8 [internal function]: yii\web\ErrorAction->run()
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Action.php(94): call_user_func_array(Array, Array)
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\Action->runWithParams(Array)
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('error', Array)
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(ReflectionException))
+#14 [internal function]: yii\base\ErrorHandler->handleException(Object(ReflectionException))
+#15 {main}
+Previous exception:
+ReflectionException: Class yii\bootstrap4\BootstrapAsset does not exist in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php:428
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(428): ReflectionClass->__construct('yii\\bootstrap4\\...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(364): yii\di\Container->getDependencies('yii\\bootstrap4\\...')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('yii\\bootstrap4\\...', Array, Array)
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(349): yii\di\Container->get('yii\\bootstrap4\\...', Array, Array)
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetManager.php(266): yii\BaseYii::createObject(Array)
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetManager.php(239): yii\web\AssetManager->loadBundle('yii\\bootstrap4\\...', Array, true)
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(286): yii\web\AssetManager->getBundle('yii\\bootstrap4\\...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(291): yii\web\View->registerAssetBundle('yii\\bootstrap4\\...', NULL)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#9 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(14): yii\web\AssetBundle::register(Object(yii\web\View))
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#14 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#15 [internal function]: app\controllers\SiteController->actionIndex()
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#17 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#18 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#19 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#20 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#21 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#22 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => 'PHPSESSID=939afd5dcffdf2d2b0a3e04dcbfcff28; _csrf=e8869015b4473241bc440bdd7f16332403daa93441b62ff486736585ae28e474a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22scezsqSUtBfnFjbLZFIs9hxkFU3aNY5e%22%3B%7D; _tccl_visitor=20640572-6088-4def-a9a5-0b7fd0e7bec3; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_PRAGMA' => 'no-cache',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0',
+    'HTTP_CACHE_CONTROL' => 'no-cache',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W-7vs1r6Mq-ehwHjuVaD3gAAAc8',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '54137',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1543434163.0986111164093017578125,
+    'REQUEST_TIME' => 1543434163,
+]
+[28-Nov-2018 19:42:45 UTC] An Error occurred while handling another error:
+yii\base\InvalidConfigException: A circular dependency is detected for bundle 'app\assets\AppAsset'. in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php:295
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(14): yii\web\AssetBundle::register(Object(yii\web\View))
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<div class="sit...')
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(139): yii\base\Controller->render('error', Array)
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(118): yii\web\ErrorAction->renderHtmlResponse()
+#8 [internal function]: yii\web\ErrorAction->run()
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Action.php(94): call_user_func_array(Array, Array)
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\Action->runWithParams(Array)
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('error', Array)
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(ReflectionException))
+#14 [internal function]: yii\base\ErrorHandler->handleException(Object(ReflectionException))
+#15 {main}
+Previous exception:
+ReflectionException: Class yii\bootstrap4\BootstrapAsset does not exist in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php:428
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(428): ReflectionClass->__construct('yii\\bootstrap4\\...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(364): yii\di\Container->getDependencies('yii\\bootstrap4\\...')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('yii\\bootstrap4\\...', Array, Array)
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(349): yii\di\Container->get('yii\\bootstrap4\\...', Array, Array)
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetManager.php(266): yii\BaseYii::createObject(Array)
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetManager.php(239): yii\web\AssetManager->loadBundle('yii\\bootstrap4\\...', Array, true)
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(286): yii\web\AssetManager->getBundle('yii\\bootstrap4\\...')
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/View.php(291): yii\web\View->registerAssetBundle('yii\\bootstrap4\\...', NULL)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#9 /home/qazxnivkxh1s/public_html/shoppyland/views/layouts/main.php(14): yii\web\AssetBundle::register(Object(yii\web\View))
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(336): require('/home/qazxnivkx...')
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/View.php(254): yii\base\View->renderPhpFile('/home/qazxnivkx...', Array)
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/qazxnivkx...', Array, Object(app\controllers\SiteController))
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<style>\n.search...')
+#14 /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php(66): yii\base\Controller->render('index')
+#15 [internal function]: app\controllers\SiteController->actionIndex()
+#16 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#17 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#18 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#19 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#20 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#21 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#22 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => 'PHPSESSID=939afd5dcffdf2d2b0a3e04dcbfcff28; _csrf=e8869015b4473241bc440bdd7f16332403daa93441b62ff486736585ae28e474a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22scezsqSUtBfnFjbLZFIs9hxkFU3aNY5e%22%3B%7D; _tccl_visitor=20640572-6088-4def-a9a5-0b7fd0e7bec3; _identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'W-7vtZv@NU9JdBdhgkz-rgAAAk8',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '54138',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1543434165.7821719646453857421875,
+    'REQUEST_TIME' => 1543434165,
+]
+[28-Jan-2019 20:56:23 UTC] An Error occurred while handling another error:
+ParseError: syntax error, unexpected end of file, expecting ',' or ';' in /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php:15
+Stack trace:
+#0 [internal function]: yii\BaseYii::autoload('app\\controllers...')
+#1 [internal function]: spl_autoload_call('app\\controllers...')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(637): class_exists('app\\controllers...')
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(596): yii\base\Module->createControllerByID('site')
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(522): yii\base\Module->createController('error')
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(ParseError))
+#7 [internal function]: yii\base\ErrorHandler->handleException(Object(ParseError))
+#8 {main}
+Previous exception:
+ParseError: syntax error, unexpected end of file, expecting ',' or ';' in /home/qazxnivkxh1s/public_html/shoppyland/controllers/SiteController.php:15
+Stack trace:
+#0 [internal function]: yii\BaseYii::autoload('app\\controllers...')
+#1 [internal function]: spl_autoload_call('app\\controllers...')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(637): class_exists('app\\controllers...')
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(596): yii\base\Module->createControllerByID('site')
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(522): yii\base\Module->createController('dashboard')
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('site/dashboard', Array)
+#6 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#7 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(12): yii\base\Application->run()
+#8 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_tccl_visitor=206a835c-6129-4a27-a019-09a391f24914; PHPSESSID=b261aa8b6a7f840d0777aa01c78b54d2; _identity=174b2c23960a1a9b3d1e6875bc0601d8f37985cba3c57d035c9337c41e3bb91ca%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A17%3A%22%5B15%2Cnull%2C2592000%5D%22%3B%7D; _csrf=4d97d1a49fc0c09b3d296068ac4591058fa2e81f35dc1810674681009d107b83a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22SIDlzA21JnrZQOw7gZ0WYlvI8aoLNDu3%22%3B%7D',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'UNIQUE_ID' => 'XE9sd8kZS9kPUk29LXVAOwAAAAU',
+    'SCRIPT_URL' => '/index.php/site/dashboard',
+    'SCRIPT_URI' => 'http://shoppylandbyhoney.com/index.php/site/dashboard',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'http',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppylandbyhoney.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '60800',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/index.php/site/dashboard',
+    'SCRIPT_NAME' => '/index.php',
+    'PATH_INFO' => '/site/dashboard',
+    'PATH_TRANSLATED' => '/home/qazxnivkxh1s/public_html/shoppyland/web/site/dashboard',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1548708983.58823108673095703125,
+    'REQUEST_TIME' => 1548708983,
+]

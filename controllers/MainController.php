@@ -25,7 +25,9 @@ use app\models\Stock;
  */
 abstract class MainController extends Controller
 {
-/**
+	const DEFAULT_EXCHANGE_RATE = 32;
+
+	/**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -75,8 +77,9 @@ abstract class MainController extends Controller
 		foreach($items AS $item)
 		{
 			$barcode = str_replace(' ', '', trim($item));
-			if(empty($barcode) || !is_numeric($barcode) || strlen($barcode) != 12)
+			if(empty($barcode) || !is_numeric($barcode) && (strlen($barcode) != 12 || strlen($barcode) != 13)) {
 				continue;
+			}
 			
 			if(empty($lists[$barcode]))
 				$lists[$barcode] = 1;
@@ -224,8 +227,8 @@ abstract class MainController extends Controller
 	
 	public function exchangeRate()
 	{
-		$rate = json_decode(file_get_contents('http://free.currencyconverterapi.com/api/v5/convert?q=USD_THB&compact=y'), 2);
-		return empty($rate['USD_THB']['val']) ? 0 : number_format($rate['USD_THB']['val'], 2);
+		$rate = json_decode(@file_get_contents('http://free.currencyconverterapi.com/api/v5/convert?q=USD_THB&compact=y'), 2);
+		return empty($rate['USD_THB']['val']) ? self::DEFAULT_EXCHANGE_RATE : number_format($rate['USD_THB']['val'], 2);
 	}
 	
 	public function roundIt($number, $breakPoint = 0.1)
