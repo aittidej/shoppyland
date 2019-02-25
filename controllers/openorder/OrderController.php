@@ -163,7 +163,10 @@ class OrderController extends \app\controllers\MainController
 		{
 			set_time_limit(0);
 			$items = array_map('trim', explode("\n", $_POST['OpenOrder']['items']));
+			$productIdList = array_map('trim', explode("\n", $_POST['OpenOrder']['productIdList']));
 			$notFoundList = $this->addItemsHelper($items, $model->open_order_id, [], true);
+			if(!empty(trim($_POST['OpenOrder']['productIdList'])))
+				$this->addItemsHelper($productIdList, $model->open_order_id, [], true, true);
 			
 			if(empty($notFoundList))
 				return $this->redirect(['view', 'id' => $model->open_order_id]);

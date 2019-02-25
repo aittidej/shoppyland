@@ -20,12 +20,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?php $form = ActiveForm::begin(); ?>
 
-		<div class='col-sm-12 col-md-4 col-lg-4'>
-			<?= $form->field($model, 'items')->label('Barcode (UPC)')->textarea(['rows' => '20', 'id'=>'items-field']) ?>
+		<div class='col-sm-12 col-md-6 col-lg-6'>
+			<?= $form->field($model, 'items')->label('Add by Barcode (UPC)')->textarea(['rows' => '20', 'id'=>'items-field']) ?>
+			<h3>Number of items: <span id="number-of-item">0</span></h3>
 		</div>
 		
-		<div class='col-sm-12 col-md-8 col-lg-8'>
-			<h3>Number of items: <span id="number-of-item">0</span></h3>
+		<div class='col-sm-12 col-md-6 col-lg-6'>
+			<?= $form->field($model, 'productIdList')->label('Add by Product ID')->textarea(['rows' => '20', 'id'=>'product-id-list-field']) ?>
+			<h3>Number of items: <span id="number-of-product-id">0</span></h3>
 		</div>
 
 		<div class="form-group col-sm-12">
@@ -58,6 +60,19 @@ document.getElementById('items-field').focus();
 				$('#number-of-item').text(lines);
 			}*/
 			
+		});
+		
+		$('#product-id-list-field').bind('keypress keyup keydown', function (event) {
+			var count2 = 0;
+			var value2 = $(this).val();
+			var lines2 = value2.split('\\n');
+			for( var j = 0; j < lines2.length; j++)
+			{
+				if ( lines2[j].length !== 0 ) {
+					count2++;
+				}
+			}
+			$('#number-of-product-id').text(count2);
 		});
 		
 		

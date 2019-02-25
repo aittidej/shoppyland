@@ -2748,3 +2748,291 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1548708983.58823108673095703125,
     'REQUEST_TIME' => 1548708983,
 ]
+[13-Feb-2019 15:50:35 UTC] An Error occurred while handling another error:
+yii\base\InvalidConfigException: Unknown component ID: i18n in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/ServiceLocator.php:139
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(742): yii\di\ServiceLocator->get('i18n', true)
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(580): yii\base\Module->get('i18n')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(526): yii\base\Application->getI18n()
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(93): yii\BaseYii::t('yii', 'An internal ser...')
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/BaseObject.php(109): yii\web\ErrorAction->init()
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Action.php(62): yii\base\BaseObject->__construct(Array)
+#6 [internal function]: yii\base\Action->__construct('error', Object(app\controllers\SiteController), Array)
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(375): ReflectionClass->newInstanceArgs(Array)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('yii\\web\\ErrorAc...', Array, Array)
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(349): yii\di\Container->get('yii\\web\\ErrorAc...', Array, Array)
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(227): yii\BaseYii::createObject(Array, Array)
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(126): yii\base\Controller->createAction('error')
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('error', Array)
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#14 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\UnknownPropertyException))
+#15 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\UnknownPropertyException))
+#16 {main}
+Previous exception:
+yii\base\UnknownPropertyException: Setting unknown property: HttpsRedirect::content in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php:209
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(546): yii\base\Component->__set('content', '\xE0\xB8\xA3\xE0\xB8\xB1\xE0\xB8\x9A\xE0\xB8\x9E\xE0\xB8\xA3...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/BaseObject.php(107): yii\BaseYii::configure(Object(HttpsRedirect), Array)
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(206): yii\base\BaseObject->__construct(Array)
+#3 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(14): yii\base\Application->__construct(Array)
+#4 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; _csrf=139188f67ce59828760fc075599b1772cc9859fd86ddb9146bc9849b4a122e5da%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%227O2Nt5iZiLFP1G6OmU6eE50blDa5Vrtr%22%3B%7D; PHPSESSID=2023e16c5cfae3f11f74a3f06b86cdef',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
+    'HTTP_PURPOSE' => 'prefetch',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_X_HTTPS' => '1',
+    'UNIQUE_ID' => 'XGQ8yy3UcIRKFzUOEPOV5wAAAQw',
+    'SCRIPT_URL' => '/',
+    'SCRIPT_URI' => 'https://shoppylandbyhoney.com/',
+    'HTTPS' => 'on',
+    'SSL_TLS_SNI' => 'shoppylandbyhoney.com',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '443',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'https',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppyland.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '62580',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1550073035.862843036651611328125,
+    'REQUEST_TIME' => 1550073035,
+]
+[13-Feb-2019 15:50:45 UTC] An Error occurred while handling another error:
+yii\base\InvalidConfigException: Unknown component ID: i18n in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/ServiceLocator.php:139
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(742): yii\di\ServiceLocator->get('i18n', true)
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(580): yii\base\Module->get('i18n')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(526): yii\base\Application->getI18n()
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(93): yii\BaseYii::t('yii', 'An internal ser...')
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/BaseObject.php(109): yii\web\ErrorAction->init()
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Action.php(62): yii\base\BaseObject->__construct(Array)
+#6 [internal function]: yii\base\Action->__construct('error', Object(app\controllers\SiteController), Array)
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(375): ReflectionClass->newInstanceArgs(Array)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('yii\\web\\ErrorAc...', Array, Array)
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(349): yii\di\Container->get('yii\\web\\ErrorAc...', Array, Array)
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(227): yii\BaseYii::createObject(Array, Array)
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(126): yii\base\Controller->createAction('error')
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('error', Array)
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#14 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\UnknownPropertyException))
+#15 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\UnknownPropertyException))
+#16 {main}
+Previous exception:
+yii\base\UnknownPropertyException: Setting unknown property: HttpsRedirect::content in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php:209
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(546): yii\base\Component->__set('content', '\xE0\xB8\xA3\xE0\xB8\xB1\xE0\xB8\x9A\xE0\xB8\x9E\xE0\xB8\xA3...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/BaseObject.php(107): yii\BaseYii::configure(Object(HttpsRedirect), Array)
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(206): yii\base\BaseObject->__construct(Array)
+#3 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(14): yii\base\Application->__construct(Array)
+#4 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; _csrf=139188f67ce59828760fc075599b1772cc9859fd86ddb9146bc9849b4a122e5da%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%227O2Nt5iZiLFP1G6OmU6eE50blDa5Vrtr%22%3B%7D; PHPSESSID=2023e16c5cfae3f11f74a3f06b86cdef',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_X_HTTPS' => '1',
+    'UNIQUE_ID' => 'XGQ81Y70FHoeX6PJuiUxggAAAZg',
+    'SCRIPT_URL' => '/',
+    'SCRIPT_URI' => 'https://shoppylandbyhoney.com/',
+    'HTTPS' => 'on',
+    'SSL_TLS_SNI' => 'shoppylandbyhoney.com',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '443',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'https',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppyland.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '62579',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1550073045.0394279956817626953125,
+    'REQUEST_TIME' => 1550073045,
+]
+[13-Feb-2019 15:51:01 UTC] An Error occurred while handling another error:
+yii\base\InvalidRouteException: Unable to resolve the request "site/error". in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php:537
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\UnknownPropertyException))
+#2 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\UnknownPropertyException))
+#3 {main}
+Previous exception:
+yii\base\UnknownPropertyException: Setting unknown property: HttpsRedirect::content in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php:209
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(546): yii\base\Component->__set('content', '\xE0\xB8\xA3\xE0\xB8\xB1\xE0\xB8\x9A\xE0\xB8\x9E\xE0\xB8\xA3...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/BaseObject.php(107): yii\BaseYii::configure(Object(HttpsRedirect), Array)
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(206): yii\base\BaseObject->__construct(Array)
+#3 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(14): yii\base\Application->__construct(Array)
+#4 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; _csrf=139188f67ce59828760fc075599b1772cc9859fd86ddb9146bc9849b4a122e5da%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%227O2Nt5iZiLFP1G6OmU6eE50blDa5Vrtr%22%3B%7D; PHPSESSID=2023e16c5cfae3f11f74a3f06b86cdef',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_X_HTTPS' => '1',
+    'UNIQUE_ID' => 'XGQ85S3UcIRKFzUOEPOV-wAAAQk',
+    'SCRIPT_URL' => '/',
+    'SCRIPT_URI' => 'https://shoppylandbyhoney.com/',
+    'HTTPS' => 'on',
+    'SSL_TLS_SNI' => 'shoppylandbyhoney.com',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '443',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'https',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppyland.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '62586',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1550073061.03905200958251953125,
+    'REQUEST_TIME' => 1550073061,
+]
+[13-Feb-2019 15:51:16 UTC] An Error occurred while handling another error:
+yii\base\InvalidConfigException: Unknown component ID: i18n in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/ServiceLocator.php:139
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(742): yii\di\ServiceLocator->get('i18n', true)
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(580): yii\base\Module->get('i18n')
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(526): yii\base\Application->getI18n()
+#3 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorAction.php(93): yii\BaseYii::t('yii', 'An internal ser...')
+#4 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/BaseObject.php(109): yii\web\ErrorAction->init()
+#5 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Action.php(62): yii\base\BaseObject->__construct(Array)
+#6 [internal function]: yii\base\Action->__construct('error', Object(app\controllers\SiteController), Array)
+#7 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(375): ReflectionClass->newInstanceArgs(Array)
+#8 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('yii\\web\\ErrorAc...', Array, Array)
+#9 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(349): yii\di\Container->get('yii\\web\\ErrorAc...', Array, Array)
+#10 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(227): yii\BaseYii::createObject(Array, Array)
+#11 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Controller.php(126): yii\base\Controller->createAction('error')
+#12 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('error', Array)
+#13 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/web/ErrorHandler.php(108): yii\base\Module->runAction('site/error')
+#14 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\UnknownPropertyException))
+#15 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\UnknownPropertyException))
+#16 {main}
+Previous exception:
+yii\base\UnknownPropertyException: Setting unknown property: HttpsRedirect::content in /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Component.php:209
+Stack trace:
+#0 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/BaseYii.php(546): yii\base\Component->__set('content', '\xE0\xB8\xA3\xE0\xB8\xB1\xE0\xB8\x9A\xE0\xB8\x9E\xE0\xB8\xA3...')
+#1 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/BaseObject.php(107): yii\BaseYii::configure(Object(HttpsRedirect), Array)
+#2 /home/qazxnivkxh1s/public_html/shoppyland/vendor/yiisoft/yii2/base/Application.php(206): yii\base\BaseObject->__construct(Array)
+#3 /home/qazxnivkxh1s/public_html/shoppyland/web/index.php(14): yii\base\Application->__construct(Array)
+#4 {main}
+$_SERVER = [
+    'LSPHP_ENABLE_USER_INI' => 'on',
+    'PATH' => '/usr/local/bin:/usr/bin:/bin',
+    'TEMP' => '/tmp',
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'PWD' => '/',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'CONTENT_LENGTH' => '0',
+    'HTTP_COOKIE' => '_identity=be72b01ba767c9af426d920a64f1adb992271699eaf867c4f90f3b702d7de007a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B1%2Cnull%2C2592000%5D%22%3B%7D; _csrf=139188f67ce59828760fc075599b1772cc9859fd86ddb9146bc9849b4a122e5da%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%227O2Nt5iZiLFP1G6OmU6eE50blDa5Vrtr%22%3B%7D; PHPSESSID=2023e16c5cfae3f11f74a3f06b86cdef',
+    'HTTP_HOST' => 'shoppylandbyhoney.com',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_X_HTTPS' => '1',
+    'UNIQUE_ID' => 'XGQ89I70FHoeX6PJuiUxrQAAAZI',
+    'SCRIPT_URL' => '/',
+    'SCRIPT_URI' => 'https://shoppylandbyhoney.com/',
+    'HTTPS' => 'on',
+    'SSL_TLS_SNI' => 'shoppylandbyhoney.com',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SERVER_NAME' => 'shoppylandbyhoney.com',
+    'SERVER_ADDR' => '160.153.57.39',
+    'SERVER_PORT' => '443',
+    'REMOTE_ADDR' => '184.191.181.6',
+    'DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'REQUEST_SCHEME' => 'https',
+    'CONTEXT_PREFIX' => '',
+    'CONTEXT_DOCUMENT_ROOT' => '/home/qazxnivkxh1s/public_html/shoppyland/web',
+    'SERVER_ADMIN' => 'webmaster@shoppyland.onlinewaitress.com',
+    'SCRIPT_FILENAME' => '/home/qazxnivkxh1s/public_html/shoppyland/web/index.php',
+    'REMOTE_PORT' => '62595',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/',
+    'SCRIPT_NAME' => '/index.php',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1550073076.7007529735565185546875,
+    'REQUEST_TIME' => 1550073076,
+]
+[25-Feb-2019 16:44:23 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74
+[25-Feb-2019 16:44:27 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74
+[25-Feb-2019 16:44:28 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74
+[25-Feb-2019 16:44:29 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74
+[25-Feb-2019 16:44:42 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74
+[25-Feb-2019 16:44:45 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74
+[25-Feb-2019 16:44:46 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74
+[25-Feb-2019 16:45:13 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74
+[25-Feb-2019 16:45:14 UTC] PHP Notice:  Undefined variable: db_master in /home/qazxnivkxh1s/public_html/shoppyland/config/web.php on line 74

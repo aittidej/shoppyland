@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => 'raw',
 				'vAlign' => 'middle',
 				'value' => function ($model, $key, $index, $column) {
-					return ($model->user->currency_base == 'USD') ? "<span style='color:green;'>$$$</span>" : "<span style='color:red;'>&#3647;&#3647;&#3647;</span>";
+					return ($model->user->currency_base == 'USD') ? "<span style='color:green;'>$$$</span>" : "<span style='color:#8B4513;'>&#3647;&#3647;&#3647;</span>";
 				},
 			],
 			[

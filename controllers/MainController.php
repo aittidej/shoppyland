@@ -68,7 +68,7 @@ abstract class MainController extends Controller
         return false;
     }
 	
-	protected function addItemsHelper($items, $openOrderId = FALSE, $data = [], $deductStock = false)
+	protected function addItemsHelper($items, $openOrderId = FALSE, $data = [], $deductStock = false, $addByProductId = false)
 	{
 		if(!empty($openOrderId))
 			$openOrder = OpenOrder::findOne($openOrderId);
@@ -76,29 +76,31 @@ abstract class MainController extends Controller
 		$notFoundList = $lists = [];
 		foreach($items AS $item)
 		{
-			$barcode = str_replace(' ', '', trim($item));
-			if(empty($barcode) || !is_numeric($barcode) && (strlen($barcode) != 12 || strlen($barcode) != 13)) {
+			$code = str_replace(' ', '', trim($item));
+			if(empty($code) || !is_numeric($code) || (!$addByProductId && strlen($code) != 12 && strlen($code) != 13))
 				continue;
-			}
 			
-			if(empty($lists[$barcode]))
-				$lists[$barcode] = 1;
+			if(empty($lists[$code]))
+				$lists[$code] = 1;
 			else
-				$lists[$barcode]++;
+				$lists[$code]++;
 		}
-		
+
 		if(empty($lists))
 			return false;
-			
-		foreach($lists AS $barcode=>$numberOfItems)
+
+		foreach($lists AS $code=>$numberOfItems)
 		{
 			$invalidUPC = false;
-			$product = Product::findOne(['upc'=>$barcode]);
+			$product = $addByProductId ? Product::findOne($code) : Product::findOne(['upc'=>$code]);
+
 			// Take care of adding missing products
 			if(empty($product))
 			{
+				if($addByProductId)
+					continue;
 				/*$upcItemDB = New UpcItemDB();
-				$respond = $upcItemDB->getDataByBarcode($barcode);
+				$respond = $upcItemDB->getDataByBarcode($code);
 				if(is_numeric($respond)) // invalid UPC
 					$invalidUPC = true;
 				else
@@ -111,7 +113,7 @@ abstract class MainController extends Controller
 						foreach($results['items'] AS $item)
 						{
 							$product = New Product();
-							$product->upc = $barcode;
+							$product->upc = $code;
 							$product->model = empty($item['model']) ? NULL : $item['model'];
 							$product->title = empty($item['title']) ? NULL : $item['title'];
 							$product->description = empty($item['description']) ? NULL : $item['description'];
@@ -139,12 +141,13 @@ abstract class MainController extends Controller
 				
 				// try ebay
 				//if($invalidUPC) {
-					$eBaySearch = New eBaySearch();
-					$respond = $eBaySearch->getDataByBarcode($barcode);
+					//$eBaySearch = New eBaySearch();
+					//$respond = $eBaySearch->getDataByBarcode($code);
+					$respond = false;
 					$product = New Product();
 					if(empty($respond))
 					{
-						$product->upc = $barcode;
+						$product->upc = $code;
 						if(!empty($data))
 						{
 							$product->model = empty($data['model']) ? NULL : $data['model'];
@@ -152,11 +155,11 @@ abstract class MainController extends Controller
 						}
 						$product->save(false);
 						
-						$notFoundList[$product->product_id] = $barcode;
+						$notFoundList[$product->product_id] = $code;
 					}
 					else
 					{
-						$product->upc = $barcode;
+						$product->upc = $code;
 						$product->brand_id = $respond['brand_id'];
 						$product->model = $respond['model'];
 						$product->title = $respond['title'];

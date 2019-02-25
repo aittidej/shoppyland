@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$db_master = require __DIR__ . '/db_master.php';
 
 Yii::setAlias('webroot', dirname(__DIR__) . '/web');
 Yii::setAlias('web', dirname(__DIR__) . '/web');
@@ -9,6 +10,7 @@ Yii::setAlias('web', dirname(__DIR__) . '/web');
 $config = [
     'id' => 'basic',
 	'name' => 'Shoppyland by Honey',
+	//'content' => 'รับพรีสินค้าทุกชนิดจากอเมริกา ทั้งปลีก/ส่ง ซื้อเองขายเอง แม่ค้าอยู่อเมริกาจ้า รับกดจากเว็ปด้วย',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -71,6 +73,8 @@ $config = [
             ],
         ],
         'db' => $db,
+        'db_master' => $db_master,
+		'dbPool' => ['class' => 'app\components\DatabasePool'],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

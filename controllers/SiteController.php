@@ -83,7 +83,11 @@ class SiteController extends Controller
 	public function actionIndex()
     {
 		$this->layout = "website";
-		
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => Yii::$app->name . ' is your personal shopper located in US. We help you buy anything from store and/or online and ship worldwide right to your doorstep.'
+		]);
+	
 		if (Yii::$app->request->isPost)
 		{
 			Yii::$app->mailer->compose()

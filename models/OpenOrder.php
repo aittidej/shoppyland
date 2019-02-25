@@ -22,6 +22,7 @@ use Yii;
 class OpenOrder extends \yii\db\ActiveRecord
 {
 	public $items;
+	public $productIdList;
 
     /**
      * {@inheritdoc}

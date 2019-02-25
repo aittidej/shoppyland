@@ -6,7 +6,7 @@ use kartik\detail\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Lot */
 
-$this->title = $model->lot_id;
+$this->title = "Lot #".$model->lot_number;
 $this->params['breadcrumbs'][] = ['label' => 'Lots', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -35,9 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				'type'=>DetailView::TYPE_INFO,
 			],
 			'attributes'=>[
-				['attribute' => 'lot_id'],
+				//['attribute' => 'lot_id'],
 				['attribute' => 'lot_number'],
-				['attribute' => 'brand_id'],
+				//['attribute' => 'brand_id'],
 				[
 					'attribute'=>'start_date', 
 					'format'=>'date',
@@ -48,6 +48,14 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 				[
 					'attribute'=>'end_date', 
+					'format'=>'date',
+					'type'=>DetailView::INPUT_DATE,
+					'widgetOptions' => [
+						'pluginOptions'=>['format'=>'yyyy-mm-dd']
+					],
+				],
+				[
+					'attribute'=>'shipped_date', 
 					'format'=>'date',
 					'type'=>DetailView::INPUT_DATE,
 					'widgetOptions' => [

@@ -345,6 +345,7 @@ $baseUrl = $websiteAsset->baseUrl;
 			<div class="book_table_inner row align-items-center">
 				<div class="offset-lg-2 offset-md-1 col-lg-8 col-md-10">
 					<div class="table_form">
+						<!---->
 						<?php $form = ActiveForm::begin(['method' => 'POST', 'class' => 'book_table_form row']); ?>
 							<div class="form-group col-md-12">
 								<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
@@ -362,6 +363,11 @@ $baseUrl = $websiteAsset->baseUrl;
 								<center><?= Html::submitButton('Submit', ['class' => 'btn submit_btn form-control']); ?></center>
 							</div>
 						<?php ActiveForm::end(); ?>
+						
+						<center>
+							<h3>or</h3>
+							<h2>(858) 276-0603</h2>
+						</center>
 					</div>
 				</div>
 			</div>
