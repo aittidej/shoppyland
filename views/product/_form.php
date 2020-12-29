@@ -12,6 +12,7 @@ use app\models\Brand;
 
 $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title ASC')->all(), 'brand_id', 'title');
 ?>
+<script src="http://malsup.github.com/jquery.form.js"></script> 
 
 <div class="product-form">
 
@@ -32,7 +33,7 @@ $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title
 		</div>
 		
 		<div class='col-sm-1'>
-			<?= $form->field($model, 'size')->dropDownList(['XXS'=>'XXS', 'XS'=>'XS', 'S'=>'S', 'M'=>'M', 'L'=>'L', 'XL'=>'XL', 'XXL'=>'XXL', 'XXXL'=>'XXXL'], ['prompt'=>'Select Brand...']); ?>
+			<?= $form->field($model, 'size')->dropDownList(['XXS'=>'XXS', 'XS'=>'XS', 'S'=>'S', 'M'=>'M', 'L'=>'L', 'XL'=>'XL', 'XXL'=>'XXL', 'XXXL'=>'XXXL'], ['prompt'=>'Select Size...']); ?>
 		</div>
 		<div class='col-sm-3'>
 			<?= $form->field($model, 'color')->textInput() ?>

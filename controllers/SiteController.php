@@ -82,25 +82,41 @@ class SiteController extends Controller
 	
 	public function actionIndex()
     {
+		if (Yii::$app->user->isGuest)
+			return $this->redirect(['/site/login']);
+		else
+			return $this->redirect(['/site/dashboard']);
+        /*
 		$this->layout = "website";
 		\Yii::$app->view->registerMetaTag([
 			'name' => 'description',
 			'content' => Yii::$app->name . ' is your personal shopper located in US. We help you buy anything from store and/or online and ship worldwide right to your doorstep.'
 		]);
-	
+		
 		if (Yii::$app->request->isPost)
 		{
-			Yii::$app->mailer->compose()
-					->setTo('service@shoppylandbyhoney.com')
-					->setSubject('[Website] Contact Us Form')
-					->setHtmlBody($_POST['name']."<br>".$_POST['email']."<br>".$_POST['phone']."<br><br>".$_POST['message'])
-					->send();
+			if(!empty($_POST["g-recaptcha-response"]))
+			{
+				$response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LdT7awUAAAAAA_pJkGVe2XdziZyNdALGSpu3-Rj&response=".$_POST["g-recaptcha-response"]."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
+				if($response['success'] == true)
+				{
+					Yii::$app->mailer->compose()
+						->setTo('service@shoppylandbyhoney.com')
+						->setSubject('[Website] Contact Us Form')
+						->setHtmlBody($_POST['name']."<br>".$_POST['email']."<br>".$_POST['phone']."<br><br>".$_POST['message'])
+						->send();
+					return $this->redirect(['/', 'contactussuccess'=>1]);
+				}
+			}
+			
+			return $this->redirect(['/', 'contactusfailed'=>1]);
 		}
 		
 		$hightlightProducts = Product::find()->where("highlight=1 AND image_path IS NOT NULL")->orderby('random()')->limit('3')->all();
 		$sellingLists = SellingList::find()->where(['status'=>1])->with('product')->orderby('selling_list_id DESC')->limit('12')->all();
-		
+
         return $this->render('index', ['hightlightProducts'=>$hightlightProducts, 'sellingLists'=>$sellingLists]);
+		*/
     }
 
     /**

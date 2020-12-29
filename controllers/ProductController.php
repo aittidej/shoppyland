@@ -16,6 +16,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\helpers\ArrayHelper;
 
 use app\components\eBaySearch;
 use app\components\UpcItemDB;
@@ -127,17 +128,19 @@ class ProductController extends \app\controllers\MainController
 	
 	public function actionAddProducts()
     {
+		$productList = [];
+		$id = 0;
 		if(!empty($_GET['id']))
 		{
 			$id = $_GET['id'];
 			unset($_GET['id']);
-			$model = OpenOrder::findOne($id);
 		}
 		
 		if(empty($_GET))
 			$products = Product::find()->where("title = '' AND model = ''")->indexBy('product_id')->orderby('product_id ASC')->all();
-		else
+		else {
 			$products = Product::find()->where(['IN', 'upc', array_values($_GET)])->indexBy('product_id')->orderby('product_id ASC')->all();
+		}
 		
 		if(empty($products))
 		{
@@ -148,6 +151,12 @@ class ProductController extends \app\controllers\MainController
 		foreach ($products as $index => $product) {
 			$uploads[$index] = new UploadFile();
 			$attachments[$index] = new UploadFile();
+			$productList[] = $product->product_id;
+		}
+		
+		if(!empty($id)) {
+			$openOrderRels = OpenOrderRel::find()->where(['IN', 'product_id', $productList])->andWhere(['open_order_id'=>$id])->all();
+			$productList = ArrayHelper::map($openOrderRels, 'product_id', 'qty');
 		}
 		
 		set_time_limit(0);
@@ -201,9 +210,11 @@ class ProductController extends \app\controllers\MainController
         }
 		
 		return $this->render('add-products', [
+            'id' => $id,
             'products' => $products,
             'uploads' => $uploads,
             'attachments' => $attachments,
+            'productList' => $productList
         ]);
     }
 	
@@ -398,6 +409,12 @@ class ProductController extends \app\controllers\MainController
 		}*/
 		
 		return $array;
+	}
+	
+	public function actionTestOcr()
+    {
+		$test = $this->uploadToApi("http://admin.shoppylandbyhoney.com/images/20191124_153627.jpg");
+		var_dump($test);
 	}
 	
 	function uploadToApi($target_file)

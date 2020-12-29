@@ -16,7 +16,7 @@ use Yii;
  * @property Lot $lot
  * @property Product $product
  */
-class SellingList extends \yii\db\ActiveRecord
+class SellingList extends DbTools
 {
     /**
      * {@inheritdoc}

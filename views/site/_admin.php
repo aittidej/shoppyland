@@ -7,35 +7,43 @@ use yii\widgets\ActiveForm;
 $dashboardList = [
 			[
 				'label' => '<i class="fas fa-home fa-5x"></i><h4>Website</h4>',
-				'link' => '/',
+				'link' => 'http://shoppylandbyhoney.com/',
+				'external' => true
 			],
 			[
 				'label' => '<i class="fab fa-product-hunt fa-5x"></i><h4>Product</h4>',
 				'link' => '/product',
+				'external' => false
 			],
 			[
 				'label' => '<i class="fas fa-book-open fa-5x"></i><h4>Open Order</h4>',
 				'link' => '/openorder/order',
+				'external' => false
 			],
 			[
 				'label' => '<i class="fas fa-user-friends fa-5x"></i><h4>Users</h4>',
 				'link' => '/user',
+				'external' => false
 			],
 			[
 				'label' => '<i class="fas fa-boxes fa-5x"></i><h4>Lots</h4>',
 				'link' => '/lot',
+				'external' => false
 			],
 			[
 				'label' => '<i class="fas fa-warehouse fa-5x"></i><h4>Stocks</h4>',
 				'link' => '/stock',
+				'external' => false
 			],
 			[
-				'label' => '<i class="fas fa-funnel-dollar fa-5x"></i><h4>Discount</h4>',
-				'link' => '/discount',
+				'label' => '<i class="fas fa-search fa-5x"></i><h4>Find Item</h4>',
+				'link' => '/lot-search',
+				'external' => false
 			],
 			[
 				'label' => '<i class="fas fa-search-dollar fa-5x"></i><h4>Report</h4>',
 				'link' => '/report/profit',
+				'external' => false
 			]
 		];
 ?>
@@ -57,21 +65,12 @@ $dashboardList = [
 		<!-- /. ROW  -->
 		<hr />
 		
-		<!--
-		<div class="row">
-			<div class="col-lg-12 ">
-				<div class="alert alert-info">
-				<strong>Welcome Jhon Doe ! </strong> You Have No pending Task For Today.
-				</div>
-			</div>
-		</div>
-		-->
 		<!-- /. ROW  --> 
 		<div class="row text-center pad-top">
 			<?php foreach($dashboardList AS $item) { ?>
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
 					<div class="div-square">
-						<?= Html::a($item['label'], [$item['link']]); ?>
+						<?= Html::a($item['label'], $item['external'] ? $item['link'] : [$item['link']], ['target'=>$item['external'] ? '_blank' : '_self']); ?>
 					</div>
 				</div>
 			<?php } ?>

@@ -31,6 +31,8 @@ class ReportController extends \app\controllers\MainController
 		else
 			$lot = Lot::findOne(['lot_number'=>$lotNumber]);
 		
+		//$baseRate = json_decode($lot->rate_json, true);
+		$baseRate = $lot->rate_json;
 		$receipts = $lot->allReceipts;
 		$openOrders = OpenOrder::find()->with("user")->with('openOrderRels')->where(['lot_id'=>$lot->lot_id])->all();
 		$openOrderslist = array_map(function ($entry) { return $entry['open_order_id']; }, $openOrders);
@@ -43,24 +45,30 @@ class ReportController extends \app\controllers\MainController
 		
 		$productsStats = [];
 		$numberOfItems = $numberOfBox = $totalCollectible = $totalCollectibleOnlyWithExchange = 0;
-		$totalWeightKg = $weightProfitInBaht = $laborCost = $totalCollectibleInBaht = 0;
+		$totalWeightKg = $weightProfitInBaht = $laborCost = $totalCollectibleInBaht = $totalBathQty = 0;
 		foreach($openOrders AS $openOrder)
 		{
 			$user = $openOrder['user'];
+			$isUsd = empty($openOrder->currency_base) ? $user->currency_base == "USD" : $openOrder->currency_base == "USD";
 			$totalWeightKg += $openOrder->total_weight;
 			$numberOfBox += $openOrder->number_of_box;
-			if($user->currency_base == 'USD')
-				$weightProfitInBaht += $openOrder->total_weight*(SELF::SHIPPING_CHARGE - SELF::SHIPPING_COST);
+			if($isUsd) 
+			{
+				$shippingCharge = empty($baseRate['shipping_charge']) ? SELF::SHIPPING_CHARGE : $baseRate['shipping_charge'];
+				$shippingCost = empty($baseRate['shipping_cost']) ? SELF::SHIPPING_COST : $baseRate['shipping_cost'];
+				$weightProfitInBaht += $openOrder->total_weight*($shippingCharge - $shippingCost);
+			}
 		}
 		
 		foreach($openOrderRels AS $openOrderRel)
 		{
 			$openOrder = $openOrderRel['openOrder'];
-			$product = $openOrderRel['product'];
 			$user = $openOrder['user'];
+			$isUsd = empty($openOrder['currency_base']) ? $user['currency_base'] == "USD" : $openOrder['currency_base'] == "USD";
+			$paymentMethod = empty($openOrder['payment_method']) ? $user['payment_method'] : $openOrder['payment_method'];
+			$product = $openOrderRel['product'];
 			$numberOfItems += $openOrderRel['qty'];
-			
-			$unitPrice = ($user['currency_base'] == "USD") ? $openOrderRel['unit_price'] : ($openOrderRel['unit_price']*0.85)/34;
+			$unitPrice = ($isUsd) ? $openOrderRel['unit_price'] : ($openOrderRel['unit_price']*0.85)/34;
 			if(empty($productsStats[$openOrderRel['product_id']]))
 			{
 				$productsStats[$openOrderRel['product_id']] = [
@@ -75,7 +83,7 @@ class ReportController extends \app\controllers\MainController
 				$productsStats[$openOrderRel['product_id']]['cost'] += $unitPrice*$openOrderRel['qty'];
 			}
 			
-			if($user['currency_base'] == "USD")
+			if($isUsd)
 			{
 				if(!empty($product['size']) && !empty($user['labor_charge_json']))
 				{
@@ -86,28 +94,35 @@ class ReportController extends \app\controllers\MainController
 				}
 				
 				$totalCollectible += $openOrderRel['unit_price']*$openOrderRel['qty'];
-				if($user['payment_method'] == 'Baht')
+				if($paymentMethod == 'Baht')
 					$totalCollectibleOnlyWithExchange += $openOrderRel['unit_price']*$openOrderRel['qty'];
 			}
-			else
+			else 
+			{
+				if($openOrderRel['unit_price'] > 800)
+					$totalBathQty += $openOrderRel['qty'];
+				
 				$totalCollectibleInBaht  += $openOrderRel['unit_price']*$openOrderRel['qty'];
+			}
 		}
-		
+		$exchangeRate = empty($baseRate['sell_exchange_rate']) ? (round($this->exchangeRate(), 1)-1) : $baseRate['sell_exchange_rate'];
 		return $this->render('profit', [
             'lot' => $lot,
             'lots' => $lots,
 			'lotNumber' => $lotNumber,
+            'baseRate' => $baseRate,
             'receipts' => $receipts,
             'numberOfItems' => $numberOfItems,
             'totalCollectible' => $totalCollectible,
             'totalCollectibleOnlyWithExchange' => $totalCollectibleOnlyWithExchange,
             'weightProfitInBaht' => $weightProfitInBaht,
             'laborCost' => $laborCost,
+            'totalBathQty' => $totalBathQty,
             'totalCollectibleInBaht' => $totalCollectibleInBaht,
             'totalWeightKg' => $totalWeightKg,
             'numberOfBox' => $numberOfBox,
             'productsStats' => $productsStats,
-            'exchangeRate' => round($this->exchangeRate(), 1)-1,
+            'exchangeRate' => $exchangeRate,
         ]);
     }
 }

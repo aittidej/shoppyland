@@ -7,12 +7,15 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $openOrder app\models\OpenOrder */
 
-$missingSomething = false;
+$missingSomething = $missingLabor = false;
+$missing = [];
 $taxRate = 0.08;
 $user = $openOrder['user'];
 $lot = $openOrder['lot'];
-$isUsd = $user->currency_base == "USD";
-$link = "https://shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$openOrder->token;
+$isUsd = empty($openOrder->currency_base) ? $user->currency_base == "USD" : $openOrder->currency_base == "USD";
+$paymentMethod = empty($openOrder->payment_method) ? $user->payment_method : $openOrder->payment_method;
+$exchangeRate = empty($openOrder->exchange_rate) ? $user->exchange_rate : $openOrder->exchange_rate;
+$link = "http://admin.shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$openOrder->token;
 $laborChargePrice = empty($user->labor_charge_json) ? [] : $user->labor_charge_json;
 $shippingChargePrice = empty($user->shipping_charge_json) ? [] : $user->shipping_charge_json;
 $this->title = $user->name."'s Invoice - Lot #".$lot->lot_number;
@@ -28,7 +31,7 @@ $total = $subtotal = $totalQty = $tax = $laborCost = $shippingTier = $count = 0;
 $shippingText = '';
 $shippingCost = $openOrder->shipping_cost;
 $shippingCostUsd = $openOrder->shipping_cost_usd;
-if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->total_weight))
+if($isUsd && empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->total_weight))
 {
 	if(empty($shippingChargePrice['cut_of_kg']))
 		$shippingTier = $shippingChargePrice['tier'][1];
@@ -36,8 +39,10 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 	{
 		foreach($shippingChargePrice['cut_of_kg'] AS $i=>$cut_of_kg)
 		{
-			if($cut_of_kg > $openOrder->total_weight)
+			if($cut_of_kg > $openOrder->total_weight) {
 				$shippingTier = $shippingChargePrice['tier'][count($shippingChargePrice['tier'])-$count];
+				break;
+			}
 			$count++;
 		}
 		
@@ -49,6 +54,11 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 	$shippingText = "(".$openOrder->total_weight." kg x ".$shippingTier.") + (".$openOrder->number_of_box." x ".$shippingChargePrice['thai_shipping_cost'].") = ".number_format($shippingCost, 2)." &#3647;";
 }
 ?>
+<style>
+.summary th { border-right: 1px solid #dddddd; padding: 2.5px 5px 2.5px 0; }
+.summary td { padding: 2.5px 0 2.5px 10px; }
+</style>
+
 <div class="open-order-view">
 	<div class='col-sm-6'>
 		<h1><?= Html::encode($this->title) ?></h1>
@@ -66,9 +76,6 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 		<?php } ?>
 	</div>
 	
-	<?php if(!empty($openOrder->note)) { ?>
-		<div class='col-sm-12'><h4>Note: <?= $openOrder->note; ?></h4></div>
-	<?php } ?>
 	<div class='col-sm-12' id="printablediv">
 		<table class="tftable" border="0" style="font-family: arial, sans-serif;font-size: 16px;border-collapse: collapse;width: 100%;">
 			<tr>
@@ -117,21 +124,19 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 					</td>
 					<td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
 						<?php 
+							if(empty($laborFee) && empty($openOrderRel->free_labor))
+								$missingLabor = true;
 							$headerText = $brandTitle;
 							$headerText .= $print ? $product->upc : Html::a($product->upc, ['/product/update', 'id'=>$product->product_id], ['target'=>'_blank']);
 							$headerText .= empty($product->model) ? '' : ' <strong>('.$product->model.')</strong> ';
 							$headerText .= "<span id='labor-fee-text-".$openOrderRel->open_order_rel_id."'>";
-							$headerText .= (!empty($laborFee) ? " [$".$laborFee."]" : ($openOrderRel->free_labor ? '[FREE]' : ''));
+							if($isUsd)
+								$headerText .= (!empty($laborFee) ? " [$".$laborFee."]" : ($openOrderRel->free_labor ? '[FREE]' : '[N/A]'));
 							$headerText .= "</span>";
 							$headerText .= '<br>'.$product->cleanTitle;
 							echo $headerText;
 							if(!$print && $isUsd)
 							{
-								/*if($openOrderRel->free_labor)
-									echo "<br>".Html::a(' &nbsp;&nbsp;&nbsp;Not Free&nbsp;&nbsp;&nbsp; ', ['free-labor', 'open_order_rel_id'=>$openOrderRel->open_order_rel_id, 'free'=>false], ['target'=>'_blank', 'data-method'=>'POST']);
-								else
-									echo "<br>".Html::a(' &nbsp;&nbsp;&nbsp;Free&nbsp;&nbsp;&nbsp; ', ['free-labor', 'open_order_rel_id'=>$openOrderRel->open_order_rel_id, 'free'=>true], ['target'=>'_blank', 'data-method'=>'POST']);
-								*/
 								echo "<br><br><label>Labor Cost ($): </label>";
 								echo Html::dropDownList('labor_cost', $laborFee, ['Free','$1','$2','$3','$4','$5','$6','$7','$8','$9','$10'], 
 																[
@@ -140,20 +145,27 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 																	'data-product_id'=>$product->product_id,
 																	'data-open_order_rel_id'=>$openOrderRel->open_order_rel_id,
 																]);
-								/*echo Html::a(' &nbsp;&nbsp;&nbsp;$3&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XS'], ['target'=>'_blank', 'data-method'=>'POST']).
-									Html::a(' &nbsp;&nbsp;&nbsp;$4&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'S'], ['target'=>'_blank', 'data-method'=>'POST']).
-										Html::a(' &nbsp;&nbsp;&nbsp;$5&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'M'], ['target'=>'_blank', 'data-method'=>'POST']).
-										Html::a(' &nbsp;&nbsp;&nbsp;$6&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'L'], ['target'=>'_blank', 'data-method'=>'POST']).
-										Html::a(' &nbsp;&nbsp;&nbsp;$8&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XL'], ['target'=>'_blank', 'data-method'=>'POST']).
-										Html::a(' &nbsp;&nbsp;&nbsp;$10&nbsp;&nbsp;&nbsp; ', ['/product/pick-size', 'id'=>$product->product_id, 'size'=>'XXL'], ['target'=>'_blank', 'data-method'=>'POST']);*/
+								
+								echo Html::textInput('reference', $openOrderRel->reference, 
+																	[
+																		'class' => 'form-control reference',
+																		'data-product_id'=>$product->product_id,
+																		'data-open_order_rel_id'=>$openOrderRel->open_order_rel_id,
+																		'placeholder'=>'Referencen'
+																	]);
 							}
+							else
+								echo "<p style='font-size: 11.5px;color: gray;'>".$openOrderRel->reference."</p>";
 						?>
 					</td>
 					<td style="border: 1px solid #dddddd;text-align: left;padding: 8px;"><?= $openOrderRel->qty ?></td>
-					<td width="175px" style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
+					<td width="125px" style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
 						<?php
-							if($openOrderRel->unit_price == NULL)
+							if($openOrderRel->unit_price == NULL) {
 								$missingSomething = true;
+								$missing[] = $product->upc;
+								echo "<!-- ".$product->upc." -->";
+							}
 							
 							if($isUsd)
 								echo "$".(empty($openOrderRel->unit_price) ? '0.00' : $openOrderRel->unit_price);
@@ -161,7 +173,7 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 								echo (empty($openOrderRel->unit_price) ? '0.00' : $openOrderRel->unit_price)." &#3647;";
 						?>
 					</td>
-					<td width="175px" style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
+					<td width="125px" style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
 						<?php
 							if($isUsd)
 								echo "$".number_format($tempSub, 2);
@@ -173,7 +185,7 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 			<?php } ?>
 			<tr>
 				<th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
-					<?php if(!empty($laborCount) || !empty($openOrder->remark)) { ?>
+					<?php if($isUsd && (!empty($laborCount) || !empty($openOrder->remark))) { ?>
 					<h4>Remark: </h4>
 					<?php
 						if(!empty($openOrder->remark))
@@ -208,15 +220,18 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 							<p><i>Tax:</u> $<?= number_format($tax, 2) ?></p>
 							<p><i>Labor:</u> $<?= number_format($labor, 2) ?></p>
 							<?php
-								if(!empty($additionalCost))
-									echo "<p><i>Additional Cost:</u> $".number_format($additionalCost, 2)."</p>";
+								if(!empty($additionalCost)) {
+									if($additionalCost < 0)
+										echo "<p><i>Additional Cost:</u> <i style='color: red;'>($".number_format(abs($additionalCost), 2).")</i></p>";
+									else
+										echo "<p><i>Additional Cost:</u> $".number_format($additionalCost, 2)."</p>";
+								}
 							?>
 							<p><i>Subtotal ($):</u> $<?= number_format($total, 2) ?></p>
 							<?php 
-							if($user->payment_method == 'Baht') 
-								echo "<p><i>Subtotal (x ".number_format($user->exchange_rate)."):</u> ".number_format($total*$user->exchange_rate, 2)."&#3647;</p>"; 
+							if($paymentMethod == 'Baht') 
+								echo "<p><i>Subtotal (x ".$exchangeRate."):</u> ".number_format($total*$exchangeRate, 2)."&#3647;</p>"; 
 							?><hr>
-							
 							
 							<?php
 								if(!empty($shippingCostUsd))
@@ -224,73 +239,181 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 								else
 									echo "<p><i>Shipping Cost:</u> ".number_format($shippingCost, 2)."&#3647;</p>";
 									
-								if($user->payment_method == 'Baht')
+								if($paymentMethod == 'Baht')
 								{
-									echo "<p style='color:green;'><i>Total (&#3647;):</i> ".number_format($total*$user->exchange_rate+$shippingCost, 2)."&#3647;</p>";
-									echo "<p style='color:red;'>Deposit (50%): $".number_format(($total*$user->exchange_rate+$shippingCost)/2, 2)."&#3647;</p>";
+									echo "<p style='color:green;'><i>Total (&#3647;):</i> ".number_format($total*$exchangeRate+$shippingCost, 2)."&#3647;</p>";
+									echo "<p style='color:red;'>Deposit (50%): $".number_format(($total*$exchangeRate+$shippingCost)/2, 2)."&#3647;</p>";
 								}
 								else
 									echo "Total: $".number_format($total+$shippingCostUsd, 2)."<br>";
 							?> 
 						</th>
 					<?php } else { ?>
-						<th style="text-align: right;border: 1px solid #dddddd;padding: 8px;">
+						<th colspan="2" style="border: 1px solid #dddddd;padding: 8px;">
+							<table class='summary'>
+								<tr>
+									<th>Items Total:</th>
+									<td>$<?= number_format($subtotal, 2) ?></td>
+								</tr>
+								<tr>
+									<th>Tax:</th>
+									<td>$<?= number_format($tax, 2) ?></td>
+								</tr>
+								<tr>
+									<th>Labor:</th>
+									<td>$<?= number_format($labor, 2) ?></td>
+								</tr>
+								<tr>
+									<th>Additional Cost:</th>
+									<td>
+									<?php
+										if(!empty($additionalCost)) 
+										{
+											if($additionalCost < 0)
+												echo "<i style='color: red;'>($".number_format(abs($additionalCost), 2).")</i>";
+											else
+												echo "$".number_format($additionalCost, 2);
+										}
+										else
+											echo "$0.00";
+									?>
+									</td>
+								</tr>
+								<tr>
+									<th>Subtotal ($):</th>
+									<td>$<?= number_format($total, 2) ?></td>
+								</tr>
+								
+								<?php 
+									if($paymentMethod == 'Baht') 
+									{
+										echo "<tr>";
+											
+											echo "<th>Subtotal x ".$exchangeRate.":</th>";
+											echo "<td>".number_format($total*$exchangeRate, 2)."&#3647;</td>";
+										
+										echo "</tr>";
+									}
+								?>
+								
+								<tr><td colspan="2"><hr></td></tr>
+								
+								<?php 
+									if($paymentMethod == 'Baht') 
+									{
+										echo "<tr>";
+											echo "<th>Shipping Cost:</th>";
+											echo "<td>".number_format($shippingCost, 2)."&#3647;</td>";
+										echo "</tr>";
+										
+										
+										echo "<tr>";
+											echo "<th>Total (&#3647;):</th>";
+											echo "<td>".number_format($total*$exchangeRate+$shippingCost, 2)."&#3647;</td>";
+										echo "</tr>";
+										
+										echo "<tr>";
+											echo "<th><span style='color:red;'>Deposit (50%):</span></th>";
+											echo '<td style="color:red;">'.number_format(($total*$exchangeRate+$shippingCost)/2, 2)."&#3647;</td>";
+											
+										echo "</tr>";
+									}
+									else
+									{
+										echo "<tr>";
+											echo "<th>Shipping Cost:</th>";
+											echo "<td>$".(empty($shippingCostUsd) ? "0.00" : number_format($shippingCostUsd, 2))."</td>";
+										echo "</tr>";
+										
+										
+										echo "<tr>";
+											echo "<th>Total ($):</th>";
+											echo "<td>$".number_format($total+$shippingCostUsd, 2)."</td>";
+										echo "</tr>";
+									}
+								?>
+
+								
+							</table>
+						</th>
+					
+					<!--
+						<th style="text-align: right;border: 1px solid #dddddd;padding: 0 8px;">
 							Items Total:<br>
 							Tax:<br>
 							Labor:<br>
-							<?php
-								if(!empty($additionalCost))
-									echo "Additional Cost<br>";
-							?>
+							Additional Cost:<br>
 							Subtotal ($): <br>
-							<?php if($user->payment_method == 'Baht') echo "Subtotal (x ".number_format($user->exchange_rate)."):"; ?><hr>
+							<?php 
+							if($paymentMethod == 'Baht') 
+								echo "Subtotal (x ".$exchangeRate."):"; ?><hr>
 							Shipping Cost:<br>
-							<?= ($user->payment_method == 'Baht') ? "Total (&#3647;): " :  "Total ($): "; ?><br>
-							<?= ($user->payment_method == 'Baht') ? "<span style='color:red;'>Deposit (50%):</span><br>" :  ""; ?>
+							<?= ($paymentMethod == 'Baht') ? "Total (&#3647;): " :  "Total ($): "; ?><br>
+							<?= ($paymentMethod == 'Baht') ? "<span style='color:red;'>Deposit (50%):</span><br>" :  ""; ?>
 						</th>
-						<th style="text-align: left;border: 1px solid #dddddd;padding: 8px;">
+						<th style="text-align: left;border: 1px solid #dddddd;padding: 0 8px;">
 							$<?= number_format($subtotal, 2) ?><br>
 							$<?= number_format($tax, 2) ?><br>
 							$<?= number_format($labor, 2) ?><br>
 							<?php
-								if(!empty($additionalCost))
-									echo "$".number_format($additionalCost, 2)."<br>";
-							?>
-							$<?= number_format($total, 2) ?><br>
-							<?php if($user->payment_method == 'Baht') echo number_format($total*$user->exchange_rate, 2)."&#3647;";  ?><hr>
-							<?php 
-								if(!empty($shippingCostUsd))
-									echo "$".number_format($shippingCostUsd, 2)."<br>";
-								else
-									echo number_format($shippingCost, 2)."&#3647;<br>";
-								
-								if($user->payment_method == 'Baht')
+								if(!empty($additionalCost)) 
 								{
-									echo number_format($total*$user->exchange_rate+$shippingCost, 2)."&#3647;<br>";
-									echo '<span style="color:red;">'.number_format(($total*$user->exchange_rate+$shippingCost)/2, 2)."&#3647;</span>";
+									if($additionalCost < 0)
+										echo "<i style='color: red;'>($".number_format(abs($additionalCost), 2).")</i>";
+									else
+										echo "$".number_format($additionalCost, 2);
+								}
+								else
+									echo "$0.00";
+							?><br>
+							$<?= number_format($total, 2) ?><br>
+							
+							
+							<?php if($paymentMethod == 'Baht') echo number_format($total*$exchangeRate, 2)."&#3647;";  ?><hr>
+							<?php 
+								if($paymentMethod == 'Baht')
+									echo number_format($shippingCost, 2)."&#3647;<br>";
+								else
+									echo "$".(empty($shippingCostUsd) ? "0.00" : number_format($shippingCostUsd, 2))."<br>";
+								
+								if($paymentMethod == 'Baht')
+								{
+									echo number_format($total*$exchangeRate+$shippingCost, 2)."&#3647;<br>";
+									echo '<span style="color:red;">'.number_format(($total*$exchangeRate+$shippingCost)/2, 2)."&#3647;</span>";
 								}
 								else
 									echo "$".number_format($total+$shippingCostUsd, 2)."<br>";
 							?> 
 						</th>
+					-->
 					<?php } ?>
 				<?php } else { ?>
-					<th style="text-align: right;border: 1px solid #dddddd;padding: 8px;">
-						<p>Total (&#3647;):</p>
-						<p style="color:red;">Deposit (50%):</p>
-					</th>
-					<th style="text-align: left;border: 1px solid #dddddd;padding: 8px;">
-						<p><?= number_format($subtotal, 2) ?>&#3647;</p>
-						<p><?= '<span style="color:red;">'.number_format($subtotal/2, 2)."&#3647;</span>" ?></p>
+					<th colspan="2" style="border: 1px solid #dddddd;padding: 8px;">
+						<table id="summary-baht-table" style="width:100%">
+							<tr>
+								<th>Total (&#3647;):</th>
+								<td><?= number_format($subtotal, 2) ?>&#3647;</td>
+							</tr>
+							<tr>
+								<th style="color:red;">Deposit (50%):</th>
+								<td style="color:red;"><?= number_format($subtotal/2, 2)."&#3647;" ?></td>
+							</tr>
+						</table>
 					</th>
 				<?php } ?>
 			</tr>
 		</table>
 	</div>
-	
+	<?php if(!empty($openOrder->note)) { ?>
+		<div class='col-sm-12'><h4><?= $openOrder->note; ?></h4></div>
+	<?php } ?>
+	<?php
+		if(!$isUsd) // if baht then no labor
+			$missingLabor = false;
+	?>
 	<div class='col-sm-12'><br>
 		<center>
-			<?php if(!$print && !$missingSomething) { ?>
+			<?php if(!$print && !$missingSomething && !$missingLabor) { ?>
 					<?= Html::a(
 							"<i class='glyphicon glyphicon-send'></i> " . (empty($openOrder->invoice_sent) ? 'Submit & Email Invoice' : 'Resend Email Invoice'), 
 							['/openorder/report/email', 'id'=>$openOrder->open_order_id], 
@@ -301,8 +424,15 @@ if(empty($shippingCost) && !empty($shippingChargePrice) && !empty($openOrder->to
 									'method' => 'POST',
 								]
 					]); ?> 
-			<?php } else if($missingSomething) { ?>
-				<h3 style='color:red'>* Cannot submit at this time. Something is missing. Please double check.</h3>
+			<?php } else if($missingSomething || $missingLabor) { ?>
+				<h3 style='color:red'>* Cannot submit at this time. <?= $missingLabor ? 'Labor' : 'Something' ?> is missing. Please double check.</h3>
+				<?php 
+					echo "<pre>";
+					var_dump("missingSomething=".($missingSomething?1:0));
+					var_dump("missingLabor=".($missingLabor?1:0));
+					var_dump($missing);
+					echo "</pre>"; 
+				?>
 			<?php } ?>
 		</center>
 	</div>
@@ -337,6 +467,22 @@ else
 					if(!result) {
 						$('#labor-fee-text-'+open_order_rel_id).html(' ');
 					}
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			});
+		});
+		
+		$('.reference').focusout(function (e) {
+			var open_order_rel_id = $(this).data('open_order_rel_id');
+			var reference = $(this).val();
+			$.ajax({
+				url: '" . Yii::$app->getUrlManager()->createUrl(['openorder/report/reference']) . "',
+				type: 'POST',
+				data: { reference:reference, open_order_rel_id:open_order_rel_id },
+				success: function(result) {
+					console.log(result);
 				},
 				error: function(err) {
 					console.log(err);

@@ -17,13 +17,15 @@ foreach($receipts AS $receipt)
 	$totalUnits += $receipt->number_of_items;
 }
 
-$baseRate = 34;
+$baseRate = empty($baseRate['buy_exchange_rate']) ? 34 : $baseRate['buy_exchange_rate'];
 $tax = 7.75;
-$ccCashBack = 0.01;
-$bahtProfitPercentage = 0.12;
+$ccCashBack = 0.01; // 1%
+$bahtProfitPercentage = 0.12; // 12%
+$bahtProfitMargin = 10; // $10
 
 $totalCollectibleWithTaxOnlyWithExchange = $totalCollectibleOnlyWithExchange*(1+$tax/100);
 $bahtClientProfit = ($totalCollectibleInBaht*$bahtProfitPercentage)/$exchangeRate;
+//$bahtClientProfit = $totalBathQty*$bahtProfitMargin;
 $rate = (1-($exchangeRate/$baseRate))+$ccCashBack;
 $exchangeRateIncome = number_format($totalCollectibleWithTaxOnlyWithExchange*$rate,2, '.', '');
 $weightProfitInUSD = number_format($weightProfitInBaht/$exchangeRate,2, '.', '');
@@ -54,7 +56,7 @@ $weightProfitInUSD = number_format($weightProfitInBaht/$exchangeRate,2, '.', '')
 				'value' => $exchangeRate,
 				'options' => ['placeholder' => 'Sell Exchange Rate (฿)', 'id'=>'sell'],
 				'html5Container' => ['style' => 'width:50%'],
-				'html5Options' => ['min' => 30, 'max' => 34, 'step' => 0.05],
+				'html5Options' => ['min' => 28, 'max' => 36, 'step' => 0.05],
 				'addon' => ['append' => ['content' => '฿ per $']]
 			]);
 	?>
@@ -231,6 +233,8 @@ $this->registerJs("
 	var tax = parseFloat(".$tax.");
 	var ccCashBack = parseFloat(".$ccCashBack.");
 	var numberOfItems = parseFloat(".$numberOfItems.");
+	var totalBathQty = parseFloat(".$totalBathQty.");
+	var bahtProfitMargin = parseFloat(".$bahtProfitMargin.");
 	var totalCollectible = parseFloat(".$totalCollectible.");
 	var totalCollectibleWithTaxOnlyWithExchange = parseFloat(".$totalCollectibleWithTaxOnlyWithExchange.");
 	var totalCollectibleInBaht = parseFloat(".$totalCollectibleInBaht.");
@@ -255,14 +259,15 @@ $this->registerJs("
 		var rate = (1-(sell/base))+ccCashBack;
 		var totalCollectibleWithTax = totalCollectible*(1+tax/100)+(totalCollectibleInBaht/base);
 		var bahtClientProfit = (totalCollectibleInBaht*bahtProfitPercentage)/sell;
+		//var bahtClientProfit = totalBathQty*bahtProfitMargin;
 		var exchangeRateIncome = totalCollectibleWithTaxOnlyWithExchange*rate;
 		var weightProfitInUSD = weightProfitInBaht/sell;
 		
-		$('#totalCollectibleWithTax').html(totalCollectibleWithTax.toFixed(2));
-		$('#weightProfit').html(weightProfitInUSD.toFixed(2));
-		$('#exchangeRateIncome').html(exchangeRateIncome.toFixed(2));
-		$('#bahtClientProfit').html(bahtClientProfit.toFixed(2));
-		$('#netIncome').html((laborCost+exchangeRateIncome+bahtClientProfit+weightProfitInUSD).toFixed(2));
+		$('#totalCollectibleWithTax').html(totalCollectibleWithTax.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+		$('#weightProfit').html(weightProfitInUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+		$('#exchangeRateIncome').html(exchangeRateIncome.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+		$('#bahtClientProfit').html(bahtClientProfit.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+		$('#netIncome').html((laborCost+exchangeRateIncome+bahtClientProfit+weightProfitInUSD).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
 		
 		chartJS_profit_pie.data.datasets[0].data[1] = weightProfitInUSD.toFixed(2);
 		chartJS_profit_pie.data.datasets[0].data[2] = exchangeRateIncome.toFixed(2);

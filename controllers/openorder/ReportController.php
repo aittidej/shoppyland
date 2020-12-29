@@ -92,11 +92,14 @@ class ReportController extends \app\controllers\MainController
 					]
 				]);
 			$pdf->render();*/
+			$update = '';
+			if($openOrder->invoice_sent)
+				$update = 'UPDATE - ';
 			
 			$sent = Yii::$app->mailer->compose()
 						->setTo($user->email)
 						->setCc (["yuwatida85@gmail.com", "ettidej@gmail.com", "billing@shoppylandbyhoney.com"])
-						->setSubject($user->name."'s Invoice - Lot #".$openOrder->lot->lot_number)
+						->setSubject($update.$user->name."'s Invoice - Lot #".$openOrder->lot->lot_number)
 						->setHtmlBody($body)
 						//->attach($filename)
 						->send();
@@ -111,6 +114,18 @@ class ReportController extends \app\controllers\MainController
 			}
 		}
     }
+	
+	public function actionReference()
+	{
+		if (Yii::$app->request->isAjax) 
+		{
+			$openOrderRel = OpenOrderRel::findOne($_POST['open_order_rel_id']);
+			$openOrderRel->reference = $_POST['reference'];
+			return $openOrderRel->save(false);
+		}
+
+		Yii::$app->end();
+	}
 	
     /**
      * Finds the OpenOrder model based on its primary key value.

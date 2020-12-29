@@ -50,11 +50,29 @@ $config = [
 			'transport' => [
 				'class' => 'Swift_SmtpTransport',
 				'host' => 'smtpout.secureserver.net',
-				'username' => 'service@shoppylandbyhoney.com',
+				'username' => 'shop@buchoo.com',
 				'password' => '12345678',
 				'port' => '80',
 				//'encryption' => 'tls',
 			]
+			/*'transport' => [
+				'class' => 'Swift_SmtpTransport',
+				'host' => 'smtp.office365.com',
+				'username' => 'service@shoppylandbyhoney.com',
+				'password' => 'Ohm#33298',
+				'port' => '587',
+				'encryption' => 'tls',
+			]*/
+			/*
+			'transport' => [
+				'class' => 'Swift_SmtpTransport',
+				'host' => 'smtpout.secureserver.net',
+				'username' => 'billing@shoppylandbyhoney.com',
+				'password' => '12345678',
+				'port' => '80',
+				//'encryption' => 'tls',
+			]
+			*/
 		],
 		'urlManager' => [
 			'enablePrettyUrl' => true,
@@ -72,8 +90,8 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
-        'db_master' => $db_master,
+		'db' => $db,
+		'db_master' => $db_master,
 		'dbPool' => ['class' => 'app\components\DatabasePool'],
         /*
         'urlManager' => [
@@ -85,7 +103,10 @@ $config = [
         */
     ],
 	'modules' => [
-	   'gridview' =>  [
+		'album' => [
+            'class' => 'app\modules\album\Module',
+        ],
+		'gridview' =>  [
 			'class' => '\kartik\grid\Module',
 			// enter optional module parameters below - only if you need to
 			// use your own export download action or custom translation
@@ -102,7 +123,7 @@ $config = [
 			// other module settings
 		],
 	],
-    'params' => $params,
+    'params' => $params
 ];
 
 if (YII_ENV_DEV) {
@@ -110,20 +131,16 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-		'allowedIPs' => ['*']
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['76.167.207.16', '184.191.181.6', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-		//'allowedIPs'=>'*'
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['76.167.207.16', '184.191.181.6', '::1'],
     ];
-	
-	$config['modules']['debug']['allowedIPs'] = ['*'];
 }
 
 return $config;

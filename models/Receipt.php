@@ -18,7 +18,7 @@ use Yii;
  *
  * @property Brand $brand
  */
-class Receipt extends \yii\db\ActiveRecord
+class Receipt extends DbTools
 {
     /**
      * {@inheritdoc}

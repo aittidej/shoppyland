@@ -1216,6 +1216,9 @@
 .fa-instagram:before {
   content: "\f16d";
 }
+.fa-line:before {
+  content: "\f3c0";
+}
 .fa-flickr:before {
   content: "\f16e";
 }

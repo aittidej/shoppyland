@@ -14,7 +14,7 @@ use Yii;
  *
  * @property LotRel[] $lotRels
  */
-class DiscountList extends \yii\db\ActiveRecord
+class DiscountList extends DbTools
 {
     /**
      * {@inheritdoc}

@@ -27,9 +27,9 @@ use yii\helpers\Url;
  * @property Brand $brand
  * @property Category $category
  */
-class Product extends \yii\db\ActiveRecord
+class Product extends DbTools
 {
-	CONST DEFAULT_IMAGE = "http://www.topprintltd.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png";
+	CONST DEFAULT_IMAGE = "//admin.shoppylandbyhoney.com/images/default_image.jpg";
 	public $items;
 	public $image;
 	public $imagPath;

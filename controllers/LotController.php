@@ -165,56 +165,8 @@ class LotController extends \app\controllers\MainController
         ]);
     }
 	
-	public function actionSelectByImage($id = 20)
-    {
-		$brandid = 1;
-		if(empty($id))
-		{
-			$model = Lot::find()->orderby('lot_id DESC')->one();
-			if(empty($model)) die('No lot found');
-		}
-		else
-			$model = $this->findModel($id);
-		
-		$alreadyIn = $products = [];
-		$lotRels = $model->lotRels;
-		foreach($lotRels AS $lotRel)
-			$alreadyIn[] = $lotRel->product_id;
-		
-		if (Yii::$app->request->isPost)
-		{
-			$upc = str_replace(' ', '', $_POST['upc']);
-			$product = Product::findOne(['upc'=>$upc]);
-			if(!empty($product))
-			{
-				$lotRel = LotRel::findOne(['lot_id'=>$id, 'product_id'=>$product->product_id]);
-				if(empty($lotRel))
-				{
-					$alreadyIn[] = $product->product_id;
-					$lotRel = New LotRel();
-					$lotRel->lot_id = $id;
-					$lotRel->product_id = $product->product_id;
-					$lotRel->save(false);
-				}
-				
-				$products = Product::find()
-								->where(['NOT IN', 'product_id', array_values($alreadyIn)])
-								->andWhere(['brand_id'=>$brandid])
-								->andWhere(['model'=>$product->model])
-								->all();
-			}
-		}
-		
-		return $this->render('select_by_image', [
-			'id' => $id,
-			'model' => $model,
-            'products' => $products,
-		]);
-	}
-	
 	public function actionSelect($id = 0, $brandid = 0)
     {
-		$brandid = 1;
 		if(empty($id))
 		{
 			$model = Lot::find()->orderby('lot_id DESC')->one();
@@ -227,8 +179,8 @@ class LotController extends \app\controllers\MainController
 		$lotRels = $model->lotRels;
 		foreach($lotRels AS $lotRel)
 			$alreadyIn[] = $lotRel->product_id;
-		
 		$products = Product::find()->where(['NOT IN', 'product_id', array_values($alreadyIn)])->andWhere(['brand_id'=>$brandid])->orderby('model ASC')->all();
+		
         if (Yii::$app->request->isPost)
 		{
 
@@ -276,57 +228,28 @@ class LotController extends \app\controllers\MainController
 		
 		Yii::$app->end();
 	}
-	/*
-	public function actionSelecteRelatedProduct($lot_id, $product_id)
-	{
-		$product = Product::findOne($product_id);
-		
-		$brandid = 1;
-		$lotRel = New LotRel();
-		$lotRel->lot_id = $lot_id;
-		$lotRel->product_id = $product_id;
-		$lotRel->save(false);
-
-		$alreadyIn = $products = [];
-		$model = $this->findModel($lot_id);
-		$lotRels = $model->lotRels;
-		foreach($lotRels AS $lotRel)
-			$alreadyIn[] = $lotRel->product_id;
-		
-		$products = Product::find()
-						->where(['NOT IN', 'product_id', array_values($alreadyIn)])
-						->andWhere(['brand_id'=>$brandid])
-						->andWhere(['model'=>$product->model])
-						->all();
-						
-		return $this->render('select_by_image', [
-			'id' => $lot_id,
-			'model' => $model,
-            'products' => $products,
-		]);
-	}
-	*/
+	
 	public function actionSelectedProduct()
 	{
 		if (Yii::$app->request->isAjax) 
 		{
 			if (!empty($_POST['lot_id']) && !empty($_POST['product_id'])) 
 			{
-				/*if(empty($_POST['isCheck']))
+				if(empty($_POST['isCheck']))
 				{
 					$lotRel = LotRel::findOne(['lot_id'=>$_POST['lot_id'], 'product_id'=>$_POST['product_id']]);
 					$lotRel->delete();
 				}
 				else
-				{*/
+				{
 					$lotRel = New LotRel();
 					$lotRel->lot_id = $_POST['lot_id'];
 					$lotRel->product_id = $_POST['product_id'];
-					//$lotRel->discount_list_id = empty($_POST['discount_id']) ? NULL : $_POST['discount_id'];
-					//$lotRel->price = empty($_POST['price']) ? NULL : $_POST['price'];
-					//$lotRel->total = $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
+					$lotRel->discount_list_id = empty($_POST['discount_id']) ? NULL : $_POST['discount_id'];
+					$lotRel->price = empty($_POST['price']) ? NULL : $_POST['price'];
+					$lotRel->total = $this->priceDiscountCalculator($_POST['price'], $_POST['discount_id']);
 					$lotRel->save(false);
-				//}
+				}
 			}
 		}
 		

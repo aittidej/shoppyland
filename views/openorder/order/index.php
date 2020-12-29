@@ -4,6 +4,7 @@ date_default_timezone_set('America/Los_Angeles');
 use yii\web\View;
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OpenOrderSearch */
@@ -56,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'vAlign' => 'middle',
 				'value' => function ($model, $key, $index, $column) {
 					//return Html::a($model->user->name, 'javasript:void(0);', ['class'=>'copy', 'data-link'=>'http://shoppylandbyhoney.com/index.php/openorder/client/preview?token='.$model->token]);
-					return "<a href='http://shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$model->token."' target='_blank'>".$model->user->name."</a>";
+					return "<a href='http://admin.shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$model->token."' target='_blank'>".$model->user->name."</a>";
 				},
 			],
 			/*[
@@ -188,7 +189,7 @@ $this->registerJs("
 			type: 'POST',
 			data: { orderId: orderId },
 			beforeSend: function() {
-				$('#load-'+orderId).html(\"<img src='https://loading.io/spinners/hourglass/lg.sandglass-time-loading-gif.gif' width='14px' height='14px'>\");
+				$('#load-'+orderId).html(\"<img src='".Url::base(true) ."/images/loading_small.gif' width='14px' height='14px'>\");
 			},
 			success: function(result) {
 				console.log(result);

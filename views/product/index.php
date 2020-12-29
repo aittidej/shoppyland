@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{add-products-ocr} {view} {update} {delete} {temp}',
+				'template' => '{add-products-ocr} {update} {delete} {coach}', //{temp}
 				'width' => '8%',
 				'buttons' => [
 					'add-products-ocr' => function ($url, $model) {
@@ -86,14 +86,21 @@ $this->params['breadcrumbs'][] = $this->title;
 							$url, [ 'title' => 'Edit Product by Price Tags' ]
 						);
 					},
-					'temp' => function ($url, $model) {
+					'coach' => function ($url, $model) {
+						return $model->brand_id != 1 ? '' : Html::a(
+							'<span class="glyphicon glyphicon-link"></span>',
+							'https://scan.coach.com/product/'.$model->upc, [ 'title' => 'Coach System', 'target'=>'_blank' ]
+						);
+					},
+					
+					/*'temp' => function ($url, $model) {
 						if(empty($model->size))
 						{
 							return "<br>".Html::a('&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;', ['product/pick-size', 'id'=>$model->product_id, 'size'=>'S'], ['target'=>'_blank']).
 								Html::a('&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;', ['product/pick-size', 'id'=>$model->product_id, 'size'=>'M'], ['target'=>'_blank']).
 								Html::a('&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;', ['product/pick-size', 'id'=>$model->product_id, 'size'=>'L'], ['target'=>'_blank']);
 						}
-					},
+					},*/
 				],
 			],
         ],

@@ -17,7 +17,7 @@ use Yii;
  * @property OpenOrder $openOrder
  * @property Product $product
  */
-class OpenOrderRel extends \yii\db\ActiveRecord
+class OpenOrderRel extends DbTools
 {
 	public $subtotal;
     /**
@@ -37,7 +37,7 @@ class OpenOrderRel extends \yii\db\ActiveRecord
             [['open_order_id', 'product_id', 'qty'], 'default', 'value' => null],
             [['open_order_id', 'product_id', 'qty', 'need_attention', 'manually_set', 'free_labor', 'overwrite_labor'], 'integer'],
             [['unit_price'], 'number'],
-			[['currency'], 'string'],
+			[['currency', 'reference'], 'string'],
             [['open_order_id'], 'exist', 'skipOnError' => true, 'targetClass' => OpenOrder::className(), 'targetAttribute' => ['open_order_id' => 'open_order_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
         ];

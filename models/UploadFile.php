@@ -21,18 +21,18 @@ class UploadFile extends Model
     public function rules()
     {
         return [
-            [['attachment'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 5, 'maxSize' => 10 * 1024 * 1024],
-            [['file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 5, 'maxSize' => 10 * 1024 * 1024],
-			[['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, gif', 'maxSize' => 10 * 1024 * 1024, 'maxFiles'=>5],
+            [['attachment'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 10, 'maxSize' => 10 * 1024 * 1024],
+            [['file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, jpg, jpeg, png, gif', 'maxFiles' => 10, 'maxSize' => 10 * 1024 * 1024],
+			[['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, png, gif', 'maxSize' => 10 * 1024 * 1024, 'maxFiles'=>10],
         ];
     }
 	
 	public function attributeLabels()
     {
         return [
-            'file' => 'File (5MB Max)',
-            'image' => 'Image (5MB Max)',
-            'attachment' => 'Attachment (5MB Max)',
+            'file' => 'File (10MB Max)',
+            'image' => 'Image (10MB Max)',
+            'attachment' => 'Attachment (10MB Max)',
         ];
     }
     

@@ -14,8 +14,8 @@ class EmailReader extends Component {
 
 	// email login credentials
 	private $server = 'pop.secureserver.net';
-	//private $user   = 'service@shoppylandbyhoney.com';
 	private $user   = 'shop@buchoo.com';
+	//private $user   = 'outlet@buchoo.com';
 	private $pass   = '12345678';
 	private $port   = 110;
 
@@ -37,7 +37,10 @@ class EmailReader extends Component {
 	// the imap_open function parameters will need to be changed for the particular server
 	// these are laid out to connect to a Dreamhost IMAP server
 	public function connect() {
-		$this->conn = imap_open('{'.$this->server.':'.$this->port.'/pop3}', $this->user, $this->pass);
+		if(empty($_SERVER['argv'][3]))
+			$this->conn = imap_open('{'.$this->server.':'.$this->port.'/pop3}', $this->user, $this->pass);
+		else
+			$this->conn = imap_open('{'.$this->server.':'.$this->port.'/pop3}', $_SERVER['argv'][3], $this->pass);
 	}
 
 	// move the message to a new folder - NOT WORKING WITH POP3
@@ -55,7 +58,6 @@ class EmailReader extends Component {
 		// delete from server
 		imap_delete($this->conn, $msg_index);
 		$check = imap_mailboxmsginfo($this->conn);
-var_dump($check);exit;
 		imap_expunge($this->conn);
 
 		// re-read the inbox
@@ -131,7 +133,7 @@ var_dump($check);exit;
 				if(!empty($part->disposition) && strtolower($part->disposition) == "attachment") 
 				{
 					$data = "";
-					$filename = \Yii::getAlias('@app')."/web/uploads/attachment/".$part->dparameters[0]->value;
+					$filename = \Yii::getAlias('@app')."/web/uploads/attachment/".$part->parameters[0]->value;
 					$data = $this->getdecodevalue($mege, $part->type);
 					$fp = fopen($filename, 'w');
 					fputs($fp,$data);

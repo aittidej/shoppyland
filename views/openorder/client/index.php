@@ -84,7 +84,7 @@ $this->title = 'Order History';
 				'width' => '25%',
 				'buttons' => [
 					'invoice' => function ($url, $model) {
-						return "<a href='http://shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$model->token."' class='btn btn-warning' target='_blank'>Invoice</a>";
+						return "<a href='http://admin.shoppylandbyhoney.com/index.php/openorder/client/preview?token=".$model->token."' class='btn btn-warning' target='_blank'>Invoice</a>";
 					},
 				],
 			],

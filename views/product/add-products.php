@@ -12,7 +12,10 @@ use app\models\Brand;
 /* @var $model app\models\OpenOrder */
 
 $this->title = 'Add Products';
-$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
+if(empty($id))
+	$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
+else
+	$this->params['breadcrumbs'][] = ['label' => 'Open Orders', 'url' => ['/openorder/order/view', 'id'=>$id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title ASC')->all(), 'brand_id', 'title');
@@ -26,7 +29,10 @@ $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title
 		<?php foreach ($products as $index => $product) { ?>
 			<div class='col-sm-12 col-md-12 col-lg-12'>
 				<div class='col-sm-12 col-md-6 col-lg-2'>
-					<?= $form->field($product, "[$index]upc")->textInput(['maxlength' => true, 'readonly'=>'readonly']) ?>
+					<?php
+						$qty = empty($productList[$product->product_id]) ? '' : ' x '.$productList[$product->product_id];
+						echo $form->field($product, "[$index]upc")->label('UPC'.$qty)->textInput(['maxlength' => true, 'readonly'=>'readonly']); 
+					?>
 				</div>
 				
 				<div class='col-sm-12 col-md-6 col-lg-6'>
@@ -37,16 +43,20 @@ $brands = ArrayHelper::map(Brand::find()->where(['status'=>'1'])->orderby('title
 					<?= $form->field($product, "[$index]model")->textInput(['maxlength' => true]) ?>
 				</div>
 				
-				<div class='col-sm-12 col-md-6 col-lg-4'>
+				<div class='col-sm-12 col-md-6 col-lg-3'>
 					<?= $form->field($product, "[$index]brand_id")->dropDownList($brands, ['prompt'=>'Select Brand...']); ?>
 				</div>
 				
-				<div class='col-sm-12 col-md-6 col-lg-4'>
+				<div class='col-sm-12 col-md-6 col-lg-3'>
 					<?= $form->field($uploads[$index], "[$index]image[]")->fileInput(['multiple' => true]); ?>
 				</div>
 				
-				<div class='col-sm-12 col-md-6 col-lg-4'>
+				<div class='col-sm-12 col-md-6 col-lg-3'>
 					<?= $form->field($attachments[$index], "[$index]attachment[]")->label('Tag (5MB Max)')->fileInput(['multiple' => false]); ?>
+				</div>
+				
+				<div class='col-sm-12 col-md-6 col-lg-3'><br>
+					<?= Html::a('Coach Scan Tools', 'https://scan.coach.com/product/'.$product->upc, [ 'title' => 'Coach System', 'target'=>'_blank' ]); ?>
 				</div>
 			</div>
 			<div class='col-sm-12 col-md-12 col-lg-12'><hr></div>

@@ -12,3 +12,5 @@ $config = require __DIR__ . '/../config/web.php';
 require(__DIR__ . '/../config/https_redirect.php');
 
 (new HttpsRedirect($config))->run();
+
+//(new yii\web\Application($config))->run();

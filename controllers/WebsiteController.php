@@ -95,6 +95,11 @@ class WebsiteController extends Controller
         return $this->render('shipping_information');
     }
 	
+	public function actionReferralsProgram()
+	{
+        return $this->render('referrals_program');
+    }
+	
 	public function actionPartnership()
 	{
         return $this->render('partnership');

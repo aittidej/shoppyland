@@ -22,7 +22,7 @@ use Yii;
  * @property Lot $lot
  * @property Product $product
  */
-class LotRel extends \yii\db\ActiveRecord
+class LotRel extends DbTools
 {
 	public $subtotal;
 	

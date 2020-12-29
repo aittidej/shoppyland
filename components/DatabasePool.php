@@ -5,14 +5,14 @@ namespace app\components;
 use Yii;
 use yii\base\Component;
 use yii\db\Connection;
+use app\models\Account;
 
 /**
  * Database pool and factory responsible for creating and maintainig conections to any required account database.
- * 
- * @author Oliver Olmos & Osmany Becerra
  */
 class DatabasePool extends Component
 {
+	public $server;
     /**
      * @var Connection[] Database conection pool
      */
@@ -20,7 +20,7 @@ class DatabasePool extends Component
 	/**
 	 * @var int Account id of the active connection
 	 */
-	private $_activeAccountId;
+	private $_activeAccountDbName;
 
 	/**
 	 * {@inheritDoc}
@@ -30,33 +30,42 @@ class DatabasePool extends Component
 	    //TODO: Verify this logic while using a command
 	    
 	    // Add the original connection object to the pool
-	    if($accountId = $this->getSessionAccountId()) {
+	    if($dbName = $this->dbName) {
 	        $db = Yii::$app->get('db');
 	        
-	        if(substr($db->dsn, -1) == '_') {
-	            $db->dsn = $db->dsn . $accountId;
-	        }
+	        //if(substr($db->dsn, -1) == '_') {
+	            $db->dsn = $db->dsn . $dbName;
+	        //}
 	        
-	        $this->dbs[$accountId] = $db;
-	        $this->_activeAccountId = $accountId;
+	        $this->dbs[$dbName] = $db;
+	        $this->_activeAccountDbName = $dbName;
 	    }
 	}
 	
-	/**
-	 * Gets the session account id
-	 * 
-	 * @return int Account id of the current session
-	 */
-	public function getSessionAccountId() {
-	    $user = Yii::$app->user->getIdentity();
-	    
-	    if(!empty($user) && !empty($user->account)) {
-	        $accountId = $user->account->account_id;
-	    } else {
-	        $accountId = Yii::$app->session->get('user.accountId');
-	    }
-	        
-	    return $accountId;
+	/*public function getAccount() {
+		return Account::findOne(['domain_name' => $_SERVER['SERVER_NAME']]);
+	}
+	
+	public function getDbName() 
+	{
+		if(empty(Yii::$app->session->get('dbName')))
+		{
+			$dbName = $this->account->db_name;
+			\Yii::$app->session->set('dbName', $dbName);
+			return $dbName;
+		}
+		else
+			return Yii::$app->session->get('dbName');
+	}*/
+	
+	public function getDbName() 
+	{
+		if(empty($_SERVER['SERVER_NAME']) && !empty($_SERVER['argv'][2]))
+			return $_SERVER['argv'][2];
+		else if(empty($_SERVER['SERVER_NAME']))
+			return "shoppyland";
+			//die('No server!');
+		return empty(Yii::$app->params['account'][$_SERVER['SERVER_NAME']]['db_name']) ? false : Yii::$app->params['account'][$_SERVER['SERVER_NAME']]['db_name'];
 	}
 	
 	/**
@@ -65,7 +74,7 @@ class DatabasePool extends Component
 	 * @return Connection
 	 */
 	public function getSessionDb() {
-        return $this->get($this->getSessionAccountId());	    
+        return $this->get($this->dbName);	    
 	}
 	
 	/**
@@ -74,11 +83,11 @@ class DatabasePool extends Component
 	 * @param int $accountId Account id
 	 * @return Connection Connection object
 	 */
-	public function get($accountId) {
-		if(!isset($this->dbs[$accountId])) {
+	public function get($dbName) {
+		if(!isset($this->dbs[$dbName])) {
 			$prototypeDb = $this->getSessionDb();
-			$this->dbs[$accountId] = new Connection([
-				'dsn' => Yii::$app->params['database']['admin']['dsn'] . $accountId,
+			$this->dbs[$dbName] = new Connection([
+				'dsn' => Yii::$app->params['database']['dsn'] . $dbName,
 				'username' => $prototypeDb->username,
 				'password' => $prototypeDb->password,
 				'charset' => $prototypeDb->charset,
@@ -88,7 +97,7 @@ class DatabasePool extends Component
 			]);
         }
 
-		return $this->dbs[$accountId];
+		return $this->dbs[$dbName];
 	}
     
 	/**
@@ -97,27 +106,11 @@ class DatabasePool extends Component
 	 * @param int $accountId Account id
 	 * @return DatabasePool The current object
 	 */
-	public function setActiveAccountDb($accountId) {
-	    Yii::$app->set('db', $this->get($accountId));
-	    $this->_activeAccountId = $accountId;
+	public function setActiveAccountDb($dbName) {
+		Yii::$app->set('db', $this->get($dbName));
+	    $this->_activeAccountDbName = $dbName;
 	    
 	    return $this;
-	}
-	
-	/**
-	 * Sets the active account connection
-	 * 
-	 * @param Connection $db
-	 * 
-	 * @return Connection The given connection
-	 */
-	public function setActiveDb($db) {
-	    Yii::$app->set('db', $db);
-	    
-	    $parts = explode('xaccount_', $db->dsn);
-	    $this->_activeAccountId = count($parts) > 1 ? $parts[1] : '';
-	    
-	    return $db;
 	}
 	
 	/**
@@ -125,8 +118,8 @@ class DatabasePool extends Component
 	 * 
 	 * @return int
 	 */
-	public function getActiveAccountId() {
-	    return $this->_activeAccountId;
+	public function getActiveAccountDbName() {
+	    return $this->_activeAccountDbName;
 	}
 	
 	/**
@@ -135,7 +128,7 @@ class DatabasePool extends Component
 	 * @return Connection The active connection
 	 */
 	public function getActiveDb() {
-	    return $this->get($this->getActiveAccountId());
+	    return $this->get($this->dbName);
 	}
 	
 	/**
@@ -144,7 +137,7 @@ class DatabasePool extends Component
 	 * @return DatabasePool The current object
 	 */
 	public function restoreActiveAccountDb() {
-	    return $this->setActiveAccountDb($this->getSessionAccountId());
+	    return $this->setActiveAccountDb($this->dbName);
 	}
 	
 	/**
@@ -152,16 +145,7 @@ class DatabasePool extends Component
 	 * 
 	 * @return Connection The connection object
 	 */
-	public function getHubDb() {
+	public function getMasterDb() {
 	    return Yii::$app->get('db_master');
-	}
-	
-	/**
-	 * Gets the connection to the client_data database
-	 *
-	 * @return Connection The connection object
-	 */
-	public function getClientDataDb() {
-	    return Yii::$app->get('db_client_data');
 	}
 }

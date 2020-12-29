@@ -14,10 +14,11 @@ use Yii;
  * @property string $creation_datetime
  * @property string $start_date
  * @property string $end_date
+ * @property string $rate_json
  *
  * @property LotRel[] $lotRels
  */
-class Lot extends \yii\db\ActiveRecord
+class Lot extends DbTools
 {
 	public $items;
 	public $price;
@@ -41,7 +42,7 @@ class Lot extends \yii\db\ActiveRecord
             [['lot_number', 'user_id', 'brand_id'], 'default', 'value' => null],
             [['lot_number', 'user_id', 'brand_id'], 'integer'],
             [['lot_number'], 'required'],
-            [['creation_datetime', 'start_date', 'end_date', 'shipped_date'], 'safe'],
+            [['creation_datetime', 'start_date', 'end_date', 'shipped_date', 'rate_json'], 'safe'],
 			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
 			[['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'brand_id']],
         ];

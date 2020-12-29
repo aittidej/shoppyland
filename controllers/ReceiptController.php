@@ -18,6 +18,31 @@ use yii\filters\VerbFilter;
  */
 class ReceiptController extends \app\controllers\MainController
 {
+	public function actionG()
+    {
+		/*$target = 51400;
+		$min = 60;
+		$max = 1500;
+		
+		$num = 0;
+		while($num < $target)
+		{
+			$rand = rand($min, $max);
+			
+			if($target < $rand+$num)
+				$rand = $target-$num;
+			
+			echo $rand."<br>";
+			$num += $rand;
+		}*/
+		for($i=0; $i<51; $i++)
+		{
+			$int = mt_rand(1552212000, 1577751773);
+			echo date("Y-m-d",$int)."<br>";
+		}
+		
+	}
+	
     public function actionIndex()
     {
 		//$latest = Yii::$app->emailReader->getLatest();

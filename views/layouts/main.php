@@ -65,7 +65,7 @@ AppAsset::register($this);
 	if (Yii::$app->user->isGuest) 
 	{
 		$items = [
-            ['label' => 'Home', 'url' => ['/site/dashboard'], 'active' => ('/site/dashboard' == $this->context->id)],
+            //['label' => 'Home', 'url' => ['/site/dashboard'], 'active' => ('/site/dashboard' == $this->context->id)],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => '']]
             ) : (
@@ -83,32 +83,35 @@ AppAsset::register($this);
 	else if(Yii::$app->user->identity->isAdmin)
 	{
 		$items = [
-            ['label' => 'Home', 'url' => ['/site/dashboard'], 'active' => ('/site/dashboard' == $this->context->id)],
+            //['label' => 'Home', 'url' => ['/site/dashboard'], 'active' => ('/site/dashboard' == $this->context->id)],
+            ['label' => 'Find Item', 'url' => ['/lot-search'], 'active' => ('/lot-search' == $this->context->id)],
 			[
 				'label' => 'Lots & Stock', 
 				'items' => [
 					['label' => 'Stocks','url' => ['/stock'], 'active' => ('/stock' == $this->context->id)],
-					['label' => 'Create New Lot','url' => ['/lot/create'], 'active' => ('/lot/create' == $this->context->id)],
+					//['label' => 'Find Item','url' => ['/lot-search'], 'active' => ('/lot-search' == $this->context->id)],
 					//['label' => 'Current Lot','url' => ['/lot/update'], 'active' => ('/lot/update' == $this->context->id)],
 					['label' => 'Existed Lots','url' => ['/lot'], 'active' => ('/lot' == $this->context->id)],
 					['label' => 'Discount Managment','url' => ['/discount'], 'active' => ('/lot' == $this->context->id)],
 				]
 			],
-			[
+			/*[
 				'label' => 'Products', 
 				'items' => [
 					['label' => 'Products List','url' => ['/product'], 'active' => ('/product' == $this->context->id)],
 					['label' => 'Add Product by Barcode','url' => ['/product/add-products-by-upc'], 'active' => ('/product/add-products-by-upc' == $this->context->id)],
 					//['label' => 'Edit Unfinished Product','url' => ['/product/add-products'], 'active' => ('/product/add-products' == $this->context->id)],
 				]
-			],
-            ['label' => 'Orders', 'url' => ['/openorder/order']],
-			[
+			],*/
+			['label' => 'Products', 'url' => ['/product'], 'active' => ('/product' == $this->context->id)],
+            ['label' => 'Orders', 'url' => ['/openorder/order'], 'active' => ('/openorder/order' == $this->context->id)],
+            ['label' => 'Report', 'url' => ['/report/profit'], 'active' => ('/report/profit' == $this->context->id)],
+			/*[
 				'label' => 'Report', 
 				'items' => [
 					['label' => 'Profit','url' => ['/report/profit'], 'active' => ('/report/profit' == $this->context->id)],
 				]
-			],
+			],*/
             ['label' => 'Users', 'url' => ['/user']], 
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['style' => '']]
@@ -165,7 +168,12 @@ AppAsset::register($this);
         <p class="pull-left">
 			Copyright&copy; <?= date('Y') ?> All rights reserved | Shoppyland by Honey 
 		</p>
-
+		
+		<?php if(!Yii::$app->user->isGuest) { ?>
+			<p class="pull-right">
+				<?= Html::a('[Coach Scan Tools]', 'https://scan.coach.com/store/3808', [ 'title' => 'Coach System', 'target'=>'_blank' ]); ?>
+			</p>
+		<?php } ?>
         <!--<p class="pull-right"><?= Yii::powered() ?></p>-->
     </div>
 </footer>

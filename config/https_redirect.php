@@ -12,6 +12,11 @@ class HttpsRedirect extends \yii\web\Application
 			
 			//use 301 for a permanent redirect
 			return Yii::$app->getResponse()->redirect($secureUrl, 301);
+		} else if(strpos($request->absoluteUrl, 'www') !== false) {
+			$secureUrl = str_replace('www.', '', $request->absoluteUrl);
+			
+			//use 301 for a permanent redirect
+			return Yii::$app->getResponse()->redirect($secureUrl, 301);
 		} else {
 			//if secure connection call parent implementation
 			return parent::handleRequest($request);

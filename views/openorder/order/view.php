@@ -41,13 +41,11 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 					<?php 
 						$bgColorWarning = empty($openOrderRelArrays[0]['openOrderRel']['unit_price']) ? 'bgcolor="#FFEFA4"' : '';
 						$openOrderRelArray = $openOrderRelArrays[0];
-						$image = "http://www.topprintltd.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png";
+						$image = Url::base(true) . "/images/default_image.jpg";
 						$product = $openOrderRelArray['product']; 
 						$openOrderRel = $openOrderRelArray['openOrderRel']; 
 						$OpenOrderRelModel = $openOrderRelArray['OpenOrderRelModel'];
 						$openOrderRelId = $openOrderRel['open_order_rel_id']; // first open_order_rel_id
-						
-						
 						//$lotRels = $lot->getLotRelByProduct($productId);
 						$lotRels = Yii::$app->controller->getLotRelByProduct($allLotRels, $productId);
 					?>
@@ -68,7 +66,7 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 						</td>
 						<td colspan="3" <?= $bgColorWarning ?>>
 							<?php 
-								echo "<h4><strong>".$product['title']."</strong><br>Model #".$product['model']."<br>UPC: ".Html::a($product['upc'], ['/product/update', 'id'=>$productId], ['target'=>'_blank'])."</h4>"; 
+								echo "<h4><strong>".$product['title']."</strong><br>Model #".$product['model']."<br>UPC: ".Html::a(empty($product['upc']) ? '(no UPC)' : $product['upc'], ['/product/update', 'id'=>$productId], ['target'=>'_blank'])."</h4>"; 
 								echo Html::a('Split', 'javascript:void(0);', ['class'=>'btn btn-info split', 'data-product_id'=>$productId, 'data-open_order_rel_id'=>$openOrderRelId, 'style'=>'width: 100%;']);
 								
 								if(!empty($lotRels) && !empty($openOrderRel['currency']))
@@ -95,11 +93,21 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 									$showLabel = count($openOrderRelArrays) == 1 || (count($openOrderRelArrays) > 1 && $index == 0);
 									$openOrderRel = $eachOpenOrderRel['openOrderRel']; 
 									$OpenOrderRelModel->qty = $openOrderRel['qty'];
+									$OpenOrderRelModel->reference = $openOrderRel['reference'];
 									echo $form->field($OpenOrderRelModel, "qty")
 											->label($showLabel ? 'Qty' : false)
 											->textInput([
 												'id'=>'primary-qty-'.$openOrderRel['open_order_rel_id'], 
 												'class'=>'form-control primary', 
+												'data-product_id'=>$productId, 
+												'data-open_order_rel_id'=>$openOrderRel['open_order_rel_id']
+											]);
+									echo $form->field($OpenOrderRelModel, "reference")
+											->label(false)
+											->textInput([
+												'id'=>'primary-reference-'.$openOrderRel['open_order_rel_id'], 
+												'class'=>'form-control primary', 
+												'placeholder'=>'Reference', 
 												'data-product_id'=>$productId, 
 												'data-open_order_rel_id'=>$openOrderRel['open_order_rel_id']
 											]);
@@ -125,6 +133,7 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 												'id'=>'primary-price-'.$openOrderRel['open_order_rel_id'], 
 												'data-open_order_rel_id'=>$openOrderRel['open_order_rel_id']
 											]);
+									echo "<br><br><br>";
 								}
 								echo "<span id='price-".$productId."'></span>";
 								
@@ -149,6 +158,7 @@ $currencySymbol = $user->currency_base == "USD" ? "$" : "&#3647;";
 												'data-product_id'=>$productId, 
 												'data-open_order_rel_id'=>$openOrderRel['open_order_rel_id']
 											]);
+									echo "<br><br><br>";
 								}
 								echo "<span id='subtotal-".$productId."'></span>";
 							?>
@@ -264,13 +274,14 @@ $('.split').click(function (e) {
 $('.tftable').on('focusout', '.primary', function(e){
 	var openOrderRelId = $(this).data('open_order_rel_id');
 	var qty = $('#primary-qty-'+openOrderRelId).val();
+	var reference = $('#primary-reference-'+openOrderRelId).val();
 	var price = $('#primary-price-'+openOrderRelId).val();
 	$('#primary-subtotal-'+openOrderRelId).val(qty*price);
 	
 	$.ajax({
 		url: '".Yii::$app->getUrlManager()->createUrl('openorder/order/change-primary-subtotal')."',
 		type: 'POST',
-		data: { qty: qty, price: price, openOrderRelId: openOrderRelId  },
+		data: { qty: qty, reference: reference, price: price, openOrderRelId: openOrderRelId  },
 		success: function(result) {
 			console.log(result);
 		},

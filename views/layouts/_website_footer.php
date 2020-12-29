@@ -22,7 +22,8 @@ WebsiteAsset::register($this);
 							<?= Html::a('About Us', ['/website/about']) ?>
 						</li>
 						<li>
-							<?= Html::a('Brands', ['/website/brand'], []) ?>
+							<?php //Html::a('Brands', ['/website/brand'], []) ?>
+							<?= Html::a('Referrals Program', ['/website/referrals-program'], []) ?>
 						</li>
 						<li>
 							<?= Html::a('Become our Partner', ['/website/partnership'], []) ?>
@@ -115,12 +116,9 @@ WebsiteAsset::register($this);
 				<a href="https://www.instagram.com/yuwatidahoney/" target="_blank">
 					<i class="fa fa-instagram"></i>
 				</a>
-				<span style="padding-left: 5px;">
-					<!--<div class="line-it-button" data-lang="en" data-type="friend" data-lineid="@yuwatida85" style="display: none;"></div>
-					<script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
-					-->
-					Line ID: Yuwatida85
-				</span>
+				<a href="https://line.me/ti/p/VyICG_e9u8" target="_blank">
+					<span style='font-size: 10.5px;'>LINE</span> 
+				</a>
 			</div>
 		</div>
 	</div>

@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\User;
 use app\models\Lot;
+use kartik\file\FileInput;
 use dosamigos\ckeditor\CKEditor;
 
 /* @var $this yii\web\View */
@@ -20,7 +21,7 @@ $users = ArrayHelper::map(User::find()->where("status=1 AND role_id != 1")->orde
     <?php $form = ActiveForm::begin(); ?>
 	
 		<div class='col-sm-12 col-md-6 col-lg-6'>
-			<?= $form->field($model, 'lot_id')->dropDownList($lots, ['prompt'=>'Select lots...']); ?>
+			<?= $form->field($model, 'lot_id')->dropDownList($lots, []); ?>
 		</div>
 		<div class='col-sm-12 col-md-6 col-lg-6'>
 			<?= $form->field($model, 'user_id')->label('User')->dropDownList($users, ['prompt'=>'Select buyer...']); ?>
@@ -53,6 +54,26 @@ $users = ArrayHelper::map(User::find()->where("status=1 AND role_id != 1")->orde
 				'options' => ['rows' => 6],
 				'preset' => 'basic'
 			]) ?>
+		</div>
+		
+		<div class='col-sm-12 col-md-12 col-lg-12'>
+			<?= $form->field($model, 'note')->widget(CKEditor::className(), [
+				'options' => ['rows' => 6],
+				'preset' => 'basic'
+			]) ?>
+		</div>
+		
+		<div class='col-sm-12'>
+			<?php //$form->field($upload, "image[]")->fileInput(['multiple' => true]); ?>
+			<?= $form->field($upload, 'image[]')->widget(FileInput::classname(), [
+																'options' => ['accept' => 'image/*', 'multiple' => true],
+																'pluginOptions' => [
+																	//'showPreview' => false,
+																	//'showCaption' => true,
+																	//'showRemove' => true,
+																	'showUpload' => false
+																]
+															]); ?>
 		</div>
 		
 		<div class="col-sm-12 form-group">

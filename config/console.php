@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$db_master = require __DIR__ . '/db_master.php';
 
 $config = [
     'id' => 'basic-console',
@@ -50,6 +51,8 @@ $config = [
             ],
         ],
         'db' => $db,
+		'db_master' => $db_master,
+		'dbPool' => ['class' => 'app\components\DatabasePool'],
     ],
     'params' => $params,
     /*

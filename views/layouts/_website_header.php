@@ -86,12 +86,9 @@ WebsiteAsset::register($this);
 			</a>
 		</li>
 		<li>
-			<span>
-				<!--<div class="line-it-button" data-lang="en" data-type="friend" data-lineid="@yuwatida85" style="display: none;"></div>
-				<script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
-				-->
-				Line ID: Yuwatida85
-			</span>
+			<a href="https://line.me/ti/p/VyICG_e9u8" target="_blank">
+				<span style='font-size: 10.5px;'>LINE</span> 
+			</a>
 		</li>
 	</ul>
 </div>

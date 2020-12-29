@@ -19,7 +19,7 @@ use Yii;
  * @property User $user
  * @property OpenOrderRel[] $openOrderRels
  */
-class OpenOrder extends \yii\db\ActiveRecord
+class OpenOrder extends DbTools
 {
 	public $items;
 	public $productIdList;

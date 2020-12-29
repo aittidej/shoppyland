@@ -12,8 +12,6 @@ use app\models\Lot;
 
 $this->title = 'Stocks';
 $this->params['breadcrumbs'][] = $this->title;
-
-
 ?>
 <div class="stock-index">
 
@@ -34,47 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'showPageSummary' => true,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-			/*[
-				'attribute' => 'lot_id',
-				'value' => 'lot.lot_number',
-				'label' => 'Lot #',
-				'options' => [],
-				'format' => 'raw',
-				'vAlign' => 'middle',
-				'filterType' => GridView::FILTER_SELECT2,
-				'filter' => ArrayHelper::map(Lot::find()->orderby('lot_number ASC')->all(), 'lot_id', 'lot_number'),
-				'filterWidgetOptions' => [
-					'pluginOptions' => ['allowClear' => true]
-				],
-				'filterInputOptions' => ['placeholder' => 'Filter by Lot', 'class' => 'form-control']
-			],
-			[
-				'attribute' => 'lot_id',
-        		'vAlign' => 'middle',
-        		'hAlign' => 'left',
-        		'pageSummary' => true,
-        		'group'=>true,  // enable grouping,
-        		'groupedRow'=>true,                    // move grouped column to a single grouped row
-        		'groupOddCssClass'=>'kv-grouped-row',  // configure odd group cell css class
-        		'groupEvenCssClass'=>'kv-grouped-row', // configure even group cell css class
-				'value' => function ($model, $key, $index, $column) {
-					return $model['lot']->lotText;
-				},
-        	],*/
-			/*[
-				'class' => 'kartik\grid\DataColumn',
-				'attribute' => 'image_path',
-				'label' => '',
-				'vAlign' => 'middle',
-				'filter' => false,
-				'format' => 'raw',
-				'width' => '15%',
-				'value' => function($model) {
-					return Html::img($model['product']->firstImage, ['width'=>'90%']);
-				},
-			],*/
+            //['class' => 'yii\grid\SerialColumn'],
 			[
 				'class' => 'kartik\grid\DataColumn',
 				'attribute' => 'image_path',
@@ -83,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'filter' => false,
 				'format' => 'raw',
 				'width' => '15%',
+				'pageSummary' => false,
 				'value' => function($model) {
 					return Html::img($model['product']->firstImage, ['width'=>'90%']);
 				},
@@ -91,16 +52,17 @@ $this->params['breadcrumbs'][] = $this->title;
 				'class' => 'kartik\grid\DataColumn',
 				'label' => 'UPC',
 				'format' => 'raw',
+				'pageSummary' => false,
 				'value' => function($model) {
 					return Html::a($model['product']->upc, ['product/update', 'id'=>$model->product_id], ['target'=>'_blank']);
 				},
 			],
 			[
 				'class' => 'kartik\grid\DataColumn',
-				'attribute' => 'test',
+				//'attribute' => 'test',
 				'label' => 'Model',
 				'format' => 'raw',
-				//'filterType' => 
+				'pageSummary' => false,
 				'value' => function($model) {
 					return $model['product']->model;
 				},
@@ -108,10 +70,21 @@ $this->params['breadcrumbs'][] = $this->title;
             //'product.upc',
             //'product.title',
             //'product.brand.title',
-            'qty',
-            'current_qty',
+			//
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'qty',
+				'format' => 'raw',
+				'pageSummary' => true,
+			],
+			[
+				'class' => 'kartik\grid\DataColumn',
+				'attribute' => 'current_qty',
+				'format' => 'raw',
+				'pageSummary' => true,
+			],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
 		'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
@@ -126,7 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'responsive' => 1,
         'responsiveWrap' => 1,
         'hover' => 1,
-        'showPageSummary' => false,
+        //'showPageSummary' => true,
         'panel' => [
             'type' => GridView::TYPE_PRIMARY,
 			'heading' => '<span id="display-filter" style=\'cursor: pointer\'><span class="view-upload-files glyphicon glyphicon-menu-down"></span>  List of Products</span>',

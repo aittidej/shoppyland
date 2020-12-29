@@ -13,7 +13,7 @@ use Yii;
  *
  * @property User[] $users
  */
-class Role extends \yii\db\ActiveRecord
+class Role extends DbTools
 {
     /**
      * {@inheritdoc}

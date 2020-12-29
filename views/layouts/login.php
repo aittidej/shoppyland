@@ -40,7 +40,7 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container">
         <p class="pull-left">
-			Copyright&copy; <?= date('Y') ?> All rights reserved | Shoppyland by Honey 
+			Copyright&copy; <?= date('Y') ?> All rights reserved | <?= Html::a('Shoppyland by Honey', ['/site/dashboard'], ['style'=>'color: #000000; text-decoration: none']); ?> 
 		</p>
 
         <!--<p class="pull-right"><?= Yii::powered() ?></p>-->

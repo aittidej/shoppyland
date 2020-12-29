@@ -28,7 +28,7 @@ use yii\web\IdentityInterface;
  * @property OpenOrder[] $openOrders
  * @property Role $role
  */
-class User extends \yii\db\ActiveRecord implements IdentityInterface
+class User extends DbTools implements IdentityInterface
 {
     public $authKey;
     public $accessToken;

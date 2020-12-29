@@ -342,10 +342,18 @@ $baseUrl = $websiteAsset->baseUrl;
 				</div>
 			</div>
 
+			<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			<div class="book_table_inner row align-items-center">
 				<div class="offset-lg-2 offset-md-1 col-lg-8 col-md-10">
 					<div class="table_form">
 						<!---->
+						<center>
+						<?php if(!empty($_GET['contactussuccess'])) { ?>
+							<h4 class="text-success">Successfully submitted!</h4>
+						<?php } else if(!empty($_GET['contactusfailed'])) { ?>
+							<h4 class="text-danger">Failed to submit!</h4>
+						<?php } ?>
+						</center>
 						<?php $form = ActiveForm::begin(['method' => 'POST', 'class' => 'book_table_form row']); ?>
 							<div class="form-group col-md-12">
 								<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
@@ -359,15 +367,20 @@ $baseUrl = $websiteAsset->baseUrl;
 							<div class="form-group col-md-12">
 								<?= Html::textarea('message', NULL, ['class' => 'form-control', 'id'=>'message', 'placeholder' => 'Message', 'rows'=>6, 'required'=>true]);  ?>
 							</div>
+							 
+							<div class="form-group col-md-12">
+								<center><div class="g-recaptcha" data-sitekey="6LdT7awUAAAAAC7nDlwxwsdA_rmTLA2AGD_A-h2f"></div><center>
+							</div>
+
 							<div class="form-group col-md-12">
 								<center><?= Html::submitButton('Submit', ['class' => 'btn submit_btn form-control']); ?></center>
 							</div>
 						<?php ActiveForm::end(); ?>
 						
-						<center>
+						<!--<center>
 							<h3>or</h3>
 							<h2>(858) 276-0603</h2>
-						</center>
+						</center>-->
 					</div>
 				</div>
 			</div>

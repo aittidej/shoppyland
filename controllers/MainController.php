@@ -55,6 +55,8 @@ abstract class MainController extends Controller
 	
 	public function beforeAction($action)
     {
+		date_default_timezone_set('America/Los_Angeles');
+		
         if(Yii::$app->user->isGuest || !Yii::$app->user->identity->isAdmin)
 		{
 			Yii::$app->session->setFlash('danger', "You do not have sufficient permissions to view this page.");
@@ -190,13 +192,12 @@ abstract class MainController extends Controller
 					$openOrderRel->unit_price = $user->currency_base == "USD" ? $lot->getUnitPrice($product->product_id) : NULL;
 					$openOrderRel->currency = $user->currency_base;
 					$openOrderRel->modified_datetime = date('Y-m-d h:i:s');
-					//$openOrderRel->subtotal = $openOrderRel->unit_price;
 					$openOrderRel->save(false);
 				}
 				else
 				{
 					$openOrderRel->qty += $numberOfItems;
-					//$openOrderRel->subtotal = $openOrderRel->unit_price*$openOrderRel->qty;
+					$openOrderRel->modified_datetime = date('Y-m-d h:i:s');
 					$openOrderRel->save(false);
 				}
 				
@@ -230,8 +231,8 @@ abstract class MainController extends Controller
 	
 	public function exchangeRate()
 	{
-		$rate = json_decode(@file_get_contents('http://free.currencyconverterapi.com/api/v5/convert?q=USD_THB&compact=y'), 2);
-		return empty($rate['USD_THB']['val']) ? self::DEFAULT_EXCHANGE_RATE : number_format($rate['USD_THB']['val'], 2);
+		$rate = json_decode(@file_get_contents('https://free.currconv.com/api/v7/convert?q=USD_THB&compact=ultra&apiKey=ea3972207dfba9ec7922'), 2);
+		return empty($rate['USD_THB']) ? self::DEFAULT_EXCHANGE_RATE : number_format($rate['USD_THB'], 2);
 	}
 	
 	public function roundIt($number, $breakPoint = 0.1)

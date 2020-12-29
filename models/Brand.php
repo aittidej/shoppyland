@@ -13,7 +13,7 @@ use Yii;
  *
  * @property Product[] $products
  */
-class Brand extends \yii\db\ActiveRecord
+class Brand extends DbTools
 {
     /**
      * {@inheritdoc}

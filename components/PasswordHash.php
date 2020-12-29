@@ -146,10 +146,14 @@ class PasswordHash extends Component
             return bin2hex(substr($output, 0, $key_length));
     }
 
-    function generateToken($length = 64) 
+    function generateToken($length = 64, $alphabetOnly = false) 
     {
-        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
-        $pass = array(); //remember to declare $pass as an array
+		if($alphabetOnly)
+			$alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ";
+		else	
+			$alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+		
+        $pass = []; //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
         for ($i = 0; $i < $length; $i++) {
             $n = rand(0, $alphaLength);

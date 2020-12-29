@@ -57,7 +57,7 @@ class OrderController extends \app\controllers\MainController
     {
         //$openOrder = $this->findModel($id);
         $openOrder = OpenOrder::find()->with('lot')->where(['open_order_id'=>$id])->one();
-		$openOrderRelModel = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith("product")->orderby("open_order_rel_id DESC")->asArray()->all(); // ->orderby("need_attention DESC, product_id ASC, product.model ASC")
+		$openOrderRelModel = OpenOrderRel::find()->where(['open_order_id'=>$id])->joinWith("product")->orderby("modified_datetime DESC, open_order_rel_id DESC")->asArray()->all(); // ->orderby("need_attention DESC, product_id ASC, product.model ASC")
 		$openOrderRels = [];
 		
 		foreach($openOrderRelModel AS $openOrderRel)
@@ -117,6 +117,7 @@ class OrderController extends \app\controllers\MainController
     public function actionCreate()
     {
         $model = new OpenOrder();
+		$upload = new UploadFile();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) 
 		{
@@ -129,6 +130,7 @@ class OrderController extends \app\controllers\MainController
 
         return $this->render('create', [
             'model' => $model,
+            'upload' => $upload,
         ]);
     }
 	
@@ -142,6 +144,7 @@ class OrderController extends \app\controllers\MainController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+		$upload = new UploadFile();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->open_order_id]);
@@ -150,6 +153,7 @@ class OrderController extends \app\controllers\MainController
 
         return $this->render('update', [
             'model' => $model,
+            'upload' => $upload,
         ]);
     }
 	
@@ -257,14 +261,16 @@ class OrderController extends \app\controllers\MainController
 				$openOrder = $openOrderRel->openOrder;
 				$user = $openOrder->user;
 				
+				if($openOrderRel->qty != $_POST['qty'])
+					$openOrderRel->modified_datetime = date('Y-m-d h:i:s');
 				$openOrderRel->qty = $_POST['qty'];
+				$openOrderRel->reference = empty($_POST['reference']) ? NULL : $_POST['reference'];
 				$openOrderRel->unit_price = $_POST['price'];
 				$openOrderRel->manually_set = 1;
 				$openOrderRel->save(false);
 				
 				if(empty($_POST['price']))
 					return 1;
-				
 				
 				$lotRels = LotRel::find()->where(['lot_id'=>$openOrder->lot_id, 'product_id'=>$openOrderRel->product_id])->all();
 				if(empty($lotRels))
